@@ -1,0 +1,21 @@
+- Học phần bình thường – Các học phần không có điều kiện tiên quyết.
+- Học phần tiên quyết – Nếu học phần A là học phần tiên quyết của học phần B, để đăng ký học học phần B thì kết quả học tập học phần A phải được đánh giá đạt.
+- Học phần trước - Học phần A là học phần trước của học phần B, để đăng ký học học phần B thì sinh viên đã đăng ký và được xác nhận học xong học phần A (có thể chưa đạt). Sinh viên được phép đăng ký học B sau khi đã học A.
+- Học phần song hành – Học phần A là học phần song hành của một học phần B, để đăng ký học B thì sinh viên đã đăng ký học A. Sinh viên được phép đăng ký học B vào cùng học kỳ đã đăng ký học A hoặc vào các học kỳ tiếp sau.
+- Học phần tương đương – Học phần tương đương là một hay một nhóm học phần thuộc chương trình đào tạo của một khóa – ngành khác đang tổ chức đào tạo tại trường mà sinh viên được phép tích lũy để thay thế cho một hay một nhóm học phần trong chương trình đào tạo của khóa - ngành đang theo học.
+- Học phần thay thế - Học phần hoặc một nhóm học phần mà sinh viên được phép tích lũy để thay thế cho một học phần có trong chương trình đào tạo của khóa – ngành đang theo học nhưng không còn tổ chức giảng dạy do Khoa điều chỉnh chương trình đào tạo.
+- Học phần điều kiện (Giáo dục thể chất, Giáo dục quốc phòng – An ninh): là học phần mà sinh viên phải hoàn thành mới được xét tốt nghiệp nhưng kết quả học phần không dùng để tính điểm trung bình chung học kỳ, điểm trung bình chung năm học hoặc điểm trung bình chung tích lũy.
+6. Lớp học phần
+a. Lớp học phần là lớp của các sinh viên cùng đăng ký một học phần, có cùng thời khoá biểu của học phần trong cùng một học kỳ. Mỗi lớp học phần được gắn một mã lớp riêng. Số lượng sinh viên của một lớp học phần được giới hạn bởi sức chứa của phòng học/phòng thí nghiệm hoặc được sắp xếp theo các yêu cầu riêng đặc thù của môn học.
+b. Số lượng sinh viên tối thiểu để xem xét mở lớp học phần (hoặc tổ chức nhóm học tập) trong học kỳ:
+
+| Hình thức giảng dạy | Tối thiểu | Ghi chú |
+| :--- | :---: | :--- |
+| Lý thuyết | 60 | Thuyết trình |
+| Thực hành | 40 | Tại phòng thí nghiệm hoặc cơ sở theo |
+| Thực tập | 20 | Chỉ dẫn lâm sàng, cận lâm sàng |
+| Thực tế | 20 | Tham quan, kiến tập |
+| Đồ án, khóa luận | 05 | Tốt nghiệp |
+| Đồ án môn học | 15 | đồ án nhỏ theo môn học 1 hoặc 2 tín chỉ |
+
+- Đối với các học phần lý thuyết chuyên ngành: Nếu có đề nghị của khoa quản lý ngành, Hiệu trưởng sẽ xem xét để mở các lớp có sĩ số dưới 40 sinh viên.

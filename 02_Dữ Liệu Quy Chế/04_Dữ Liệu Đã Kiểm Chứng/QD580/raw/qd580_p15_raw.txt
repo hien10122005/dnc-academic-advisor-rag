@@ -1,0 +1,20 @@
+Chương III
+ĐÁNH GIÁ KẾT QUẢ HỌC TẬP
+
+Điều 17. Đánh giá và tính điểm học phần
+1. Điểm đánh giá học phần là tổng của các điểm đánh giá thành phần nhân với trọng số tương ứng. Điểm đánh giá thành phần và điểm đánh giá học phần được chấm theo thang điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.
+
+| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |
+| :---: | :---: | :---: | :---: |
+| Tích lũy | 9.0 – 10.0 | 4.0 | A |
+| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |
+| Tích lũy | 7.0 – 7.9 | 3.0 | B |
+| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |
+| Tích lũy | 5.5 – 6.4 | 2.0 | C |
+| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |
+| Không đạt | 4.0 – 4.9 | 1.0 | D |
+| Không đạt | <4.0 | 0.0 | F |
+
+a. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các điểm bài tập, tiểu luận, đồ án do giảng viên xác định là cuối học phần có trọng số 60%.
+b. Đối với học phần thực hành thì điểm đánh giá học phần là trung bình chung của tất cả các bài thực hành, có thể có trọng số của từng bài do Giảng viên quy định trước trong đề cương chi tiết giảng dạy. Sinh viên không tham gia hoặc bị đánh giá không đạt bất kỳ bài thực hành nào thì xem như không đạt học phần đó. Phải đăng ký học lại với lớp khác và không được bảo lưu điểm của các bài đã đạt trước đó.
+c. Đối với học phần có thực hành kết hợp lý thuyết thì sinh viên phải tham dự đủ các bài thực hành và có điểm đạt mới được tham gia kỳ thi kết thúc học phần. Nếu không đạt hoặc vắng bất kỳ bài thực hành nào thì phải liên hệ giảng viên để hoàn thành lại bài đó trong vòng 1 tuần kể từ buổi học cuối cùng của học phần, nếu sau thời hạn trên mà sinh viên vẫn chưa hoàn thành thì xem như bị điểm không và không được dự thi kết thúc học phần. Điểm đánh giá học phần bao gồm nội dung: Điểm lý thuyết được tính như học phần chỉ có lý thuyết (10% chuyên cần, 30% quá trình và 60% điểm thi kết thúc học phần hoặc tổ hợp các điểm bài tập, tiểu luận, đồ án) và điểm thực hành là điểm trung bình của các cột điểm thực hành. Điểm đánh giá học phần là điểm trung bình chung có trọng số (số tín chỉ tương ứng của lý thuyết, thực hành).

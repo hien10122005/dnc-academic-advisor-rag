@@ -1,0 +1,15 @@
+{
+  "status": "READY",
+  "corpus_ready": true,
+  "collection_name": "qd580_baseline_v2",
+  "chunk_version": "v2.0",
+  "corpus_fingerprint": "8f0c62a9ce8b2b049597599e10cc072760e21cf7cec442386848122226e977dd",
+  "model_id": "bkai-foundation-models/vietnamese-bi-encoder",
+  "model_revision": "84f9d9ada0d1a3c37557398b9ae9fcedcdf40be0",
+  "started_at": "2026-10-31 14:50:37",
+  "total_chunks_expected": 104,
+  "completed_at": "2026-10-31 14:51:01",
+  "elapsed_seconds": 23.91,
+  "final_chunk_count": 104,
+  "initial_chunk_count": 104
+}

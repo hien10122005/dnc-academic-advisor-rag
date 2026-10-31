@@ -1,0 +1,58 @@
+# ==============================================================================
+# .gitignore — Đồ án 2: Hệ thống Trợ lý học vụ DNC (dnc-academic-advisor-rag)
+# ==============================================================================
+
+# Python Virtual Environment
+.venv/
+05_Mã Nguồn Chương Trình/.venv/
+venv/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Local Vector Database & Indexes
+chroma_db/
+05_Mã Nguồn Chương Trình/chroma_db/
+*.sqlite3
+*.parquet
+
+# Secrets & Environment Variables (Keep only .env.example)
+.env
+*.env
+!.env.example
+05_Mã Nguồn Chương Trình/.env
+
+# Temporary Files, Logs, and Scratch Scripts
+scratch/
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Backup directories and ZIP archives
+*.zip
+backup_b*/
+**/backup_b*/
+document_backups/
+
+# Raw large PDFs and Office Binaries (Kept local, manual placement required)
+*.pdf
+*.docx
+*.pptx
+*.xlsx
+
+# Rendered intermediate images
+*.png
+*.jpg
+*.jpeg
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini

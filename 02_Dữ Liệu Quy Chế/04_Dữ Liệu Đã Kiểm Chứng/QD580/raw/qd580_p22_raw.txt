@@ -1,0 +1,3 @@
+2. Căn cứ vào quyết định và danh sách sinh viên tốt nghiệp được Hiệu trưởng ký duyệt, Phòng Quản lý đào tạo lập kế hoạch in ấn và thời gian cấp phát văn bằng tốt nghiệp thông báo cho sinh viên.
+3. Trong thời gian chờ nhận văn bằng tốt nghiệp, sinh viên có thể nộp đơn xin cấp giấy chứng nhận tốt nghiệp tạm thời để sử dụng theo nhu cầu của cá nhân.
+4. Bằng tốt nghiệp chỉ cấp một lần cho sinh viên tốt nghiệp. Trường hợp bị mất hoặc bị hỏng, người học có thể nộp đơn cho Phòng Quản lý đào tạo xin cấp bản sao bằng tốt nghiệp.

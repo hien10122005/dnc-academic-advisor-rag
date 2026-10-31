@@ -1,0 +1,12 @@
+- Hiệu trưởng xem xét mở lớp học phần giảng dạy lý thuyết có số lượng đông hơn 120 sinh viên cùng theo học.
+c. Khi số lượng sinh viên đăng ký thấp hơn số lượng tối thiểu quy định của nhà trường thì lớp học phần sẽ không được tổ chức. Sinh viên đã đăng ký phải chuyển sang đăng ký những học phần khác có lớp để đảm bảo đủ quy định về khối lượng học tập tối thiểu cho mỗi học kỳ.
+7. Lớp sinh viên (quản lý)
+a. Lớp sinh viên được tổ chức theo Quy chế công tác sinh viên. Mỗi lớp sinh viên có một tên riêng gắn với bậc, khóa và ngành trúng tuyển và nhập học ban đầu, do một giáo viên chủ nhiệm phụ trách.
+b. Tổ chức hoạt động của lớp sinh viên, vai trò và trách nhiệm của sinh viên được quy định rõ trong Quy chế công tác sinh viên.
+8. Sổ tay sinh viên
+Sổ tay sinh viên là tài liệu chính thức do Trường phát hành mỗi năm học với mục đích cung cấp thông tin về kế hoạch giảng dạy và học tập của khóa – ngành cùng các hướng dẫn cần thiết giúp sinh viên lập kế hoạch học tập và giải quyết các vấn đề thường gặp.
+
+Điều 4. Sinh viên
+1. Sinh viên của một khóa - ngành đào tạo của Trường là những thí sinh trúng tuyển trong kỳ tuyển sinh hàng năm theo quy định của Bộ Giáo dục và Đào tạo và hoàn tất thủ tục đăng ký nhập học theo quy định của Trường. Sinh viên được cấp thẻ sinh viên và cung cấp thông tin đăng nhập hệ thống quản lý của Trường.
+2. Sinh viên khi đến trường phải thực hiện đầy đủ các quy định về nề nếp, tác phong. Thực hiện quyền và nghĩa vụ của mình trong học tập và rèn luyện tại trường.
+3. Đối với các trường hợp sinh viên đang học các trường đại học ở nước ngoài; Sinh viên các trường đại học khác trong nước có nguyện vọng chuyển về học tại Trường đại học Nam Cần Thơ sẽ được xét theo các quy định của Nhà trường và quy chế của Bộ Giáo dục và Đào tạo.

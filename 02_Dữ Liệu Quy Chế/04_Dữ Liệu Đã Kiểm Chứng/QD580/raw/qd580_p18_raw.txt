@@ -1,0 +1,25 @@
+hoặc trong năm học kể cả các học phần bị điểm F nhưng không bao gồm các học phần điều kiện. Điểm trung bình chung học kỳ, điểm trung bình chung năm học là cơ sở để đánh giá kết quả học tập, xét học bổng, khen thưởng, cảnh báo học tập sau mỗi học kỳ, năm học.
+3. Điểm trung bình chung tích lũy là trung bình có trọng số (số tín chỉ của học phần) của tất cả điểm tổng kết các học phần mà sinh viên đã học kể từ khi nhập học cho đến thời điểm xét (không bao gồm học phần bị điểm F và học phần điều kiện). Điểm trung bình chung tích lũy là cơ sở để xếp hạng khi tốt nghiệp.
+4. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy được tính theo công thức sau và được làm tròn đến 2 chữ số thập phân:
+
+A = ( \sum_{i=1}^{n} a_i \times n_i ) / ( \sum_{i=1}^{n} n_i )
+
+Trong đó:
++ A là điểm trung bình chung học kỳ hoặc điểm trung bình chung năm học hoặc điểm trung bình chung tích lũy
++ a_i là điểm của học phần thứ i
++ n_i là số tín chỉ của học phần thứ i
++ n là tổng số học phần đăng ký học tập.
+
+| Xếp loại học lực | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |
+| :--- | :---: | :---: | :---: |
+| Xuất sắc | 9.00 – 10.00 | 4.0 | A |
+| Giỏi | 8.00– 8.99 | 3.5 | B+ |
+| Khá | 7.00 – 7.99 | 3.0 | B |
+| Trung bình khá | 6.50 – 6.99 | 2.5 | C+ |
+| Trung bình | 5.50 – 6.49 | 2.0 | C |
+| Trung bình yếu | 5.00 – 5.49 | 1.5 | D+ |
+| Yếu | 4.00 – 4.99 | 1.0 | D |
+| Kém | <4.00 | 0.0 | F |
+
+Điều 21. Phúc khảo và khiếu nại điểm
+1. Đối với điểm thi giữa kỳ hay các điểm thành phần, sinh viên khiếu nại trực tiếp với giảng viên giảng dạy học phần.

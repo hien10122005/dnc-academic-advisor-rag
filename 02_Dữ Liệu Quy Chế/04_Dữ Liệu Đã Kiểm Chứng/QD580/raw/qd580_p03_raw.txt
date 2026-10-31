@@ -1,0 +1,18 @@
+| Bằng tốt nghiệp để nhập học | Bậc học để tốt nghiệp | Số tín chỉ tối thiểu | Diễn giải |
+| :--- | :--- | :---: | :--- |
+| Trung học phổ thông | | 120 | Cử nhân |
+| Trung học phổ thông | | 150 | Kỹ sư, Kiến trúc sư, Dược sỹ |
+| Trung học phổ thông | | 180 | Bác sỹ |
+
+5. Đề cương học phần thể hiện rõ: tên học phần, số tín chỉ và số tiết giảng lý thuyết và thực hành, đơn vị đảm trách chuyên môn, mô tả học phần, mục tiêu học phần, điều kiện để được đăng ký học tập, nội dung giảng dạy lý thuyết, nội dung hướng dẫn thực hành (thực tập) và kỹ năng cần đạt được, giáo trình và tài liệu tham khảo, cách thức tổ chức thực hiện và đánh giá học phần.
+
+Điều 3. Khái niệm và định nghĩa
+1. Khóa – Ngành
+a. Khái niệm khóa – ngành được sử dụng để xác định các sinh viên cùng 1 khóa tuyển sinh, cùng nhập học, cùng học theo chương trình đào tạo của 1 ngành và có mã số sinh viên trong cùng đợt tuyển sinh.
+b. Chương trình đào tạo của mỗi khóa – ngành được công bố trên website của Trường (http://www.nctu.edu.vn), cổng thông tin sinh viên để sinh viên và các bên liên quan được biết.
+2. Học kỳ - Năm học
+a. Học kỳ là khoảng thời gian nhất định trong quá trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.
+b. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ từ 10 đến 12 tuần dành cho hoạt động giảng dạy, học tập và 2 tuần dành cho việc đánh giá (kiểm tra, thi, bảo vệ đồ án hoặc khóa luận...). Ngoài ra là thời gian dành cho nghỉ hè, nghỉ tết, nghỉ lễ trong năm và dự trữ cho các ngày nghỉ khác.
+c. Thời gian biểu tiến hành các hoạt động học tập, giảng dạy và lịch tổ chức đánh giá trong mỗi học kỳ (kể cả các ngày nghỉ lễ, nghỉ hè, nghỉ Tết...) được quy định trong biểu đồ kế hoạch học tập chung do Hiệu trưởng ban hành vào tháng 6 hàng năm.
+3. Tín chỉ học tập
+a. Tín chỉ học tập là đơn vị quy chuẩn dùng để lượng hoá khối lượng kiến thức và khối lượng học tập, giảng dạy trong quá trình đào tạo, là đơn vị để đo lường tiến độ và đánh giá kết quả học tập của sinh viên;

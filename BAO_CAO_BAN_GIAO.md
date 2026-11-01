@@ -302,6 +302,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
      - **Giải cứu 2 ca khó:** Ca `DEV_02` (Điều 3 từ Rank 6 -> Rank 4) và `DEV_08` (Điều 7 từ Rank 8 -> Rank 3) chuyển từ thất bại (`insufficient_evidence`) sang trả lời chính xác có trích dẫn.
      - **Độ trễ:** Chi phí Hybrid retrieval chỉ tốn thêm ~5.7ms so với Dense warm (68.0ms vs 62.3ms).
 - Báo cáo chi tiết: Xem toàn văn bảng đối chiếu, minh chứng và telemetry tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-05-R01](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) và [Báo cáo kỹ thuật Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md).
+- Git: Commit SHA `3c5a93d11b339ae780c1081aee3480ec8e77ce0b` đã push thành công lên `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
 
 #### B. Codex rà soát
 

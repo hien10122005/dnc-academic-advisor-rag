@@ -533,7 +533,7 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
 #### 6. GitHub
 
 - **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
-- **Commit triển khai:** Cập nhật ngay sau lệnh push.
+- **Commit triển khai:** `3c5a93d11b339ae780c1081aee3480ec8e77ce0b` (đã push thành công lên `origin/main`).
 - **Bảo mật:** Không commit `.env` hay API key lên Git.
 
 #### 7. Bàn giao cho Codex

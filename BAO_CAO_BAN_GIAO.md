@@ -228,6 +228,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
   6. **Đánh giá thực nghiệm Live 10/10 ca phát triển:** Chạy `evaluation/run_eval_live_r03.py` trên tập `DEV_10_CAU_QD580.jsonl`; xuất dữ liệu `DNC_RAG_LIVE_DEV10_R03.jsonl` và `DNC_RAG_LIVE_DEV10_R03.csv`; lập báo cáo kỹ thuật toàn diện `BAO_CAO_RAG_LIVE_QD580_R03.md`.
   7. **Mục Errata:** Đã sửa ngày ban hành QĐ 580 từ 24/10/2024 về 02/08/2024 trong `BAO_CAO_RAG_CO_BAN_QD580.md`.
 - Báo cáo chi tiết: Xem toàn văn bảng đối chiếu 11 yêu cầu Codex, số liệu đo lường Telemetry và chi tiết kỹ thuật tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-04-R03](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live).
+- Git: Commit SHA `bcb6b2088fe89e350fc2aff16c3e913f8714bff6` đã push lên `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
 
 #### B. Codex rà soát
 

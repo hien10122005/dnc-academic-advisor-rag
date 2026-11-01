@@ -299,7 +299,8 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
 #### 6. GitHub
 
 - **Repository/nhánh:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
-- **Commit và Push:** Sẽ được thực thi và xác nhận ngay sau khi ghi nhận báo cáo bàn giao.
+- **Commit triển khai:** SHA `bcb6b2088fe89e350fc2aff16c3e913f8714bff6` — `feat(rag): complete Task 04 R03 - live Gemini 3.5 Flash Lite, strict citation verification, typed errors, and 43 offline tests`.
+- **Push:** Thành công; xác nhận remote `origin/main` khớp chính xác `bcb6b2088fe89e350fc2aff16c3e913f8714bff6`.
 - **Bảo mật:** Đã kiểm tra `.gitignore`, tuyệt đối không commit `.env` hay API key lên kho lưu trữ.
 
 #### 7. Bàn giao cho Codex

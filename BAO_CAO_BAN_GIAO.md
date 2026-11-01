@@ -1,8 +1,20 @@
-# Báo cáo bàn giao nhiệm vụ — Antigravity và Codex
+# DNC RAG — Báo cáo bàn giao đồ án trợ lý học vụ
+
+> **Project ID:** `dnc-academic-advisor-rag`  
+> **Môn học:** Đồ án 2 — Chuyên ngành CNTT, Đại học Nam Cần Thơ.  
+> **Git root:** `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`  
+> **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git`  
+> **Nhiệm vụ 04:** RAG tra cứu QĐ 580 bằng FastAPI và Gemini. File này không phải bàn giao môn Điện toán đám mây.
+
+**Xác định đúng dự án trước khi ghi:** kiểm tra thư mục làm việc, `PROJECT.md` và Git remote khớp định danh trên. Nếu khác, xác định lại đúng checkout trước khi sửa, chạy tác vụ ghi hoặc commit. Không lấy kết quả của một dự án khác điền vào đây.
+
+**Mã nhiệm vụ từ nay:** dùng tiền tố `DNC-RAG`, ví dụ `DNC-RAG-TASK-04-R02`. Lượt lịch sử `TASK-04-R01` bên dưới thuộc đồ án RAG này, được giữ nguyên để bảo toàn báo cáo; các lượt mới ghi mã có tiền tố và dẫn lượt cũ nếu là bản sửa. Không tạo một lượt R01 khác cho cùng lần bàn giao.
 
 Thiết lập ngày **01/11/2026**, theo yêu cầu của người dùng.
 
 Đây là đầu mối để Antigravity báo cáo sau mỗi nhiệm vụ và để Codex tìm đúng đầu ra khi rà soát. File này không thay thế báo cáo chuyên môn, ROADMAP hoặc kết quả kiểm thử; phải liên kết tới các minh chứng đó.
+
+**Bổ sung cách dùng:** Antigravity ghi báo cáo thực hiện chi tiết trong `BAO_CAO_ANTIGRAVITY.md`. File bàn giao này giữ chỉ mục, tóm tắt, liên kết tới đúng mã lượt và phần Codex rà soát. Trong mẫu mục A bên dưới, có thể thay các bảng chi tiết bằng liên kết tới báo cáo cùng mã lượt; không cần chép hai bản đầy đủ. Các quy tắc giữ lịch sử, minh chứng và phân biệt tự báo/kiểm tra vẫn áp dụng.
 
 ## 1. Quy tắc sử dụng bắt buộc
 
@@ -10,7 +22,7 @@ Thiết lập ngày **01/11/2026**, theo yêu cầu của người dùng.
 
 1. Đọc file này trước khi bắt đầu nhiệm vụ mới, cùng PROJECT và file giao nhiệm vụ.
 2. Thêm một mục vào cuối phần **Lịch sử bàn giao**, theo mẫu bên dưới, khi kết thúc mỗi nhiệm vụ hoặc bàn giao dở vì trở ngại. Không xóa hoặc ghi đè lịch sử các nhiệm vụ trước.
-3. Mỗi lần sửa theo phản biện, tạo một lượt bàn giao mới với cùng mã nhiệm vụ và số lượt tăng dần, ví dụ `TASK-04-R01`, `TASK-04-R02`. Ghi rõ nhận xét nào đã sửa và nhận xét nào còn mở.
+3. Mỗi lần sửa theo phản biện, tạo một lượt bàn giao mới với cùng mã nhiệm vụ và số lượt tăng dần, ví dụ `DNC-RAG-TASK-04-R01`, `DNC-RAG-TASK-04-R02`. Ghi rõ nhận xét nào đã sửa và nhận xét nào còn mở; tôn trọng lượt lịch sử đã tồn tại dưới mã cũ.
 4. Cập nhật bảng chỉ mục để người đọc tìm được lượt mới nhất. Nội dung báo cáo phải phản ánh phần thực sự chạy được, không chỉ kế hoạch hay code đã viết.
 5. Gắn đường dẫn tương đối từ Git root tới code, test, báo cáo và kết quả; dùng tên test/lệnh cụ thể. Không dán toàn bộ log dài vào file chung.
 6. Phân biệt test mock/offline với kết nối dịch vụ thật; nêu môi trường, phiên bản dữ liệu/model và số lượng ca. Không dùng tỷ lệ kiểm thử để cam kết sản phẩm đúng tuyệt đối.
@@ -45,6 +57,7 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | Mã lượt | Ngày bàn giao | Nhiệm vụ | Antigravity tự báo | Codex rà soát | Đường dẫn báo cáo chính |
 | --- | --- | --- | --- | --- | --- |
 | `TASK-04-R01` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CHƯA KIỂM TRA` | [Báo cáo RAG cơ bản QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md) |
+| `DNC-RAG-TASK-04-R02` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CHƯA KIỂM TRA` | [Báo cáo chi tiết BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini) |
 
 Nhiệm vụ gần nhất đã giao: **04 — RAG cơ bản qua FastAPI và Gemini**, tại [file nhiệm vụ 04](02_Dữ%20Liệu%20Quy%20Chế/03_Kiểm%20Tra%20Chất%20Lượng%20Dữ%20Liệu/NHIEM_VU_TIEP_THEO_04_RAG_FASTAPI_GEMINI.md).
 
@@ -53,11 +66,12 @@ Nhiệm vụ gần nhất đã giao: **04 — RAG cơ bản qua FastAPI và Gemi
 Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trường bằng kết quả thực tế. Nếu không áp dụng thì ghi lý do; không bỏ trống để tạo cảm giác đã kiểm tra.
 
 ```markdown
-### TASK-XX-R01 — Tên nhiệm vụ
+### DNC-RAG-TASK-XX-R01 — Tên nhiệm vụ
 
 #### A. Antigravity báo cáo
 
 - Ngày/giờ hoàn tất: ... (giờ Việt Nam)
+- Project ID: dnc-academic-advisor-rag; Git root và remote đã kiểm tra: ...
 - File giao nhiệm vụ: ...
 - Trạng thái tự báo: HOÀN THÀNH — CHỜ KIỂM TRA / HOÀN THÀNH MỘT PHẦN / BỊ CẢN TRỞ
 - Tóm tắt kết quả: ...
@@ -163,6 +177,27 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - File còn thay đổi/chưa commit: `BAO_CAO_BAN_GIAO.md` (đang cập nhật).
 - Mục ROADMAP đã cập nhật: Đã cập nhật mục Tuần 3 (Task 04) trong `ROADMAP.md`.
 - Báo cáo chuyên môn và cách chạy lại: `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md`; cách chạy lại xem tại `05_Mã Nguồn Chương Trình/README.md`.
+
+#### B. Codex rà soát
+
+- Trạng thái: CHƯA KIỂM TRA
+- Ngày kiểm tra: Chưa có.
+- Phần đã xác minh độc lập: Chưa có.
+- Nhận xét, lỗi và đường dẫn báo cáo phản biện: Chưa có.
+- Kết luận chuyển bước: Chưa có.
+
+---
+
+### DNC-RAG-TASK-04-R02 — RAG cơ bản qua FastAPI và Gemini
+
+#### A. Antigravity báo cáo
+
+- Ngày/giờ hoàn tất: 2026-11-01 13:30:00 (giờ Việt Nam)
+- Project ID: `dnc-academic-advisor-rag`; Git root và remote đã kiểm tra: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)` và `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.
+- File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_RAG_FASTAPI_GEMINI.md`
+- Trạng thái tự báo: HOÀN THÀNH MỘT PHẦN
+- Tóm tắt kết quả: Kế thừa và chuẩn hóa toàn diện từ lượt lịch sử `TASK-04-R01`. Đã hoàn tất Bước A (Preflight đối soát 3 chiều), Bước B (Gemini Client hỗ trợ SDK chính thức và Offline Mock stub), Bước C (RAG Engine định danh `SRC-k`, ép schema JSON, loại bỏ hallucinated citations và 4 trạng thái nghiệp vụ), Bước D (FastAPI REST API `GET /health`, `POST /chat` nạp model qua Lifespan, CLI). 35/35 bài test tự động đạt 100% trong 32.288s. Chờ `GEMINI_API_KEY` từ người dùng để kích hoạt đánh giá live LLM.
+- Báo cáo chi tiết: Xem toàn văn minh chứng, bảng đối chiếu và kết quả test tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-04-R02](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini).
 
 #### B. Codex rà soát
 

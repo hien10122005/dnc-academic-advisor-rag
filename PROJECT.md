@@ -1,5 +1,11 @@
 # PROJECT.md — Tổng quan và phạm vi đồ án
 
+> **Định danh dự án:** `dnc-academic-advisor-rag` — trợ lý tra cứu quy chế học vụ DNC, môn Đồ án 2 chuyên ngành CNTT.  
+> **Git root:** `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`  
+> **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.
+
+File nhiệm vụ và báo cáo phải cùng định danh trên. Từ 01/11/2026, lượt bàn giao mới dùng tiền tố `DNC-RAG-TASK-`; giữ nguyên các mã lịch sử cũ có dẫn chiếu. Không dùng chung nội dung bàn giao/nhiệm vụ với dự án Điện toán đám mây hay checkout khác.
+
 > Cập nhật: **31/10/2026**. Phương án đã thống nhất: giữ phạm vi dữ liệu rộng và lõi RAG; giảm phần tài khoản, quản trị và độ phức tạp hội thoại; đánh giá bằng 60–80 câu có nguồn chuẩn.
 > Đây là tài liệu thiết kế và kế hoạch, không phải xác nhận các chức năng đã được lập trình. Xem `LOGIC.md` để biết luồng xử lý; xem `ROADMAP.md` để biết tiến độ và tiêu chí hoàn thành.
 
@@ -167,3 +173,11 @@ Ghi chép thiết kế và thí nghiệm từ đầu; tuần 7–9 tập trung h
 - Đánh giá 60–80 ca có nguồn chuẩn và so sánh A/B/C; bỏ kế hoạch chỉ 30 câu.
 - Thay khẳng định tuyệt đối và số đo chưa thực hiện bằng yêu cầu kiểm chứng, mục tiêu và tiêu chí nghiệm thu.
 - Bản gốc ba file được lưu trong ZIP tại `scratch/document_backups/` trước khi sửa; các file dữ liệu quy chế không thay đổi.
+
+## 11. Báo cáo bàn giao sau mỗi nhiệm vụ — áp dụng từ 01/11/2026
+
+Theo yêu cầu người dùng, Antigravity phải đọc và cập nhật `BAO_CAO_BAN_GIAO.md` tại Git root sau mỗi nhiệm vụ hoặc mỗi lượt sửa theo phản biện. Thêm lượt mới, giữ lịch sử, báo đầu ra, file thay đổi, lệnh/kết quả test, mock/thật, lỗi còn mở, báo cáo chuyên môn và commit/push thực tế. Cập nhật ROADMAP nhất quán và dẫn mã lượt bàn giao trong lời nhắn cuối.
+
+Codex dùng file này làm đầu mối rà soát. Phần tự báo của Antigravity và kết luận kiểm tra của Codex được ghi riêng; chưa kiểm tra thì không tự đánh dấu đã nghiệm thu. Quy tắc này chỉ bổ sung cách phối hợp, không thay đổi phạm vi sản phẩm đã chốt.
+
+Báo cáo thực hiện chi tiết của Antigravity được ghi riêng, theo từng mã lượt, trong `BAO_CAO_ANTIGRAVITY.md`. `BAO_CAO_BAN_GIAO.md` chỉ giữ tóm tắt/liên kết và phần rà soát, không yêu cầu sao chép toàn bộ báo cáo hai lần. Sau mỗi nhiệm vụ phải cập nhật cả báo cáo chi tiết và chỉ mục bàn giao.

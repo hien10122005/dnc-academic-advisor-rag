@@ -1,4 +1,12 @@
-# Nhiệm vụ 04 cho Antigravity — RAG hỏi đáp cơ bản qua FastAPI và Gemini
+# DNC-RAG-TASK-04 — RAG học vụ DNC qua FastAPI và Gemini
+
+> **Project ID:** `dnc-academic-advisor-rag`  
+> **Môn học:** Đồ án 2 — Chuyên ngành CNTT, Đại học Nam Cần Thơ.  
+> **Git root:** `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`  
+> **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git`  
+> Đây là nhiệm vụ của trợ lý tra cứu quy chế học vụ DNC, không phải nhiệm vụ môn Điện toán đám mây.
+
+Trước khi thực hiện, xác nhận thư mục làm việc, PROJECT và Git remote đúng dự án trên. Không triển khai hạ tầng cloud hoặc lấy nội dung của một môn khác làm kết quả nhiệm vụ này. Nếu đang mở checkout khác thì chuyển về đúng dự án trước mọi thao tác ghi.
 
 Ngày giao: **01/11/2026**. Làm việc trong thư mục gốc đồ án hiện tại. Đọc `PROJECT.md`, `LOGIC.md`, `ROADMAP.md`, mã nguồn đang chạy và các báo cáo rà soát trước khi triển khai.
 
@@ -161,3 +169,9 @@ Không sửa PDF, sáu Markdown cũ hay phạm vi PROJECT/LOGIC để né lỗi.
 - Bổ sung ignore `.env.*` và ngoại lệ `.env.example`; kiểm tra staged diff, không commit key, môi trường ảo, cache/model weights hay DB runtime.
 - Commit/push code, test, tài liệu và kết quả được phép chia sẻ vào repository đã chỉ định. Xác nhận SHA local/remote khớp.
 - Báo cáo cuối: phần đã làm, test đã chạy, real/mock, số ca trả lời được/thiếu căn cứ/lỗi, thời gian, giới hạn, file thay đổi, SHA và trạng thái push. Không cần xin xác nhận thêm cho các bước trong phạm vi nhiệm vụ; nếu thiếu key thì nêu trở ngại, hoàn thành phần độc lập có thể làm.
+
+## 10. Bắt buộc ghi báo cáo bàn giao chung
+
+Sau nhiệm vụ này và mỗi lượt sửa tiếp theo, cập nhật `BAO_CAO_BAN_GIAO.md` tại Git root theo mẫu/quy tắc trong file. Mã có tiền tố dự án là `DNC-RAG-TASK-04-RNN`. Đã có lượt lịch sử `TASK-04-R01` cho nhiệm vụ RAG này; giữ nguyên và dẫn lại lượt đó. Lần sửa tiếp theo dùng `DNC-RAG-TASK-04-R02`, không tạo lại R01. Cập nhật chỉ mục, ghi minh chứng và trạng thái thật. Phần Codex rà soát để `CHƯA KIỂM TRA` cho đến khi có kết luận độc lập. Đưa file bàn giao vào commit/push theo yêu cầu Git và nhắc người dùng gửi Codex đọc mã lượt mới nhất.
+
+Ghi báo cáo thực hiện chi tiết vào file riêng `BAO_CAO_ANTIGRAVITY.md`, rồi dẫn đúng mục/mã lượt từ file bàn giao chung. Giữ lịch sử từng lượt và không tự điền kết luận rà soát của Codex. Áp dụng từ nhiệm vụ hiện tại, không chỉ cho các nhiệm vụ tương lai.

@@ -58,9 +58,10 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | --- | --- | --- | --- | --- | --- |
 | `TASK-04-R01` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CHƯA KIỂM TRA` | [Báo cáo RAG cơ bản QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md) |
 | `DNC-RAG-TASK-04-R02` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CẦN SỬA` | [Báo cáo chi tiết BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini) |
-| `DNC-RAG-TASK-04-R03` | 01/11/2026 | 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo RAG Live R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live) |
+| `DNC-RAG-TASK-04-R03` | 01/11/2026 | 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live | `HOÀN THÀNH — CHỜ KIỂM TRA` | `ĐẠT MỘT PHẦN — CẦN SỬA` | [Báo cáo RAG Live R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live) |
+| `DNC-RAG-TASK-04-R04` | 01/11/2026 | 04 — Chốt baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc) |
 
-Nhiệm vụ gần nhất đã giao: **04 (Lượt R03) — Hoàn thiện citation, cấu hình và đánh giá Gemini Live**, tại [file nhiệm vụ 04-R03](02_Dữ%20Liệu%20Quy%20Chế/03_Kiểm%20Tra%20Chất%20Lượng%20Dữ%20Liệu/NHIEM_VU_TIEP_THEO_04_R03_CITATION_GEMINI_LIVE.md).
+Nhiệm vụ gần nhất đã hoàn tất tự báo: **04 (Lượt R04) — Chốt baseline A và đánh giá trung thực**, tại [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md).
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -232,8 +233,39 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 
 #### B. Codex rà soát
 
-- Trạng thái: CHƯA KIỂM TRA
-- Ngày kiểm tra: Chưa có.
-- Phần đã xác minh độc lập: Chưa có.
-- Nhận xét, lỗi và đường dẫn báo cáo phản biện: Chưa có.
-- Kết luận chuyển bước: Chưa có.
+- Trạng thái: ĐẠT MỘT PHẦN — CẦN SỬA.
+- Ngày kiểm tra: 01/11/2026.
+- Xác minh độc lập: 43/43 unittest qua, không lỗi/bỏ qua; smoke Gemini thật với model cấu hình thành công. Remote main khớp HEAD a72369df1515fc91ca43e15f07f289cd0d9de7ec. Không chạy lại toàn bộ 10 ca live, đã đọc/chấm đối chiếu artifacts R03.
+- Còn mở: public error lộ path; retry ValueError 3 lần và SDK retry chưa kiểm soát; DEV_07 thiếu nhánh thi lại; nhiều ca bị chấm đầy đủ sai; bảng test và trung bình telemetry không khớp artifact.
+- Báo cáo Codex: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R03.md`.
+- Nhiệm vụ tiếp theo: `DNC-RAG-TASK-04-R04`, file `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R04_CHOT_BASELINE.md`. Sửa có giới hạn và chốt baseline A, sau đó mới giao BM25 + RRF; chưa triển khai UI/reranker.
+
+---
+
+### DNC-RAG-TASK-04-R04 — Chốt baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực
+
+#### A. Antigravity báo cáo
+
+- Ngày/giờ hoàn tất: 2026-11-01 18:30:00 (giờ Việt Nam).
+- Project ID: `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.
+- File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R04_CHOT_BASELINE.md`.
+- Tài liệu nhận xét Codex R03: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R03.md`.
+- Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
+- Tóm tắt kết quả:
+  1. **Khử rò rỉ đường dẫn nội bộ:** Phân tách `public_message` an toàn trong `DNCError`, làm sạch path (`E:\`, `C:\`, `/`) và token nhạy cảm; cập nhật exception handlers `/health` và `/chat` trả về HTTP 503 sạch sẽ; đồng bộ `LLMQuotaExceededError.status_code = 429`.
+  2. **Kiểm soát retry chặt chẽ:** Triển khai `classify_exception` chặn retry lỗi lập trình (`ValueError`) và lỗi 4xx (`400`, `401`, `404`); chỉ retry lỗi tạm thời; cấu hình `attempts=1` trong SDK `types.HttpOptions` để tầng ngoài kiểm soát tuyệt đối số lần thử.
+  3. **Cải tiến trích đoạn chứng cứ thực chất:** Cải tiến thuật toán trích đoạn preview trong `backend/rag_engine.py` ưu tiên span nội dung thực chất thay vì span tiêu đề điều khoản ngắn hay header bảng, bảo toàn nguyên vẹn tọa độ span gốc và trang PDF.
+  4. **Bộ kiểm thử tự động 50/50 tests OK (18.37s):** Mở rộng từ 43 lên 50 bài test offline, thêm 7 test case mới cho khử path, retry SDK, non-retry 401/404/ValueError, transient 503 retry, substantive quote snippet, mock live flag.
+  5. **Đánh giá Live 10 ca phát triển với Rubric trung thực:**
+     - Chạy lại trên API Live thật với `gemini-3.5-flash-lite`, lưu trữ đầy đủ run metadata, toàn bộ 5 retrieved contexts (content, spans, similarity), user prompt và timings vào `DNC_RAG_LIVE_DEV10_R04.jsonl` và `.csv`.
+     - Chấm điểm khách quan: Đạt hoàn toàn 3 ca (DEV_03, DEV_06, DEV_10); Đạt một phần 4 ca (DEV_01: 75%, DEV_04: 75%, DEV_05: 66.7%, DEV_07: 50%); Từ chối an toàn do thiếu dữ liệu truy xuất 2 ca (DEV_02, DEV_08); Single-turn 1 ca (DEV_09). Tỷ lệ bịa đặt nguồn: 0%.
+     - Lập báo cáo kỹ thuật toàn diện `BAO_CAO_CHOT_BASELINE_QD580_R04.md`.
+- Báo cáo chi tiết: Xem toàn văn bảng đối chiếu, minh chứng và telemetry tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-04-R04](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc).
+
+#### B. Codex rà soát
+
+- Trạng thái: `CHƯA KIỂM TRA`.
+- Ngày kiểm tra:
+- Xác minh độc lập:
+- Nhận xét và đánh giá:
+- Kết luận chuyển bước:

@@ -81,10 +81,10 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 - [ ] Thử trường hợp nguồn mâu thuẫn; không tự động chọn văn bản ưu tiên thiếu căn cứ (để ngỏ cho giai đoạn tích hợp thêm quy chế mới ở Tuần 4-5).
 - [x] Giới hạn đầu vào, số đoạn và độ dài đầu ra; timeout và thử lại có giới hạn (minh chứng: Pydantic validation 1000 ký tự trả về HTTP 422, `max_output_tokens=1024`, retry hữu hạn 2 lần với backoff trong `gemini_client.py` ngày 01/11/2026).
 - [x] Ghi số đo từng bước; tải mô hình một lần khi backend khởi động (minh chứng: `timings` trả lời chi tiết `retrieval_ms`, `llm_ms`, `total_ms`; FastAPI Lifespan nạp model Bi-Encoder vào RAM một lần duy nhất ngày 01/11/2026).
-- [x] Chạy baseline A trên tập phát triển, ghi lỗi và hướng sửa (minh chứng: Đánh giá thực nghiệm Live thành công 10/10 ca phát triển với Gemini 3.5 Flash Lite tại `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md`, `DNC_RAG_LIVE_DEV10_R03.jsonl` và `DNC_RAG_LIVE_DEV10_R03.csv` ngày 01/11/2026).
+- [x] Chạy baseline A trên tập phát triển, ghi lỗi và hướng sửa (minh chứng: Hoàn tất chốt Baseline A lượt R04, đánh giá thực nghiệm Live 10 ca phát triển với Gemini 3.5 Flash Lite và chấm rubric trung thực tại `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md`, `DNC_RAG_LIVE_DEV10_R04.jsonl` và `DNC_RAG_LIVE_DEV10_R04.csv` ngày 01/11/2026).
 - [ ] Tiếp tục hoàn thiện đáp án chuẩn và đối chiếu các nhóm dữ liệu khác.
 
-**Điều kiện hoàn thành:** gọi API nhận được câu trả lời có nguồn; có ví dụ thành công, thiếu căn cứ và lỗi dịch vụ được phân biệt đúng. Hoàn tất toàn bộ bước A, B, C, D độc lập, 43/43 bài test tự động đạt 100%, và đánh giá thực nghiệm Live đạt 10/10 ca thành công với `gemini-3.5-flash-lite`.
+**Điều kiện hoàn thành:** gọi API nhận được câu trả lời có nguồn; có ví dụ thành công, thiếu căn cứ và lỗi dịch vụ được phân biệt đúng. Hoàn tất toàn bộ bước A, B, C, D độc lập, 50/50 bài test tự động đạt 100%, khử rò rỉ path, kiểm soát retry SDK và đánh giá thực nghiệm Live chốt Baseline A với `gemini-3.5-flash-lite`.
 
 **Gặp giảng viên lần 2 dự kiến:** cuối tuần 3; trình bày demo baseline, dữ liệu và cách đánh giá, ghi góp ý thật.
 

@@ -25,11 +25,11 @@ Thiết lập: **01/11/2026**. Đây là file riêng để **Antigravity ghi l�
 
 ## Báo cáo mới nhất
 
-- **Mã lượt:** `DNC-RAG-TASK-04-R03`
-- **Nhiệm vụ:** 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live
+- **Mã lượt:** `DNC-RAG-TASK-04-R04`
+- **Nhiệm vụ:** 04 — Chốt Baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực
 - **Ngày hoàn tất:** 01/11/2026
 - **Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`
-- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-04-R03](#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live)
+- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-04-R04](#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc)
 
 ## Mẫu báo cáo sau mỗi lần làm
 
@@ -311,4 +311,124 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   1. Kiểm tra 8 ca test mới trong `tests/test_api_and_rag.py` kiểm định loại bỏ auto-attach top 1, hạ cấp citation ảo, và typed errors.
   2. Kiểm tra tính an toàn của `backend/gemini_client.py` (`types.HttpOptions`, selective retry, cô lập mock).
   3. Đối chiếu kết quả 10 ca live tại `DNC_RAG_LIVE_DEV10_R03.jsonl`, đặc biệt là hành vi từ chối an toàn tại DEV_02, DEV_08, DEV_09 và DEV_10.
+- **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.
+
+---
+
+### DNC-RAG-TASK-04-R04 — Chốt Baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực
+
+**Thời điểm bàn giao:** 18:30 ngày 01/11/2026, giờ Việt Nam.  
+**Định danh:** `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.  
+**File giao nhiệm vụ:** `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R04_CHOT_BASELINE.md`.  
+**Tài liệu đối chiếu:** Nhận xét Codex R03 tại `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R03.md`.  
+**Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`.
+
+#### 1. Kết quả chính
+
+1. **Khử hoàn toàn rò rỉ đường dẫn nội bộ (Path Sanitization):**
+   - Tách bạch `public_message` và `internal_detail` trong `backend/errors.py`. Tự động nhận diện và làm sạch chuỗi đường dẫn tệp (`E:\`, `C:\`, `/`) và token nhạy cảm trong response trả về người dùng.
+   - Chuẩn hóa HTTP Status Code của `LLMQuotaExceededError` thành `429 Too Many Requests` (theo RFC 6585).
+   - Đảm bảo cả `/health` và `/chat` không bao giờ rò rỉ đường dẫn file nội bộ (như `E:\private\secret-location\manifest.json`).
+
+2. **Kiểm soát chặt chẽ Retry & Vòng đời SDK:**
+   - Xây dựng `classify_exception` phân loại rõ: Lỗi lập trình (`ValueError`, `TypeError`) & Lỗi máy khách 4xx (`400`, `401`, `404`) -> Tuyệt đối KHÔNG retry.
+   - Lỗi tạm thời (Transient: Timeout, 429, 503) -> Retry có backoff đến tối đa `max_retries`.
+   - Vô hiệu hóa retry nội bộ của Google GenAI SDK bằng `types.HttpOptions(retry_options=types.HttpRetryOptions(attempts=1))` để vòng lặp bên ngoài kiểm soát tuyệt đối số lần gọi.
+   - Thêm thuộc tính `is_using_live_api` đảm bảo khi tiêm mock handler thì `is_live_llm` luôn là `False`.
+
+3. **Cải tiến trích đoạn chứng cứ thực chất (Substantive Quote Snippet):**
+   - Thuật toán chọn span đại diện trong `backend/rag_engine.py` ưu tiên span nội dung thực chất dài hơn, bỏ qua span chỉ chứa dòng tiêu đề điều khoản ngắn hoặc header bảng lặp lại, đồng thời bảo toàn chính xác tuyệt đối tọa độ span gốc và trang PDF.
+
+4. **Kiểm thử tự động toàn diện (Unit Tests):**
+   - Đạt **50/50 tests OK** trong 18.37 giây ở chế độ offline 100% (thêm 7 tests mới kiểm định path sanitization, SDK retry=1, non-retry 401/404/ValueError, transient retry 503, substantive quote snippet, mock live flag).
+
+5. **Đánh giá Live 10 ca phát triển với Rubric trung thực:**
+   - Chạy toàn bộ 10 ca live với `gemini-3.5-flash-lite`, lưu trữ đầy đủ run metadata, toàn bộ 5 retrieved contexts (content, spans, similarity), user prompt và timings vào `DNC_RAG_LIVE_DEV10_R04.jsonl` và `.csv`.
+   - Chấm điểm từng ý bắt buộc (mandatory points) theo rubric khách quan:
+     - Đạt hoàn toàn (Full Pass): 3 ca (`DEV_03`: 100%, `DEV_06`: 100%, `DEV_10`: 100%).
+     - Đạt một phần (Partial Pass): 4 ca (`DEV_01`: 75%, `DEV_04`: 75%, `DEV_05`: 66.7%, `DEV_07`: 50%).
+     - Từ chối an toàn do thiếu dữ liệu truy xuất (Retrieval Miss): 2 ca (`DEV_02`, `DEV_08`).
+     - Single-turn Only (N/A multi-turn): 1 ca (`DEV_09`).
+     - Tỷ lệ bịa đặt nguồn (Hallucination): **0%**.
+
+#### 2. Đối chiếu từng yêu cầu và nhận xét cần sửa
+
+| Yêu cầu / Mã nhận xét Codex R03 | Đã làm gì | Kết quả | Minh chứng | Phần còn thiếu |
+| --- | --- | --- | --- | --- |
+| **[P1] Đánh giá câu trả lời DEV_07** | Đánh giá lại câu trả lời theo rubric gold standard: chỉ ra điểm 4.5 là Không đạt nhưng khẳng định bắt buộc học lại mà bỏ sót nhánh thi lại/thi phụ | Đạt một phần (2/4 ý - 50%) | `BAO_CAO_CHOT_BASELINE_QD580_R04.md` mục 4; `calc_stats.py` | Sẽ được giải quyết bằng hybrid search và prompt routing ở Task 05 |
+| **[P1] Chấm từng ý DEV_01, 04, 05** | Chấm chi tiết từng mandatory point: DEV_01 thiếu làm tròn 1 chữ số thập phân (3/4); DEV_04 thiếu thời điểm/thủ tục (3/4); DEV_05 thiếu lệ phí thi lại (2/3) | Đạt theo tự kiểm tra trung thực | `BAO_CAO_CHOT_BASELINE_QD580_R04.md` Bảng 4.1 | Không hạ thấp tiêu chuẩn gold standard |
+| **[P1] Ghi rõ lỗi truy xuất DEV_02, 08** | Ghi nhận rõ là Retrieval Miss của bộ truy xuất Dense Bi-encoder, từ chối an toàn của LLM là tốt nhưng hệ thống toàn trình tính là chưa đạt truy xuất | Đạt theo tự kiểm tra trung thực | Báo cáo mục 4 & 5 | Chờ Task 05 (BM25 + RRF) để giải quyết |
+| **[P1] Nhãn DEV_09 single-turn** | Gán nhãn Single-turn Only (N/A multi-turn) cho DEV_09 | Đạt theo tự kiểm tra | Báo cáo mục 4 | Chưa có session state (ngoài phạm vi task) |
+| **[P1] Khử rò rỉ đường dẫn nội bộ** | Thêm `public_message` an toàn trong `DNCError`, làm sạch path và token; sửa exception handler của FastAPI `/health` và `/chat` | Đạt theo tự kiểm tra | `backend/errors.py`, `backend/main.py`; test `test_health_and_chat_sanitizes_internal_path_on_error` | Không |
+| **[P2] Retry đúng loại lỗi & SDK** | `classify_exception` phân loại rõ; tắt retry nội bộ SDK (`attempts=1`); non-transient gọi SDK đúng 1 lần; transient retry có sleep | Đạt theo tự kiểm tra | `backend/gemini_client.py`; 4 test unit mới trong `tests/test_api_and_rag.py` | Không |
+| **[P2] Thống kê đo lường minh bạch** | Tính toán minh bạch trung bình, trung vị, toàn bộ 10 ca và ca ấm (bỏ ca đầu); ghi rõ mẫu số | Đạt theo tự kiểm tra | Báo cáo Bảng 3.2; `evaluation/calc_stats.py` | Không |
+| **[P2] Lưu đầy đủ artifacts tái lập** | Lưu đầy đủ 5 retrieved contexts (content, spans, similarity), user prompt, raw output, citations vào JSONL | Đạt theo tự kiểm tra | `evaluation/results/DNC_RAG_LIVE_DEV10_R04.jsonl` và `.csv` | Không |
+| **[P2] Cải tiến quote snippet** | Thuật toán ưu tiên span nội dung thực chất thay vì span tiêu đề điều khoản ngắn hoặc header bảng | Đạt theo tự kiểm tra | `backend/rag_engine.py`; test `test_substantive_quote_snippet_selection` | Không |
+
+#### 3. File và cấu hình thay đổi
+
+- **File tạo mới:**
+  - `05_Mã Nguồn Chương Trình/evaluation/run_eval_live_r04.py`: Script đánh giá thực nghiệm R04 kết nối Gemini Live và lưu trữ đầy đủ run metadata.
+  - `05_Mã Nguồn Chương Trình/evaluation/calc_stats.py`: Script tính toán trung bình, trung vị, cold/warm và đối chiếu mandatory points.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_LIVE_DEV10_R04.jsonl`: Dữ liệu đánh giá chi tiết 10 ca live kèm retrieved contexts.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_LIVE_DEV10_R04.csv`: Dữ liệu bảng tổng hợp UTF-8 BOM.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md`: Báo cáo kỹ thuật nghiệm thu Baseline A.
+- **File sửa đổi:**
+  - `backend/errors.py`: Phân tách `public_message` và `internal_detail`, tự động lọc đường dẫn tệp và token nhạy cảm, đồng bộ `status_code = 429` cho `LLMQuotaExceededError`.
+  - `backend/main.py`: Cập nhật exception handlers của `/health` và `/chat` trả về `public_message` an toàn.
+  - `backend/gemini_client.py`: Thêm `classify_exception`, vô hiệu hóa retry SDK (`attempts=1`), chặn retry lỗi lập trình và 4xx, thêm `is_using_live_api`, kiểm tra ping/pong trong smoke test.
+  - `backend/rag_engine.py`: Dùng `is_using_live_api`, cập nhật `SYSTEM_PROMPT_TEMPLATE` hướng dẫn chú ý điều kiện/ngoại lệ/làm tròn, cải tiến thuật toán chọn span chứng cứ thực chất.
+  - `tests/test_api_and_rag.py`: Bổ sung 7 test case kiểm định khử rò rỉ path, retry SDK, non-retry 401/404/ValueError, transient 503 retry, substantive quote snippet, mock live flag (tổng 24 tests trong file, tổng 50 tests toàn bộ).
+  - `BAO_CAO_BAN_GIAO.md`, `ROADMAP.md`, `05_Mã Nguồn Chương Trình/README.md`.
+
+#### 4. Kiểm thử và chạy thực tế
+
+| Tên test / Lệnh chạy | Môi trường | Kiểu thực thi | Số ca qua / lỗi | File minh chứng |
+| :--- | :--- | :--- | :---: | :--- |
+| `python -m unittest tests/test_chunking_and_sources.py` | Local CPU (`.venv`) | Dữ liệu & Tokenizer thật | 5/5 OK | Log unittest |
+| `python -m unittest tests/test_lifecycle_and_regression.py` | Local CPU (`.venv`) | ChromaDB thật | 21/21 OK | Log unittest |
+| `python -m unittest tests/test_api_and_rag.py` | Local CPU (`.venv`) | Mock SDK & Fake Transport | 24/24 OK | Log unittest |
+| `python -m unittest discover -s tests -p "test_*.py"` | Local CPU (`.venv`) | Toàn bộ 50 ca kiểm thử offline | 50/50 OK | 18.371s, OK |
+| `python evaluation/run_eval_live_r04.py` | Local Internet | Google Gemini Live (`gemini-3.5-flash-lite`) | 10/10 ca hoàn thành | `DNC_RAG_LIVE_DEV10_R04.jsonl` và `.csv` |
+| `python evaluation/calc_stats.py` | Local CPU | Đo lường thống kê & rubric đối chiếu | 10 ca khớp | `BAO_CAO_CHOT_BASELINE_QD580_R04.md` |
+
+- **Số liệu đo lường Telemetry trên 10 ca phát triển:**
+  - Truy xuất Vector (Retrieval): Trung bình toàn bộ $65.88\text{ ms}$, trung vị $63.07\text{ ms}$; Warm trung bình $63.48\text{ ms}$, warm trung vị $60.78\text{ ms}$.
+  - Sinh phản hồi LLM (Generation): Trung bình toàn bộ $1916.81\text{ ms}$, trung vị $1699.59\text{ ms}$; Warm trung bình $1929.47\text{ ms}$, warm trung vị $1665.70\text{ ms}$.
+  - Tổng thời gian E2E (Total): Trung bình toàn bộ $1982.75\text{ ms}$, trung vị $1769.82\text{ ms}$; Warm trung bình $1993.01\text{ ms}$, warm trung vị $1716.76\text{ ms}$.
+- **Tái lập tối thiểu:**
+  ```powershell
+  cd "05_Mã Nguồn Chương Trình"
+  # Chạy toàn bộ 50 bài unit test offline
+  $env:HF_HUB_OFFLINE="1"; $env:TRANSFORMERS_OFFLINE="1"; $env:GEMINI_API_KEY=""; .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
+
+  # Chạy đánh giá Live trên tập 10 ca phát triển
+  .\.venv\Scripts\python.exe evaluation/run_eval_live_r04.py
+  ```
+
+#### 5. Lỗi, giới hạn và việc còn lại
+
+- **Lỗi phần mềm nội bộ:** 0 lỗi. Toàn bộ 50 unit tests đều qua.
+- **Giới hạn đã nhận diện (Baseline A):**
+  - Tồn tại hiện tượng bỏ sót truy xuất (Retrieval Miss) trên câu hỏi khái niệm chung (`DEV_02`) và câu hỏi đời thường (`DEV_08`) do hạn chế của mô hình Dense Bi-encoder thuần túy.
+  - Câu trả lời của LLM đôi khi bỏ sót một số điều kiện phụ (làm tròn số ở `DEV_01`, thủ tục đăng ký ở `DEV_04`, lệ phí ở `DEV_05`) hoặc khẳng định phiến diện (bắt buộc học lại mà không nêu nhánh thi lại ở `DEV_07`).
+  - Hệ thống chưa hỗ trợ Multi-turn / Session State (`DEV_09` được xếp loại Single-turn).
+- **Kế hoạch tiếp theo (Task 05):**
+  - Triển khai BM25 Sparse Search kết hợp Vector Dense Search bằng giải thuật Reciprocal Rank Fusion (RRF) để khắc phục triệt để Retrieval Miss của DEV_02 và DEV_08.
+  - So sánh thực nghiệm có số liệu trực tiếp giữa Baseline A (Dense) và Hybrid (BM25 + Dense).
+
+#### 6. GitHub
+
+- **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- **Commit triển khai:** Sẽ cập nhật sau lệnh git commit/push.
+- **Bảo mật:** Không commit `.env` hay API key lên kho lưu trữ.
+
+#### 7. Bàn giao cho Codex
+
+- **Báo cáo chuyên môn chính:** `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md`.
+- **Dữ liệu đánh giá đính kèm:** `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_LIVE_DEV10_R04.jsonl` và `DNC_RAG_LIVE_DEV10_R04.csv`.
+- **Điểm cần Codex tập trung kiểm tra:**
+  1. Kiểm tra 7 ca test mới trong `tests/test_api_and_rag.py` (khử rò rỉ path, SDK retry=1, non-retry 401/404/ValueError, transient 503 retry, substantive quote snippet, mock live flag).
+  2. Kiểm tra tính an toàn của `backend/errors.py` và `backend/gemini_client.py`.
+  3. Đối chiếu rubric chấm trung thực 10 ca tại `BAO_CAO_CHOT_BASELINE_QD580_R04.md`.
 - **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.

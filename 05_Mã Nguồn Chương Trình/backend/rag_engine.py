@@ -39,6 +39,7 @@ BỘ QUY TẮC BẮT BUỘC KHI TRẢ LỜI:
 1. TÍNH CHÍNH XÁC VÀ BÁM NGUỒN (GROUNDEDNESS):
    - Chỉ được đưa ra các kết luận, điều kiện, mức điểm, thời hạn, quyền và nghĩa vụ dựa trên các đoạn trích nguồn [SRC-x] được cung cấp dưới đây.
    - Giữ nguyên các con số, ngưỡng điểm, tỷ lệ, điều kiện ràng buộc và ngoại lệ đúng như văn bản gốc.
+   - Trả lời đầy đủ, toàn diện các khía cạnh của quy định: bao gồm các điều kiện tiên quyết, ngoại lệ/trường hợp đặc biệt, các nhánh lựa chọn (nếu quy chế nêu nhiều phương án giải quyết), và quy tắc làm tròn số thập phân (nếu điều khoản có đề cập). Tuyệt đối không chỉ khẳng định một chiều mà bỏ sót các điều kiện hay nhánh xử lý liên quan.
    - Tuyệt đối không suy đoán, không sáng tác thêm các quy định không có trong ngữ cảnh.
 
 2. XỬ LÝ TRƯỜNG HỢP THIẾU DỮ KIỆN HOẶC NGOÀI PHẠM VI:
@@ -290,13 +291,26 @@ class RAGEngine:
                 src_obj = valid_source_map[c_clean]
 
                 # Trích xuất đoạn văn từ source_spans để bảo đảm tính truy nguyên PDF nguyên bản
-                primary_span = None
+                # Ưu tiên span nội dung chính thực chất (bỏ qua header bảng lặp lại, overlap, và tiêu đề ngắn)
+                substantive_spans = []
                 for sp in src_obj.source_spans:
-                    # Ưu tiên span nội dung chính (không phải header bảng lặp lại và không phải overlap)
                     if not sp.get("is_added_context") and not sp.get("is_overlap"):
-                        primary_span = sp
-                        break
-                if primary_span is None and src_obj.source_spans:
+                        cs = sp.get("chunk_start_char", 0)
+                        ce = sp.get("chunk_end_char", len(src_obj.content))
+                        stext = src_obj.content[cs:ce].strip()
+                        substantive_spans.append((sp, len(stext), stext))
+
+                primary_span = None
+                if substantive_spans:
+                    # Ưu tiên span có nội dung thực chất dài hơn (tránh chọn trúng tiêu đề điều khoản ngắn)
+                    for sp, slen, stext in substantive_spans:
+                        if slen > 50 and not stext.startswith("Điều ") and not stext.startswith("Chương "):
+                            primary_span = sp
+                            break
+                    if primary_span is None:
+                        substantive_spans.sort(key=lambda x: x[1], reverse=True)
+                        primary_span = substantive_spans[0][0]
+                elif src_obj.source_spans:
                     primary_span = src_obj.source_spans[0]
 
                 if primary_span is not None:
@@ -340,6 +354,6 @@ class RAGEngine:
             sources_considered=len(source_contexts),
             sources_cited=len(verified_citations),
             timings=timings,
-            is_live_llm=self.llm_client.is_live,
+            is_live_llm=self.llm_client.is_using_live_api,
             model_name=self.llm_client.model,
         )

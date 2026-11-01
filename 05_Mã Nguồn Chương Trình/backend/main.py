@@ -96,13 +96,33 @@ app.add_middleware(
 @app.exception_handler(DNCError)
 async def dnc_exception_handler(request: Request, exc: DNCError):
     req_id = str(uuid.uuid4())
-    logger.warning("DNCError [%s]: %s (Mã HTTP: %d)", exc.code, exc.message, exc.status_code)
+    logger.warning(
+        "DNCError [%s]: %s (Mã HTTP: %d)",
+        exc.code,
+        getattr(exc, "internal_detail", None) or exc.public_message,
+        exc.status_code,
+    )
     return JSONResponse(
         status_code=exc.status_code,
         content={
             "request_id": req_id,
             "error_code": exc.code,
-            "detail": exc.message,
+            "detail": exc.public_message,
+        },
+    )
+
+
+# Exception handler bắt lỗi chưa được xử lý, che giấu tuyệt đối stack trace và đường dẫn
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    req_id = str(uuid.uuid4())
+    logger.error("Unhandled Exception [req=%s]: %s", req_id, exc, exc_info=True)
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={
+            "request_id": req_id,
+            "error_code": "INTERNAL_SERVER_ERROR",
+            "detail": "Đã xảy ra lỗi nội bộ trong quá trình xử lý yêu cầu.",
         },
     )
 
@@ -193,14 +213,16 @@ def health_check():
             llm_model=rag_engine_instance.llm_client.model,
         )
     except KnowledgeBaseNotReadyError as knr:
+        logger.warning("Health check failed preflight: %s", getattr(knr, "internal_detail", None) or knr.public_message)
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Kho tri thức chưa sẵn sàng: {knr.message}"
+            detail=knr.public_message,
         )
     except Exception as exc:
+        logger.error("Health check unexpected error: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Lỗi kiểm tra tính sẵn sàng hệ thống: {type(exc).__name__}"
+            detail="Kho tri thức quy chế chưa sẵn sàng phục vụ.",
         )
 
 

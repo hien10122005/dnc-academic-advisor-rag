@@ -4,8 +4,9 @@ backend.gemini_client
 Lớp client kết nối Gemini API (Google GenAI SDK) hỗ trợ cả chế độ Live và Offline Stub/Mock.
 - Sử dụng SDK chính thức mới nhất: `google-genai` (google.genai.Client).
 - Cấu hình an toàn qua biến môi trường: GEMINI_API_KEY, GEMINI_MODEL.
-- Thiết lập chặt chẽ: timeout thật tại tầng HTTP SDK (HttpOptions), retry chọn lọc cho lỗi tạm thời,
-  bảo vệ bí mật và phân định rạch ròi giữa test Mock và Live.
+- Thiết lập chặt chẽ: timeout thật tại tầng HTTP SDK (HttpOptions), tắt retry ngầm của SDK (attempts=1)
+  để kiểm soát tập trung tại vòng retry bên ngoài, retry chọn lọc duy nhất cho lỗi tạm thời (transient).
+- Phân định rạch ròi giữa test Mock và Live; bảo vệ thông tin bí mật.
 """
 
 from __future__ import annotations
@@ -13,7 +14,9 @@ import json
 import logging
 import os
 import time
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, Optional, Tuple
+
+import httpx
 
 from backend.config import (
     ALLOW_OFFLINE_MOCK,
@@ -32,6 +35,70 @@ from backend.errors import (
 )
 
 logger = logging.getLogger("dnc_rag.gemini_client")
+
+
+def classify_exception(exc: Exception) -> Tuple[bool, str, Optional[int]]:
+    """
+    Phân loại chính xác ngoại lệ có phải là lỗi tạm thời (transient) cần thử lại hay không.
+    Trả về: (is_transient: bool, category: str, http_code: Optional[int])
+
+    Quy tắc:
+    - KHÔNG retry:
+      1. Lỗi lập trình: ValueError, TypeError, KeyError, AttributeError, IndexError.
+      2. Lỗi cấu trúc/schema: json.JSONDecodeError, RAGSchemaError, ConfigurationError.
+      3. Lỗi máy khách (HTTP 4xx ngoại trừ 408 và 429): 400, 401, 403, 404.
+    - CHỈ retry khi là lỗi tạm thời (transient):
+      1. Timeout: httpx.TimeoutException, TimeoutError, mã 408, 504, DEADLINE_EXCEEDED.
+      2. Hạn mức / Giới hạn tần suất: HTTP 429 (RESOURCE_EXHAUSTED).
+      3. Lỗi máy chủ hoặc mạng tạm thời: HTTP 500, 502, 503, httpx.NetworkError, ConnectError.
+    """
+    # 1. Các lỗi lập trình hoặc schema: tuyệt đối không retry
+    if isinstance(exc, (ValueError, TypeError, KeyError, AttributeError, IndexError, json.JSONDecodeError, RAGSchemaError)):
+        return False, "programming", None
+
+    # 2. Trích xuất mã HTTP trạng thái nếu có
+    code: Optional[int] = None
+    if hasattr(exc, "code") and isinstance(exc.code, int):
+        code = exc.code
+    elif hasattr(exc, "status_code") and isinstance(exc.status_code, int):
+        code = exc.status_code
+    elif hasattr(exc, "response") and hasattr(exc.response, "status_code"):
+        code = exc.response.status_code
+
+    err_str = str(exc)
+    exc_name = type(exc).__name__
+
+    # 3. Lỗi máy khách 4xx cố định (400, 401, 403, 404)
+    if code in (400, 401, 403, 404) or any(
+        s in err_str for s in ("400", "401", "403", "404", "INVALID_ARGUMENT", "PERMISSION_DENIED", "NOT_FOUND", "UNAUTHENTICATED")
+    ):
+        return False, "client_error", code
+
+    # 4. Lỗi Timeout
+    if (
+        isinstance(exc, (httpx.TimeoutException, TimeoutError))
+        or code in (408, 504)
+        or "DEADLINE_EXCEEDED" in err_str
+        or "timed out" in err_str.lower()
+        or "APITimeoutError" in exc_name
+    ):
+        return True, "timeout", code or 504
+
+    # 5. Lỗi Hạn mức / Tần suất (429)
+    if code == 429 or "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
+        return True, "quota", 429
+
+    # 6. Lỗi máy chủ hoặc kết nối mạng tạm thời
+    if (
+        code in (500, 502, 503)
+        or isinstance(exc, (httpx.NetworkError, httpx.ConnectError, ConnectionResetError, BrokenPipeError))
+        or "UNAVAILABLE" in err_str
+        or "INTERNAL" in err_str
+    ):
+        return True, "server", code or 502
+
+    # Các ngoại lệ không xác định khác: không retry để tránh vòng lặp vô hạn
+    return False, "unknown", code
 
 
 class GeminiClient:
@@ -62,8 +129,12 @@ class GeminiClient:
                 from google import genai
                 from google.genai import types
 
-                # Gắn timeout trực tiếp vào cấu hình HTTP transport của SDK Client (miligiây)
-                http_options = types.HttpOptions(timeout=int(self.timeout * 1000))
+                # Gắn timeout và tắt retry nội bộ của SDK (attempts=1) để vòng retry bên ngoài
+                # kiểm soát hoàn toàn số lần gọi và thời gian chờ
+                http_options = types.HttpOptions(
+                    timeout=int(self.timeout * 1000),
+                    retry_options=types.HttpRetryOptions(attempts=1),
+                )
                 self._genai_client = genai.Client(api_key=self.api_key, http_options=http_options)
             except Exception as e:
                 logger.warning("Không thể khởi tạo Google GenAI Client: %s", type(e).__name__)
@@ -73,6 +144,11 @@ class GeminiClient:
     def is_live(self) -> bool:
         """Kiểm tra client có đang hoạt động với API Key thật hay không."""
         return self._genai_client is not None and bool(self.api_key)
+
+    @property
+    def is_using_live_api(self) -> bool:
+        """Kiểm tra xem client có đang thực sự gọi Live API hay không (không bị tiêm mock handler)."""
+        return self.is_live and self._mock_handler is None
 
     def set_mock_handler(self, handler: Optional[Callable[[str, Optional[str]], Dict[str, Any]]]):
         """Cung cấp handler giả lập phản hồi cho mục đích kiểm thử tự động."""
@@ -86,7 +162,11 @@ class GeminiClient:
     ) -> Dict[str, Any]:
         """
         Gửi yêu cầu sinh nội dung có cấu trúc JSON tới Gemini API.
-        Hỗ trợ retry hữu hạn cho lỗi mạng tạm thời và chặn đứng lỗi cố định (4xx, schema error).
+        - Giới hạn thời gian mỗi lần thử: timeout giây.
+        - Tổng số lần thử tối đa: max_retries + 1 (mặc định 3 lần thử).
+        - Thời gian chờ xấu nhất (worst-case timeout): (max_retries + 1) * timeout + tổng backoffs.
+        - Chỉ retry duy nhất các lỗi tạm thời (Timeout, 429, 5xx, NetworkError).
+        - Tuyệt đối không retry lỗi lập trình (ValueError, TypeError), cấu trúc JSON hoặc 4xx cố định.
         """
         # 1. Nếu có mock_handler được tiêm vào rõ ràng -> Ưu tiên thực thi handler kiểm thử
         if self._mock_handler is not None:
@@ -102,7 +182,6 @@ class GeminiClient:
 
         # 3. Chế độ Live: Gọi Google GenAI SDK thật
         from google.genai import types
-        import httpx
 
         timeout_ms = int(self.timeout * 1000)
         config = types.GenerateContentConfig(
@@ -110,11 +189,14 @@ class GeminiClient:
             max_output_tokens=max_output_tokens,
             response_mime_type="application/json",
             system_instruction=system_instruction if system_instruction else None,
-            http_options=types.HttpOptions(timeout=timeout_ms),
+            http_options=types.HttpOptions(
+                timeout=timeout_ms,
+                retry_options=types.HttpRetryOptions(attempts=1),
+            ),
         )
 
         last_exc: Optional[Exception] = None
-        is_timeout_err = False
+        last_category: str = "unknown"
 
         for attempt in range(self.max_retries + 1):
             try:
@@ -130,7 +212,7 @@ class GeminiClient:
                 try:
                     parsed_json = json.loads(text_response.strip())
                 except json.JSONDecodeError as jde:
-                    # Lỗi định dạng JSON từ mô hình không phải lỗi mạng tạm thời -> Không retry vô ích
+                    # Lỗi định dạng JSON từ mô hình là lỗi nội dung, không phải lỗi mạng -> Không retry
                     raise RAGSchemaError(f"Phản hồi từ LLM không đúng định dạng JSON: {jde}") from jde
 
                 if not isinstance(parsed_json, dict):
@@ -139,59 +221,75 @@ class GeminiClient:
                 return parsed_json
 
             except RAGSchemaError:
-                # Lỗi schema cấu trúc không retry
+                # Lỗi cấu trúc phản hồi: không retry
                 raise
 
             except Exception as exc:
                 last_exc = exc
-                err_str = str(exc)
-                exc_type_name = type(exc).__name__
+                is_transient, category, code = classify_exception(exc)
+                last_category = category
 
-                # Kiểm tra lỗi timeout
-                if (
-                    isinstance(exc, (httpx.TimeoutException, TimeoutError))
-                    or "DEADLINE_EXCEEDED" in err_str
-                    or "timed out" in err_str.lower()
-                    or "APITimeoutError" in exc_type_name
-                ):
-                    is_timeout_err = True
-                    logger.warning("Gemini API timeout tại lần thử %d/%d", attempt + 1, self.max_retries + 1)
+                # Nếu KHÔNG phải lỗi tạm thời: lập tức dừng và ném lỗi phù hợp
+                if not is_transient:
+                    if category == "programming":
+                        logger.error("Lỗi lập trình phát sinh khi gọi LLM: %s", exc)
+                        raise
+                    if category == "client_error":
+                        logger.error("Gemini API trả về lỗi cố định không thể thử lại (code=%s): %s", code, type(exc).__name__)
+                        raise LLMUpstreamError(
+                            message="Yêu cầu tới Gemini API bị từ chối với lỗi máy khách.",
+                            internal_detail=str(exc),
+                        ) from exc
+                    logger.error("Lỗi không thể phục hồi khi gọi Gemini API (%s): %s", category, exc)
+                    raise LLMUpstreamError(
+                        message="Giao tiếp Gemini API thất bại với lỗi không xác định.",
+                        internal_detail=str(exc),
+                    ) from exc
 
-                # Kiểm tra lỗi Quota / Rate limit (429)
-                elif "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
-                    logger.warning("Gemini API đạt ngưỡng giới hạn tần suất (429) tại lần thử %d/%d", attempt + 1, self.max_retries + 1)
-                    if attempt >= self.max_retries:
-                        raise LLMQuotaExceededError("Hạn mức truy vấn Gemini API đã bị vượt quá (Rate limit / Quota exceeded).") from exc
-                    # Với 429, chờ lâu hơn (15s, 30s) để qua cửa sổ giới hạn tần suất của Google AI Studio
-                    backoff_429 = 15.0 * (attempt + 1)
-                    logger.info("Tạm dừng %.1fs trước khi thử lại sau lỗi 429...", backoff_429)
-                    time.sleep(backoff_429)
-                    continue
+                # Nếu là lỗi tạm thời nhưng đã hết số lần thử: thoát vòng lặp để raise
+                if attempt >= self.max_retries:
+                    logger.warning(
+                        "Hết số lượt thử lại (%d/%d) với lỗi tạm thời [%s]: %s",
+                        attempt + 1, self.max_retries + 1, category, exc
+                    )
+                    break
 
-                # Kiểm tra lỗi Client không thể retry (400, 401, 403, 404)
-                elif any(code in err_str for code in ("400", "401", "403", "404", "NOT_FOUND", "INVALID_ARGUMENT", "UNAUTHENTICATED", "PERMISSION_DENIED")):
-                    logger.error("Gemini API trả về lỗi cố định không thể thử lại: %s", exc_type_name)
-                    raise LLMUpstreamError(f"Yêu cầu tới Gemini API bị từ chối với lỗi máy khách ({exc_type_name}).") from exc
-
+                # Tính toán thời gian backoff dựa trên loại lỗi
+                if category == "quota":
+                    backoff = 15.0 * (attempt + 1)
+                    logger.warning("Đạt ngưỡng giới hạn tần suất (429), chờ %.1fs trước lần thử %d...", backoff, attempt + 2)
+                elif category == "timeout":
+                    backoff = 2.0 * (attempt + 1)
+                    logger.warning("Gemini API timeout tại lần thử %d/%d, chờ %.1fs...", attempt + 1, self.max_retries + 1, backoff)
                 else:
-                    logger.warning("Lỗi tạm thời khi gọi Gemini API (thử lại %d/%d): %s", attempt + 1, self.max_retries + 1, exc_type_name)
+                    backoff = 1.0 * (attempt + 1)
+                    logger.warning("Lỗi máy chủ/mạng tạm thời (thử lại %d/%d), chờ %.1fs...", attempt + 1, self.max_retries + 1, backoff)
 
-                # Nếu chưa hết số lần thử, chờ với backoff luỹ tiến
-                if attempt < self.max_retries:
-                    time.sleep(1.0 * (attempt + 1))
+                time.sleep(backoff)
 
-        # Nếu đã thử hết các lượt retry
-        if is_timeout_err:
+        # Phân loại chính xác lỗi cuối cùng phát sinh trên lần thử cuối
+        if last_category == "timeout":
             raise LLMTimeoutError(
-                f"Yêu cầu tới Gemini API vượt quá thời gian chờ ({self.timeout}s) sau {self.max_retries + 1} lần thử."
+                message="Yêu cầu tới dịch vụ Gemini API đã vượt quá thời gian chờ (timeout).",
+                internal_detail=f"Gemini API timed out after {self.max_retries + 1} attempts (timeout={self.timeout}s): {last_exc}",
+            ) from last_exc
+
+        if last_category == "quota":
+            raise LLMQuotaExceededError(
+                message="Hạn mức truy vấn Gemini API đã bị vượt quá hoặc bị giới hạn tần suất.",
+                internal_detail=f"Gemini API quota exceeded after {self.max_retries + 1} attempts: {last_exc}",
             ) from last_exc
 
         raise LLMUpstreamError(
-            f"Giao tiếp Gemini API thất bại sau {self.max_retries + 1} lần thử ({type(last_exc).__name__})."
+            message="Dịch vụ mô hình ngôn ngữ lớn (Gemini API) gặp sự cố kết nối.",
+            internal_detail=f"Gemini API communication failed after {self.max_retries + 1} attempts ({type(last_exc).__name__}): {last_exc}",
         ) from last_exc
 
     def smoke_test(self) -> Dict[str, Any]:
-        """Kiểm tra nhanh kết nối tới Gemini API (không để lộ bí mật/API key)."""
+        """
+        Kiểm tra nhanh kết nối tới Gemini API (không để lộ bí mật/API key).
+        Bắt buộc phản hồi phải là JSON hợp lệ chứa đúng {'ping': 'pong'}.
+        """
         if not self.is_live:
             return {
                 "live": False,
@@ -213,12 +311,30 @@ class GeminiClient:
                         response_mime_type="application/json",
                         max_output_tokens=30,
                         temperature=0.0,
-                        http_options=types.HttpOptions(timeout=timeout_ms),
-                    )
+                        http_options=types.HttpOptions(
+                            timeout=timeout_ms,
+                            retry_options=types.HttpRetryOptions(attempts=1),
+                        ),
+                    ),
                 )
                 elapsed = time.time() - start_time
                 parsed_text = response.text.strip() if response.text else "{}"
-                parsed_json = json.loads(parsed_text)
+
+                try:
+                    parsed_json = json.loads(parsed_text)
+                except Exception:
+                    parsed_json = {}
+
+                # Kiểm tra chặt chẽ: phải là dict và chứa đúng ping=pong
+                if not isinstance(parsed_json, dict) or parsed_json.get("ping") != "pong":
+                    return {
+                        "live": False,
+                        "status": "CONNECTION_FAILED",
+                        "model": self.model,
+                        "latency_ms": round(elapsed * 1000, 2),
+                        "error": "Phản hồi smoke test không đúng định dạng xác thực {'ping': 'pong'}.",
+                    }
+
                 return {
                     "live": True,
                     "status": "CONNECTED",
@@ -226,12 +342,15 @@ class GeminiClient:
                     "latency_ms": round(elapsed * 1000, 2),
                     "response": parsed_json,
                 }
+
             except Exception as exc:
-                err_str = str(exc)
-                if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str) and attempt < self.max_retries:
-                    logger.warning("Smoke test gặp giới hạn tần suất (429), chờ 15s...")
-                    time.sleep(15.0)
+                is_transient, category, _ = classify_exception(exc)
+                if is_transient and attempt < self.max_retries:
+                    backoff = 15.0 if category == "quota" else 2.0
+                    logger.warning("Smoke test gặp lỗi tạm thời [%s], chờ %.1fs...", category, backoff)
+                    time.sleep(backoff)
                     continue
+
                 elapsed = time.time() - start_time
                 return {
                     "live": False,
@@ -240,6 +359,15 @@ class GeminiClient:
                     "latency_ms": round(elapsed * 1000, 2),
                     "error": type(exc).__name__,
                 }
+
+        elapsed = time.time() - start_time
+        return {
+            "live": False,
+            "status": "CONNECTION_FAILED",
+            "model": self.model,
+            "latency_ms": round(elapsed * 1000, 2),
+            "error": "Exhausted smoke test retries",
+        }
 
     def _default_offline_mock(self, prompt: str) -> Dict[str, Any]:
         """Phương thức Mock ngoại tuyến mặc định phục vụ kiểm thử."""

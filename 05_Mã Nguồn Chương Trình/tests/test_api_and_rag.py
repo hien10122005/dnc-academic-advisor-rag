@@ -32,12 +32,13 @@ from backend.errors import (
     ConfigurationError,
     DNCError,
     KnowledgeBaseNotReadyError,
+    LLMQuotaExceededError,
     LLMTimeoutError,
     LLMUpstreamError,
     RAGSchemaError,
     ValidationError,
 )
-from backend.gemini_client import GeminiClient
+from backend.gemini_client import GeminiClient, classify_exception
 from backend.main import app, rag_engine_instance
 from backend.rag_engine import CitationItem, RAGEngine, SourceContext
 
@@ -140,6 +141,36 @@ class TestFastAPIEndpoints(unittest.TestCase):
             self.assertEqual(response.status_code, 503)
         finally:
             backend.main.rag_engine_instance = original_instance
+
+    def test_health_and_chat_sanitizes_internal_path_on_error(self):
+        """GET /health và POST /chat không được làm lộ đường dẫn nội bộ khi xảy ra lỗi preflight."""
+        import backend.main
+        original_engine = backend.main.rag_engine_instance
+        try:
+            fake_engine = MagicMock()
+            fake_engine.retriever.check_readiness.side_effect = KnowledgeBaseNotReadyError(
+                "Không tìm thấy manifest tại E:\\private\\secret-location\\manifest.json"
+            )
+            fake_engine.answer_question.side_effect = KnowledgeBaseNotReadyError(
+                "Không tìm thấy manifest tại E:\\private\\secret-location\\manifest.json"
+            )
+            backend.main.rag_engine_instance = fake_engine
+
+            # 1. Kiểm tra /health
+            h_resp = self.client.get("/health")
+            self.assertEqual(h_resp.status_code, 503)
+            h_body = h_resp.text
+            self.assertNotIn("secret-location", h_body)
+            self.assertNotIn("E:\\", h_body)
+
+            # 2. Kiểm tra /chat
+            c_resp = self.client.post("/chat", json={"question": "Kiểm tra rò rỉ đường dẫn?"})
+            self.assertEqual(c_resp.status_code, 503)
+            c_body = c_resp.text
+            self.assertNotIn("secret-location", c_body)
+            self.assertNotIn("E:\\", c_body)
+        finally:
+            backend.main.rag_engine_instance = original_engine
 
 
 class TestRAGEngineLogic(unittest.TestCase):
@@ -334,6 +365,70 @@ class TestRAGEngineLogic(unittest.TestCase):
         self.assertEqual(cit.source_id, "SRC-2")
         self.assertIsNone(cit.printed_page)
 
+    def test_substantive_quote_snippet_selection(self):
+        """Khi chunk có nhiều span, ưu tiên span nội dung chính thay vì span tiêu đề ngắn."""
+        self.mock_retriever.retrieve.return_value = [
+            {
+                "chunk_id": "chunk_multi_span",
+                "document_id": "QD580_DHNCT_2024",
+                "doc_part": "regulation",
+                "chapter": "Chương III",
+                "article": "Điều 17. Đánh giá và tính điểm học phần",
+                "article_number": 17,
+                "start_page_pdf": 15,
+                "end_page_pdf": 15,
+                "start_page_printed": 14,
+                "end_page_printed": 14,
+                "is_table": False,
+                "context_prefix": "[QĐ 580 - Điều 17]",
+                "content": "Điều 17. Đánh giá và tính điểm học phần\n1. Điểm đánh giá học phần là tổng của các điểm đánh giá bộ phận nhân với trọng số tương ứng.",
+                "embedding_text": "...",
+                "similarity": 0.88,
+                "source_spans": [
+                    {
+                        "pdf_page": 15,
+                        "printed_page": 14,
+                        "chunk_start_char": 0,
+                        "chunk_end_char": 39,
+                        "is_added_context": False,
+                        "is_overlap": False,
+                    },
+                    {
+                        "pdf_page": 15,
+                        "printed_page": 14,
+                        "chunk_start_char": 40,
+                        "chunk_end_char": 148,
+                        "is_added_context": False,
+                        "is_overlap": False,
+                    },
+                ],
+            }
+        ]
+        self.mock_llm_client.generate_json.return_value = {
+            "status": "answered",
+            "answer": "Điểm học phần tính bằng tổng các điểm thành phần.",
+            "cited_source_ids": ["SRC-1"],
+        }
+        resp = self.engine.answer_question("Cách tính điểm học phần?")
+        self.assertEqual(resp.status, "answered")
+        self.assertEqual(len(resp.citations), 1)
+        cit = resp.citations[0]
+        # Snippet phải chọn span 1 (nội dung thực chất), không chọn span 0 (tiêu đề ngắn)
+        self.assertTrue(cit.quote_snippet.startswith("1. Điểm đánh giá học phần"))
+
+    def test_is_using_live_api_reports_false_when_mock_handler_set(self):
+        """Khi mock handler được tiêm vào GeminiClient có api_key, is_using_live_api phải trả về False."""
+        real_client = GeminiClient(api_key="fake-dummy-key", allow_offline_mock=False)
+        self.assertTrue(real_client.is_live)
+        self.assertTrue(real_client.is_using_live_api)
+
+        real_client.set_mock_handler(lambda p, s: {"status": "answered", "answer": "mock", "cited_source_ids": []})
+        self.assertFalse(real_client.is_using_live_api)
+
+        engine = RAGEngine(retriever=self.mock_retriever, llm_client=real_client)
+        resp = engine.answer_question("Câu hỏi?")
+        self.assertFalse(resp.is_live_llm)
+
 
 class TestGeminiClientConfigurationAndErrors(unittest.TestCase):
     """Kiểm thử cấu hình, timeout và xử lý lỗi của GeminiClient."""
@@ -360,6 +455,105 @@ class TestGeminiClientConfigurationAndErrors(unittest.TestCase):
         st = client.smoke_test()
         self.assertFalse(st["live"])
         self.assertEqual(st["status"], "OFFLINE_NO_API_KEY")
+
+    def test_classify_exception_logic(self):
+        """classify_exception phân loại chuẩn xác programming error, client error, timeout, quota và server error."""
+        # 1. Programming errors (không retry)
+        retry, cat, code = classify_exception(ValueError("Invalid syntax"))
+        self.assertFalse(retry)
+        self.assertEqual(cat, "programming")
+        self.assertIsNone(code)
+
+        retry, cat, code = classify_exception(TypeError("Bad type"))
+        self.assertFalse(retry)
+        self.assertEqual(cat, "programming")
+
+        # 2. Client errors 4xx (không retry)
+        class MockHttpError(Exception):
+            def __init__(self, status_code, message):
+                self.status_code = status_code
+                super().__init__(message)
+
+        retry, cat, code = classify_exception(MockHttpError(400, "Bad Request"))
+        self.assertFalse(retry)
+        self.assertEqual(cat, "client_error")
+        self.assertEqual(code, 400)
+
+        retry, cat, code = classify_exception(MockHttpError(401, "API Key invalid"))
+        self.assertFalse(retry)
+        self.assertEqual(cat, "client_error")
+        self.assertEqual(code, 401)
+
+        retry, cat, code = classify_exception(MockHttpError(404, "Model not found"))
+        self.assertFalse(retry)
+        self.assertEqual(cat, "client_error")
+        self.assertEqual(code, 404)
+
+        # 3. Timeout (transient - có retry)
+        retry, cat, code = classify_exception(MockHttpError(408, "Request Timeout"))
+        self.assertTrue(retry)
+        self.assertEqual(cat, "timeout")
+
+        # 4. Quota (transient - có retry, status 429)
+        retry, cat, code = classify_exception(MockHttpError(429, "Resource exhausted"))
+        self.assertTrue(retry)
+        self.assertEqual(cat, "quota")
+        self.assertEqual(code, 429)
+
+        # 5. Server error (transient - có retry)
+        retry, cat, code = classify_exception(MockHttpError(503, "Service Unavailable"))
+        self.assertTrue(retry)
+        self.assertEqual(cat, "server")
+        self.assertEqual(code, 503)
+
+    @patch("time.sleep")
+    def test_generate_json_does_not_retry_on_programming_error(self, mock_sleep):
+        """Khi SDK ném ValueError lập trình, generate_json chỉ gọi SDK 1 lần duy nhất và ném lỗi ValueError."""
+        client = GeminiClient(api_key="fake-key", allow_offline_mock=False, max_retries=2)
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = ValueError("Programmer bug in params")
+        client._genai_client = mock_client
+
+        with self.assertRaises(ValueError):
+            client.generate_json("Prompt")
+
+        self.assertEqual(mock_client.models.generate_content.call_count, 1)
+        mock_sleep.assert_not_called()
+
+    @patch("time.sleep")
+    def test_generate_json_does_not_retry_on_client_error(self, mock_sleep):
+        """Khi SDK ném 401 Unauthorized hoặc 404 Not Found, generate_json chỉ gọi SDK 1 lần và ném LLMUpstreamError."""
+        class Mock401(Exception):
+            status_code = 401
+
+        client = GeminiClient(api_key="fake-key", allow_offline_mock=False, max_retries=2)
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = Mock401("Unauthorized key")
+        client._genai_client = mock_client
+
+        with self.assertRaises(LLMUpstreamError):
+            client.generate_json("Prompt")
+
+        self.assertEqual(mock_client.models.generate_content.call_count, 1)
+        mock_sleep.assert_not_called()
+
+    @patch("time.sleep")
+    def test_generate_json_retries_transient_error_up_to_max_retries(self, mock_sleep):
+        """Khi SDK ném 503 Server Error, generate_json retry max_retries lần (tổng 3 lượt) và ném LLMUpstreamError."""
+        class Mock503(Exception):
+            status_code = 503
+
+        client = GeminiClient(api_key="fake-key", allow_offline_mock=False, max_retries=2)
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = Mock503("Transient backend error")
+        client._genai_client = mock_client
+
+        with self.assertRaises(LLMUpstreamError):
+            client.generate_json("Prompt")
+
+        # 1 lần gọi ban đầu + 2 lần retry = 3 lần gọi
+        self.assertEqual(mock_client.models.generate_content.call_count, 3)
+        self.assertEqual(mock_sleep.call_count, 2)
 
 
 if __name__ == "__main__":

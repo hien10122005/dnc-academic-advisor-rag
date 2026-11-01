@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 """
 backend.rag_engine
-RAG Engine cốt lõi cho hệ thống Trợ lý học vụ DNC (QĐ 580/QĐ-ĐHNCT).
+RAG Engine cốt lõi cho hệ thống Trợ lý học vụ DNC (QĐ 580/QĐ-ĐHNCT ngày 02/08/2024).
 Luồng xử lý nghiêm ngặt:
-1. Xác thực tiền kiểm tra (Preflight Readiness).
-2. Truy xuất Top-K từ VectorRetriever.
-3. Đóng gói ngữ cảnh và gán mã định danh nguồn độc lập [SRC-1, SRC-2,...].
-4. Xây dựng System Prompt học thuật chuẩn mực (khách quan, bám sát văn bản quy chế).
+1. Xác thực đầu vào (Validation): kiểm tra câu hỏi rỗng/quá dài (<= 1000 ký tự).
+2. Tiền kiểm tra kho tri thức (Preflight Readiness) & Truy xuất Top-K từ VectorRetriever.
+3. Đóng gói ngữ cảnh thuần túy (tách rời context_prefix) và gán mã định danh nguồn độc lập [SRC-1, SRC-2,...].
+4. Xây dựng System Prompt học thuật chuẩn mực (khách quan, bám sát văn bản quy chế QĐ 580).
 5. Gọi LLM sinh câu trả lời có cấu trúc JSON.
-6. Xác minh trích dẫn (Citation Verification) độc lập ở tầng backend, loại bỏ ID ảo.
+6. Xác minh trích dẫn (Citation Verification) độc lập ở backend:
+   - BỎ HOÀN TOÀN việc tự gắn nguồn dựa trên similarity khi thiếu trích dẫn.
+   - Kiểm tra schema nghiêm ngặt: không tự đổi status sai/answer rỗng thành 'answered'.
+   - Nếu phát hiện ID bịa (hallucination), hạ trạng thái an toàn 'insufficient_evidence'.
+   - Dựng trích đoạn (quote_snippet) chuẩn xác từ source_spans và nội dung gốc (không dính context prefix).
+   - Trang in (printed_page) được quản lý dạng nullable (None khi không xác định).
 7. Đóng gói kết quả với thời gian đo lường chi tiết.
 """
 
@@ -21,6 +26,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Dict, List, Optional, Set
 
 from backend.config import COLLECTION_NAME
+from backend.errors import RAGSchemaError, ValidationError
 from backend.gemini_client import GeminiClient
 from backend.retrieval import VectorRetriever
 
@@ -48,6 +54,7 @@ BỘ QUY TẮC BẮT BUỘC KHI TRẢ LỜI:
      "cited_source_ids": ["SRC-1", "SRC-2"]
    }
    - "cited_source_ids": Danh sách các mã nguồn [SRC-x] bạn thực sự sử dụng để đưa ra câu trả lời. Nếu không dùng nguồn nào, để mảng rỗng [].
+   - Khi chọn "status": "answered", BẮT BUỘC phải trích dẫn ít nhất một mã nguồn [SRC-x] hợp lệ từ danh sách được cấp.
 """
 
 
@@ -63,10 +70,12 @@ class SourceContext:
     article_number: int
     start_page_pdf: int
     end_page_pdf: int
-    start_page_printed: int
-    end_page_printed: int
+    start_page_printed: Optional[int]
+    end_page_printed: Optional[int]
     is_table: bool
-    text: str
+    context_prefix: str
+    content: str
+    embedding_text: str
     similarity: float
     source_spans: List[Dict[str, Any]] = field(default_factory=list)
 
@@ -75,12 +84,14 @@ class SourceContext:
 class CitationItem:
     """Thông tin trích dẫn nguồn được backend xác thực và xây dựng."""
     source_id: str
+    chunk_id: str
     document_id: str
     article: str
     pdf_page: int
-    printed_page: int
+    printed_page: Optional[int]
     quote_snippet: str
     similarity: float
+    spans: List[Dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -130,9 +141,9 @@ class RAGEngine:
         # 1. Kiểm tra tính hợp lệ của câu hỏi đầu vào
         clean_question = question.strip() if question else ""
         if not clean_question:
-            raise ValueError("Câu hỏi không được để trống hoặc chỉ chứa khoảng trắng.")
+            raise ValidationError("Câu hỏi không được để trống hoặc chỉ chứa khoảng trắng.")
         if len(clean_question) > 1000:
-            raise ValueError(f"Câu hỏi quá dài ({len(clean_question)} ký tự). Giới hạn tối đa là 1000 ký tự.")
+            raise ValidationError(f"Câu hỏi quá dài ({len(clean_question)} ký tự). Giới hạn tối đa là 1000 ký tự.")
 
         # 2. Tiền kiểm tra tính sẵn sàng của kho tri thức (Preflight) & Truy xuất Vector
         k = top_k if top_k is not None else self.top_k
@@ -149,7 +160,17 @@ class RAGEngine:
 
         for idx, item in enumerate(retrieved_raw, 1):
             src_id = f"SRC-{idx}"
-            meta = item.get("metadata", {})
+            pure_content = item.get("content", "")
+            ctx_prefix = item.get("context_prefix", "")
+
+            # Chuẩn hóa trang in dạng nullable
+            pr_start = item.get("start_page_printed")
+            if pr_start is not None and (int(pr_start) <= 0 or pr_start == -1):
+                pr_start = None
+            pr_end = item.get("end_page_printed")
+            if pr_end is not None and (int(pr_end) <= 0 or pr_end == -1):
+                pr_end = None
+
             src_ctx = SourceContext(
                 source_id=src_id,
                 chunk_id=item.get("chunk_id", ""),
@@ -160,24 +181,28 @@ class RAGEngine:
                 article_number=item.get("article_number", 0),
                 start_page_pdf=item.get("start_page_pdf", 1),
                 end_page_pdf=item.get("end_page_pdf", 1),
-                start_page_printed=item.get("start_page_printed", 1),
-                end_page_printed=item.get("end_page_printed", 1),
+                start_page_printed=pr_start,
+                end_page_printed=pr_end,
                 is_table=item.get("is_table", False),
-                text=item.get("content", ""),
+                context_prefix=ctx_prefix,
+                content=pure_content,
+                embedding_text=item.get("embedding_text", pure_content),
                 similarity=float(item.get("similarity", 0.0)),
                 source_spans=item.get("source_spans", []),
             )
             source_contexts.append(src_ctx)
             valid_source_map[src_id] = src_ctx
 
-        # 4. Xây dựng Prompt cho LLM
+        # 4. Xây dựng Prompt cho LLM: Sử dụng nội dung thuần túy, không để context_prefix gây nhiễu
         context_blocks = []
         for s in source_contexts:
-            block = (
-                f"[{s.source_id}] ({s.article} - Trang PDF {s.start_page_pdf}"
-                f"{f'-{s.end_page_pdf}' if s.start_page_pdf != s.end_page_pdf else ''}):\n"
-                f"{s.text}"
-            )
+            page_info = f"Trang PDF {s.start_page_pdf}"
+            if s.start_page_pdf != s.end_page_pdf:
+                page_info += f"-{s.end_page_pdf}"
+            if s.start_page_printed is not None:
+                page_info += f" (Trang in: {s.start_page_printed})"
+
+            block = f"[{s.source_id}] ({s.article} - {page_info}):\n{s.content}"
             context_blocks.append(block)
 
         joined_context = "\n\n---\n\n".join(context_blocks)
@@ -193,76 +218,124 @@ class RAGEngine:
         raw_llm_output = self.llm_client.generate_json(
             prompt=user_prompt,
             system_instruction=SYSTEM_PROMPT_TEMPLATE,
-            max_output_tokens=1024,
+            max_output_tokens=2048,
         )
         llm_time = time.time() - llm_start
         timings["llm_generation_ms"] = round(llm_time * 1000, 2)
 
         # 6. Kiểm định cấu trúc phản hồi và xác thực Citation từ Backend
-        res_status = raw_llm_output.get("status", "answered")
-        if res_status not in ("answered", "needs_clarification", "insufficient_evidence", "out_of_scope"):
-            res_status = "answered"
+        if not isinstance(raw_llm_output, dict):
+            raise RAGSchemaError("Phản hồi từ LLM không phải là một JSON object.")
 
-        answer_text = raw_llm_output.get("answer", "")
-        if not answer_text or not isinstance(answer_text, str):
-            answer_text = "Hệ thống đã ghi nhận thông tin nhưng chưa thể tạo câu trả lời hoàn chỉnh."
+        # Xác thực trạng thái nghiệp vụ bắt buộc
+        raw_status = raw_llm_output.get("status")
+        valid_statuses = ("answered", "needs_clarification", "insufficient_evidence", "out_of_scope")
+        if raw_status not in valid_statuses:
+            raise RAGSchemaError(
+                f"Trường 'status' không hợp lệ: '{raw_status}'. Yêu cầu một trong các giá trị: {valid_statuses}"
+            )
 
-        model_cited_ids = raw_llm_output.get("cited_source_ids", [])
-        if not isinstance(model_cited_ids, list):
-            model_cited_ids = []
+        answer_text = raw_llm_output.get("answer")
+        if not isinstance(answer_text, str) or not answer_text.strip():
+            raise RAGSchemaError("Trường 'answer' bị rỗng hoặc không phải kiểu chuỗi văn bản.")
 
-        # Backend Citation Verification: Lọc bỏ các ID do model tự bịa
-        verified_citations: List[CitationItem] = []
+        raw_cited_ids = raw_llm_output.get("cited_source_ids")
+        if not isinstance(raw_cited_ids, list):
+            raise RAGSchemaError("Trường 'cited_source_ids' không phải kiểu danh sách.")
+
+        # Phân loại Source IDs trích dẫn: nguồn hợp lệ vs nguồn bịa (hallucination)
         valid_cited_ids: Set[str] = set()
+        hallucinated_ids: List[str] = []
 
-        for c_id in model_cited_ids:
+        for c_id in raw_cited_ids:
             if isinstance(c_id, str):
-                c_clean = c_id.strip()
-                # Chuẩn hóa nếu model ghi SRC-1 hoặc [SRC-1]
-                c_clean = c_clean.strip("[]")
-                if c_clean in valid_source_map and c_clean not in valid_cited_ids:
+                c_clean = c_id.strip().strip("[]").upper()
+                if c_clean in valid_source_map:
                     valid_cited_ids.add(c_clean)
-                    src_obj = valid_source_map[c_clean]
-                    # Lấy trích đoạn đại diện ngắn (tối đa 120 ký tự)
-                    snippet = src_obj.text.strip().replace("\n", " ")
-                    if len(snippet) > 120:
-                        snippet = snippet[:117] + "..."
-                    cit = CitationItem(
-                        source_id=src_obj.source_id,
-                        document_id=src_obj.document_id,
-                        article=src_obj.article,
-                        pdf_page=src_obj.start_page_pdf,
-                        printed_page=src_obj.start_page_printed,
-                        quote_snippet=snippet,
-                        similarity=src_obj.similarity,
-                    )
-                    verified_citations.append(cit)
+                else:
+                    hallucinated_ids.append(str(c_id))
+            else:
+                hallucinated_ids.append(str(c_id))
 
-        # Nếu model tuyên bố 'answered' nhưng không trích dẫn nguồn hợp lệ nào
-        if res_status == "answered" and not verified_citations and source_contexts:
-            # Gán nguồn có độ tương đồng cao nhất nếu có căn cứ rõ ràng hoặc hạ về needs_clarification
-            top_src = source_contexts[0]
-            if top_src.similarity >= 0.40:
-                snippet = top_src.text.strip().replace("\n", " ")
-                if len(snippet) > 120:
-                    snippet = snippet[:117] + "..."
-                verified_citations.append(CitationItem(
-                    source_id=top_src.source_id,
-                    document_id=top_src.document_id,
-                    article=top_src.article,
-                    pdf_page=top_src.start_page_pdf,
-                    printed_page=top_src.start_page_printed,
+        # CHÍNH SÁCH KIỂM ĐỊNH NGUỒN VÀ BẢO ĐẢM TÍNH LIÊM CHÍNH (CITATION INTEGRITY POLICY):
+        final_status = raw_status
+        final_answer = answer_text
+        verified_citations: List[CitationItem] = []
+
+        # 6.1. Trường hợp có bất kỳ ID trích dẫn bịa nào (Hallucination)
+        if hallucinated_ids:
+            logger.warning(
+                "Phát hiện mô hình viện dẫn ID không có trong ngữ cảnh: %s. Hạ trạng thái an toàn.",
+                hallucinated_ids
+            )
+            final_status = "insufficient_evidence"
+            final_answer = (
+                f"Phản hồi bị từ chối do mô hình viện dẫn nguồn không có trong ngữ cảnh truy xuất ({', '.join(hallucinated_ids)}). "
+                "Quy chế đào tạo hiện tại chưa cung cấp đủ dữ liệu để chứng minh khẳng định này."
+            )
+            verified_citations = []
+
+        # 6.2. Trường hợp mô hình tự nhận 'answered' nhưng KHÔNG có trích dẫn hợp lệ nào
+        elif raw_status == "answered" and not valid_cited_ids:
+            logger.warning("Mô hình phản hồi 'answered' nhưng không có trích dẫn hợp lệ. Hạ trạng thái an toàn.")
+            final_status = "insufficient_evidence"
+            final_answer = (
+                "Câu trả lời bị hạ trạng thái do mô hình không trích dẫn được điều khoản quy chế cụ thể nào từ ngữ cảnh đã cấp."
+            )
+            verified_citations = []
+
+        # 6.3. Trường hợp hợp lệ: Xây dựng CitationItem chuẩn từ source_spans và nội dung gốc
+        else:
+            for c_clean in sorted(valid_cited_ids):
+                src_obj = valid_source_map[c_clean]
+
+                # Trích xuất đoạn văn từ source_spans để bảo đảm tính truy nguyên PDF nguyên bản
+                primary_span = None
+                for sp in src_obj.source_spans:
+                    # Ưu tiên span nội dung chính (không phải header bảng lặp lại và không phải overlap)
+                    if not sp.get("is_added_context") and not sp.get("is_overlap"):
+                        primary_span = sp
+                        break
+                if primary_span is None and src_obj.source_spans:
+                    primary_span = src_obj.source_spans[0]
+
+                if primary_span is not None:
+                    c_s = primary_span.get("chunk_start_char", 0)
+                    c_e = primary_span.get("chunk_end_char", len(src_obj.content))
+                    span_text = src_obj.content[c_s:c_e].strip().replace("\n", " ")
+                    snippet = span_text[:140] + ("..." if len(span_text) > 140 else "")
+                    pdf_p = primary_span.get("pdf_page", src_obj.start_page_pdf)
+                    pr_p = primary_span.get("printed_page", src_obj.start_page_printed)
+                else:
+                    raw_text = src_obj.content.strip().replace("\n", " ")
+                    snippet = raw_text[:140] + ("..." if len(raw_text) > 140 else "")
+                    pdf_p = src_obj.start_page_pdf
+                    pr_p = src_obj.start_page_printed
+
+                # Đảm bảo snippet là văn bản nguyên bản, không chứa tiền tố ngữ cảnh '['
+                if snippet.startswith("["):
+                    snippet = snippet.lstrip("[]").strip()
+
+                cit = CitationItem(
+                    source_id=src_obj.source_id,
+                    chunk_id=src_obj.chunk_id,
+                    document_id=src_obj.document_id,
+                    article=src_obj.article,
+                    pdf_page=pdf_p,
+                    printed_page=pr_p,
                     quote_snippet=snippet,
-                    similarity=top_src.similarity,
-                ))
+                    similarity=src_obj.similarity,
+                    spans=src_obj.source_spans,
+                )
+                verified_citations.append(cit)
 
         timings["total_ms"] = round((time.time() - total_start) * 1000, 2)
 
         return RAGResponse(
             request_id=request_id,
             question=clean_question,
-            status=res_status,
-            answer=answer_text,
+            status=final_status,
+            answer=final_answer,
             citations=verified_citations,
             sources_considered=len(source_contexts),
             sources_cited=len(verified_citations),

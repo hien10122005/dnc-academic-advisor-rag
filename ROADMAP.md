@@ -47,7 +47,7 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 - [ ] Ghi rõ người tra cứu không đăng nhập, chỉ admin có tài khoản; không lưu hội thoại lâu dài.
 - [x] Kiểm tra Python và chọn phiên bản tương thích; tạo venv trong thư mục mã nguồn (minh chứng: môi trường ảo `.venv` phân lập tại `05_Mã Nguồn Chương Trình/.venv` ngày 31/10/2026).
 - [x] Chọn phiên bản thư viện chạy được và tạo `requirements.txt`, `.gitignore`, `.env.example` không chứa bí mật (minh chứng: `requirements.txt`, `.gitignore`, `.env.example`, `README.md` tại `05_Mã Nguồn Chương Trình/` ngày 31/10/2026).
-- [ ] Thử kết nối Gemini; chọn tên mô hình/SDK còn dùng được và ghi vào cấu hình, chưa mặc định model cũ.
+- [x] Thử kết nối Gemini; chọn tên mô hình/SDK còn dùng được và ghi vào cấu hình, chưa mặc định model cũ (minh chứng: SDK `google-genai` mới, mô hình `gemini-3.5-flash-lite` phản hồi nhanh ~1.4s, cấu hình qua `GEMINI_MODEL` ngày 01/11/2026).
 - [x] Lập danh mục 3 PDF và 6 Markdown: nguồn, trạng thái đối chiếu, trang, điều/mục, phạm vi áp dụng và vấn đề cần xử lý (minh chứng: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/DOI_CHIEU_NGUON.csv`, `DANH_SACH_VAN_DE.csv` ngày 31/10/2026).
 - [x] Kiểm tra text layer của PDF và lên phương án OCR cho trang scan; chưa cần tự động hóa toàn bộ OCR (minh chứng: `KIEM_TRA_TRANG_PDF.csv` và `BAO_CAO_KIEM_TRA_DU_LIEU.md` ngày 31/10/2026).
 - [ ] Tạo danh sách ca đánh giá nháp trên cả 6 nhóm dữ liệu; chưa dùng làm kết quả benchmark.
@@ -81,10 +81,10 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 - [ ] Thử trường hợp nguồn mâu thuẫn; không tự động chọn văn bản ưu tiên thiếu căn cứ (để ngỏ cho giai đoạn tích hợp thêm quy chế mới ở Tuần 4-5).
 - [x] Giới hạn đầu vào, số đoạn và độ dài đầu ra; timeout và thử lại có giới hạn (minh chứng: Pydantic validation 1000 ký tự trả về HTTP 422, `max_output_tokens=1024`, retry hữu hạn 2 lần với backoff trong `gemini_client.py` ngày 01/11/2026).
 - [x] Ghi số đo từng bước; tải mô hình một lần khi backend khởi động (minh chứng: `timings` trả lời chi tiết `retrieval_ms`, `llm_ms`, `total_ms`; FastAPI Lifespan nạp model Bi-Encoder vào RAM một lần duy nhất ngày 01/11/2026).
-- [ ] Chạy baseline A trên tập phát triển, ghi lỗi và hướng sửa (Offline Mock đã kiểm thử hoàn tất; đánh giá chất lượng LLM thật đang chờ người dùng cấp `GEMINI_API_KEY`).
+- [x] Chạy baseline A trên tập phát triển, ghi lỗi và hướng sửa (minh chứng: Đánh giá thực nghiệm Live thành công 10/10 ca phát triển với Gemini 3.5 Flash Lite tại `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md`, `DNC_RAG_LIVE_DEV10_R03.jsonl` và `DNC_RAG_LIVE_DEV10_R03.csv` ngày 01/11/2026).
 - [ ] Tiếp tục hoàn thiện đáp án chuẩn và đối chiếu các nhóm dữ liệu khác.
 
-**Điều kiện hoàn thành:** gọi API nhận được câu trả lời có nguồn; có ví dụ thành công, thiếu căn cứ và lỗi dịch vụ được phân biệt đúng. Hoàn tất toàn bộ bước A, B, C, D độc lập và 35/35 bài test tự động đạt 100%. Phần kết nối Gemini thật đang chờ người dùng cấp `GEMINI_API_KEY`.
+**Điều kiện hoàn thành:** gọi API nhận được câu trả lời có nguồn; có ví dụ thành công, thiếu căn cứ và lỗi dịch vụ được phân biệt đúng. Hoàn tất toàn bộ bước A, B, C, D độc lập, 43/43 bài test tự động đạt 100%, và đánh giá thực nghiệm Live đạt 10/10 ca thành công với `gemini-3.5-flash-lite`.
 
 **Gặp giảng viên lần 2 dự kiến:** cuối tuần 3; trình bày demo baseline, dữ liệu và cách đánh giá, ghi góp ý thật.
 

@@ -7,18 +7,18 @@
 
 Thư mục này chứa toàn bộ mã nguồn của hệ thống Trợ lý học vụ hỗ trợ sinh viên dựa trên kỹ thuật RAG (Retrieval-Augmented Generation) cho Trường Đại học Nam Cần Thơ (DNC).
 
-Tại giai đoạn hiện tại (Nhiệm vụ 04 - Pipeline RAG Local với FastAPI & Google Gemini):
+Tại giai đoạn hiện tại (Nhiệm vụ 04 - Lượt R03: Pipeline RAG Local với FastAPI & Google Gemini):
 1. **Module Cấu trúc hóa & Phân đoạn văn bản (`backend/chunking.py`):** Xử lý văn bản Quyết định số 580/QĐ-ĐHNCT thành **104 chunks** định danh bất biến, bảo toàn cấu trúc điều khoản, phân biệt phần quyết định ban hành với quy chế, giữ nguyên vẹn bảng điểm Markdown và ghép liền các điều khoản nối qua trang. Đảm bảo $100\%$ chunks tuân thủ giới hạn cứng $\le 256$ tokens của mô hình embedding.
-2. **Bộ Kiểm thử Tự động 35 Bài (`tests/`):** 
+2. **Bộ Kiểm thử Tự động 43 Bài (`tests/`):** 
    - `test_chunking_and_sources.py` (5 bài): Giới hạn token, tính toàn vẹn 351 source spans, nguồn overlap, độ phủ 51 hàng bảng/142 khoản và tính bất biến.
    - `test_lifecycle_and_regression.py` (21 bài): Vòng đời ingestion, đối soát 3 chiều Preflight (status <-> manifest <-> collection metadata <-> hash), chống stale cache, nạp lại an toàn và ánh xạ whitespace regex.
-   - `test_api_and_rag.py` (9 bài): FastAPI `/health`, `/chat`, validation 422, lọc hallucinated source ID, trạng thái nghiệp vụ và xử lý lỗi upstream LLM.
+   - `test_api_and_rag.py` (17 bài): FastAPI `/health`, `/chat`, validation 422, lọc hallucinated source ID, hạ cấp an toàn khi trích dẫn ảo, kiểm định schema phản hồi, xử lý trang in nullable và bọc ngoại lệ định kiểu `DNCError`.
 3. **Module Nạp dữ liệu Vector (`backend/ingestion.py`):** Sử dụng mô hình embedding ứng viên tiếng Việt `bkai-foundation-models/vietnamese-bi-encoder` (Revision: `84f9d9ada0d1a3c37557398b9ae9fcedcdf40be0`), lưu trữ vào ChromaDB collection `qd580_baseline_v2` với cơ chế `upsert` bất biến và quản lý vòng đời trạng thái `BUILDING` $\rightarrow$ `READY`.
 4. **Kiểm tra Tiền trạm Chốt chặn (Preflight Readiness - `backend/retrieval.py`):** Xác thực đa chiều trạng thái kho trước mọi truy vấn; tự động từ chối phục vụ (HTTP 503) nếu manifest hỏng/thiếu, lệch revision, lệch hash hoặc collection chưa nạp.
-5. **Lớp Kết nối Gemini Đa chế độ (`backend/gemini_client.py`):** Tích hợp SDK chính thức `google-genai` (model mặc định `gemini-2.5-flash`), hỗ trợ cấu hình timeout, retry hữu hạn, tự động chuyển sang chế độ Offline Mock an toàn khi chưa cấu hình `GEMINI_API_KEY`.
-6. **RAG Engine & Xác minh Trích dẫn Backend (`backend/rag_engine.py`):** Định danh nguồn `SRC-k`, chuẩn bị ngữ cảnh kiểm soát, ép cấu trúc JSON từ LLM và backend trực tiếp xác thực source ID, loại bỏ triệt để hallucinated citations.
-7. **Máy chủ Dịch vụ FastAPI (`backend/main.py`):** Cung cấp các endpoint REST API chuẩn hóa với cơ chế lifespan nạp trước mô hình vào RAM một lần duy nhất.
-8. **Giao diện Dòng lệnh Thử nghiệm (`backend/cli.py`):** Tra cứu nhanh câu hỏi từ terminal ở cả chế độ tham số và chế độ đối thoại liên tục (`--interactive`).
+5. **Lớp Kết nối Gemini Đa chế độ (`backend/gemini_client.py`):** Tích hợp SDK chính thức `google-genai` (model mặc định `gemini-3.5-flash-lite`), hỗ trợ cấu hình timeout, retry có chọn lọc trên lỗi tạm thời, tự động ném `ConfigurationError` (HTTP 503) khi chưa cấu hình `GEMINI_API_KEY` ở chế độ phục vụ.
+6. **RAG Engine & Xác minh Trích dẫn Backend (`backend/rag_engine.py`):** Định danh nguồn `SRC-k`, chuẩn bị ngữ cảnh kiểm soát, ép cấu trúc JSON từ LLM và backend trực tiếp xác thực source ID, loại bỏ triệt để hallucinated citations và hạ cấp an toàn sang `insufficient_evidence`.
+7. **Máy chủ Dịch vụ FastAPI (`backend/main.py`):** Cung cấp các endpoint REST API chuẩn hóa với cơ chế lifespan nạp trước mô hình vào RAM một lần duy nhất, tích hợp Global Exception Handler cho `DNCError`.
+8. **Đánh giá Thực nghiệm Live (`evaluation/run_eval_live_r03.py`):** Thực thi đánh giá trực tiếp trên tập 10 ca phát triển, đo lường toàn diện độ trễ và xuất báo cáo khoa học.
 
 ---
 
@@ -86,16 +86,22 @@ pip install -r requirements.txt
 
 ## 4. Hướng dẫn thực thi các module
 
-### 4.1 Chạy toàn bộ bộ kiểm thử tự động (35 Tests Toàn diện)
-Hệ thống tích hợp 35 bài kiểm thử tự động phân lập, chạy hoàn toàn offline không cần internet hay API key:
+### 4.1 Chạy toàn bộ bộ kiểm thử tự động (43 Tests Toàn diện)
+Hệ thống tích hợp 43 bài kiểm thử tự động phân lập, chạy hoàn toàn offline không cần internet hay API key:
 ```powershell
-# Chạy toàn bộ 35 bài test trong thư mục tests/:
+# Chạy toàn bộ 43 bài test trong thư mục tests/:
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
 
 # Hoặc chạy từng bộ test độc lập:
 .\.venv\Scripts\python.exe -m unittest tests/test_chunking_and_sources.py     # 5 bài test chunking & source spans
 .\.venv\Scripts\python.exe -m unittest tests/test_lifecycle_and_regression.py # 21 bài test vòng đời & preflight
-.\.venv\Scripts\python.exe -m unittest tests/test_api_and_rag.py              # 9 bài test FastAPI & RAG engine
+.\.venv\Scripts\python.exe -m unittest tests/test_api_and_rag.py              # 17 bài test FastAPI & RAG engine
+```
+
+### 4.2 Chạy đánh giá thực nghiệm RAG Live với Gemini
+Khi có kết nối mạng và `GEMINI_API_KEY` trong `.env`:
+```powershell
+.\.venv\Scripts\python.exe evaluation/run_eval_live_r03.py
 ```
 
 ### 4.2 Khởi động Máy chủ Dịch vụ FastAPI (REST API)

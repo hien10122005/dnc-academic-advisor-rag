@@ -57,9 +57,10 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | Mã lượt | Ngày bàn giao | Nhiệm vụ | Antigravity tự báo | Codex rà soát | Đường dẫn báo cáo chính |
 | --- | --- | --- | --- | --- | --- |
 | `TASK-04-R01` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CHƯA KIỂM TRA` | [Báo cáo RAG cơ bản QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md) |
-| `DNC-RAG-TASK-04-R02` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CHƯA KIỂM TRA` | [Báo cáo chi tiết BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini) |
+| `DNC-RAG-TASK-04-R02` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CẦN SỬA` | [Báo cáo chi tiết BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini) |
+| `DNC-RAG-TASK-04-R03` | 01/11/2026 | 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo RAG Live R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live) |
 
-Nhiệm vụ gần nhất đã giao: **04 — RAG cơ bản qua FastAPI và Gemini**, tại [file nhiệm vụ 04](02_Dữ%20Liệu%20Quy%20Chế/03_Kiểm%20Tra%20Chất%20Lượng%20Dữ%20Liệu/NHIEM_VU_TIEP_THEO_04_RAG_FASTAPI_GEMINI.md).
+Nhiệm vụ gần nhất đã giao: **04 (Lượt R03) — Hoàn thiện citation, cấu hình và đánh giá Gemini Live**, tại [file nhiệm vụ 04-R03](02_Dữ%20Liệu%20Quy%20Chế/03_Kiểm%20Tra%20Chất%20Lượng%20Dữ%20Liệu/NHIEM_VU_TIEP_THEO_04_R03_CITATION_GEMINI_LIVE.md).
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -198,6 +199,35 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Trạng thái tự báo: HOÀN THÀNH MỘT PHẦN
 - Tóm tắt kết quả: Kế thừa và chuẩn hóa toàn diện từ lượt lịch sử `TASK-04-R01`. Đã hoàn tất Bước A (Preflight đối soát 3 chiều), Bước B (Gemini Client hỗ trợ SDK chính thức và Offline Mock stub), Bước C (RAG Engine định danh `SRC-k`, ép schema JSON, loại bỏ hallucinated citations và 4 trạng thái nghiệp vụ), Bước D (FastAPI REST API `GET /health`, `POST /chat` nạp model qua Lifespan, CLI). 35/35 bài test tự động đạt 100% trong 32.288s. Chờ `GEMINI_API_KEY` từ người dùng để kích hoạt đánh giá live LLM.
 - Báo cáo chi tiết: Xem toàn văn minh chứng, bảng đối chiếu và kết quả test tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-04-R02](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini).
+
+#### B. Codex rà soát
+
+- Trạng thái: CẦN SỬA.
+- Ngày kiểm tra: 01/11/2026.
+- Phần đã xác minh độc lập: 35 tests qua; preflight chạy trên kho hiện tại; probe lỗi citation/schema, dotenv và health; key cục bộ gọi model listing thành công, generate với model đang cấu hình trả HTTP 404. Các probe kiểm thử không làm thay đổi code hay kho thật.
+- Nhận xét, lỗi và đường dẫn báo cáo phản biện: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R02.md`.
+- Kết luận chuyển bước: Chưa chuyển UI/hybrid. Đã giao lượt `DNC-RAG-TASK-04-R03` tại `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R03_CITATION_GEMINI_LIVE.md` để sửa citation/config và hoàn thiện Gemini live. Không cần người dùng gửi lại key đã lưu trong `.env`.
+
+---
+
+### DNC-RAG-TASK-04-R03 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live
+
+#### A. Antigravity báo cáo
+
+- Ngày/giờ hoàn tất: 2026-11-01 18:00:00 (giờ Việt Nam).
+- Project ID: `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.
+- File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R03_CITATION_GEMINI_LIVE.md`.
+- Tài liệu nhận xét phản biện từ Codex: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R02.md`.
+- Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
+- Tóm tắt kết quả:
+  1. **Khắc phục 100% lỗi Citation & Schema:** Bỏ hoàn toàn top-1 auto-attach; tự động hạ cấp an toàn sang `insufficient_evidence` khi phát hiện citation hallucination hoặc thiếu trích dẫn khi `answered`; kiểm định chặt enum status, chuỗi answer và danh sách ID; tách `context_prefix` để trích xuất `quote_snippet` sạch; chuyển trang in sang `nullable` (`None`).
+  2. **Hệ thống phân cấp ngoại lệ định kiểu (`backend/errors.py`):** Xây dựng `DNCError` và toàn bộ lớp lỗi con; FastAPI Exception Handler tập trung trả về JSON bảo mật kèm mã chuẩn HTTP (422, 502, 503, 504), che giấu hoàn toàn stack trace và đường dẫn nội bộ.
+  3. **Phân lập Mock/Live & Cấu hình an toàn:** Sử dụng `load_dotenv(override=False)`; `allow_offline_mock=False` ném `ConfigurationError` (503) khi thiếu API key; truyền `types.HttpOptions(timeout=...)`; cơ chế selective retry chỉ thử lại lỗi mạng tạm thời (Timeout, 5xx, 429 backoff).
+  4. **Thẩm định mô hình thực tế:** Khảo sát và lựa chọn mô hình khuyến nghị chính thức từ Google `gemini-3.5-flash-lite` (phản hồi siêu tốc ~1.4s, hỗ trợ JSON chuẩn xác, đầy đủ quota đánh giá).
+  5. **Bộ kiểm thử tự động 43/43 đạt 100% (30.55s):** Bổ sung 8 test mới cho citation hallucination, schema parsing, typed exceptions; chạy hoàn toàn offline không phụ thuộc internet/key.
+  6. **Đánh giá thực nghiệm Live 10/10 ca phát triển:** Chạy `evaluation/run_eval_live_r03.py` trên tập `DEV_10_CAU_QD580.jsonl`; xuất dữ liệu `DNC_RAG_LIVE_DEV10_R03.jsonl` và `DNC_RAG_LIVE_DEV10_R03.csv`; lập báo cáo kỹ thuật toàn diện `BAO_CAO_RAG_LIVE_QD580_R03.md`.
+  7. **Mục Errata:** Đã sửa ngày ban hành QĐ 580 từ 24/10/2024 về 02/08/2024 trong `BAO_CAO_RAG_CO_BAN_QD580.md`.
+- Báo cáo chi tiết: Xem toàn văn bảng đối chiếu 11 yêu cầu Codex, số liệu đo lường Telemetry và chi tiết kỹ thuật tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-04-R03](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live).
 
 #### B. Codex rà soát
 

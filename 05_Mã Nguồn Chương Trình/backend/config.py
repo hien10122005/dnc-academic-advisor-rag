@@ -7,9 +7,17 @@ Quản lý các đường dẫn, thông số chunking nhận biết tokenizer v�
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Thư mục gốc mã nguồn: 05_Mã Nguồn Chương Trình
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Nạp tệp cấu hình .env (ưu tiên biến môi trường đã thiết lập bên ngoài, override=False)
+ENV_FILE = BASE_DIR / ".env"
+if ENV_FILE.exists():
+    load_dotenv(dotenv_path=ENV_FILE, override=False)
+else:
+    load_dotenv(override=False)
 
 # Thư mục gốc toàn bộ đồ án
 PROJECT_ROOT = BASE_DIR.parent
@@ -49,6 +57,14 @@ EMBEDDING_MODEL_CANDIDATE = "bkai-foundation-models/vietnamese-bi-encoder"
 MODEL_REVISION = "84f9d9ada0d1a3c37557398b9ae9fcedcdf40be0"
 EMBEDDING_DIM = 768
 DISTANCE_METRIC = "cosine"
+
+# Cấu hình LLM Gemini (Mô hình gemini-3.5-flash-lite khuyến nghị chính thức từ Google, độ trễ ~1.5s)
+DEFAULT_GEMINI_MODEL = "gemini-3.5-flash-lite"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", DEFAULT_GEMINI_MODEL).strip()
+ALLOW_OFFLINE_MOCK = os.getenv("ALLOW_OFFLINE_MOCK", "false").lower() in ("true", "1", "yes")
+REQUEST_TIMEOUT_SECONDS = float(os.getenv("REQUEST_TIMEOUT_SECONDS", "30.0"))
+MAX_RETRY_ATTEMPTS = int(os.getenv("MAX_RETRY_ATTEMPTS", "2"))
 
 
 def load_tokenizer(model_name: str = EMBEDDING_MODEL_CANDIDATE, revision: str = MODEL_REVISION):

@@ -4,7 +4,7 @@
 ---
 
 > **Căn cứ pháp lý & Chuẩn mực:**
-> - Quyết định số 580/QĐ-ĐHNCT ngày 24/10/2024 của Hiệu trưởng Trường Đại học Nam Cần Thơ ban hành Quy chế đào tạo trình độ đại học.
+> - Quyết định số 580/QĐ-ĐHNCT ngày 02/08/2024 của Hiệu trưởng Trường Đại học Nam Cần Thơ ban hành Quy chế đào tạo trình độ đại học.
 > - Quyết định số 309/QĐ-ĐHNCT ngày 08/12/2016 của Hiệu trưởng Trường Đại học Nam Cần Thơ về quy định trình bày đồ án/khóa luận tốt nghiệp.
 > - Thông tư số 08/2021/TT-BGDĐT của Bộ Giáo dục và Đào tạo ban hành Quy chế đào tạo trình độ đại học.
 > - Tài liệu giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_RAG_FASTAPI_GEMINI.md`.

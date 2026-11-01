@@ -32,6 +32,7 @@ from backend.config import (
     MODEL_REVISION,
     load_embedding_model,
 )
+from backend.errors import KnowledgeBaseNotReadyError
 
 
 def compute_sha256(filepath: Path) -> str:
@@ -75,7 +76,7 @@ class VectorRetriever:
         """
         # 1. Kiểm tra sự tồn tại của tệp trạng thái
         if not self.status_file_path.exists():
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Tệp trạng thái ingestion không tồn tại: {self.status_file_path}. Chưa có dữ liệu nào được nạp."
             )
 
@@ -84,7 +85,7 @@ class VectorRetriever:
             with open(self.status_file_path, "r", encoding="utf-8") as f:
                 status_data = json.load(f)
         except Exception as exc:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Tệp trạng thái ingestion bị hỏng hoặc không đúng định dạng JSON ({self.status_file_path}): {exc}"
             )
 
@@ -101,7 +102,7 @@ class VectorRetriever:
             available_cols = list(status_data.get("collections", {}).keys()) if isinstance(status_data, dict) else []
             if not available_cols and isinstance(status_data, dict) and status_data.get("collection_name"):
                 available_cols = [status_data.get("collection_name")]
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Không tìm thấy trạng thái cho collection '{self.collection_name}' trong {self.status_file_path}. "
                 f"Các collection hiện có: {available_cols}"
             )
@@ -111,7 +112,7 @@ class VectorRetriever:
         corpus_ready = col_status.get("corpus_ready")
 
         if not isinstance(corpus_ready, bool) or corpus_ready is not True or status_str != "READY":
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Corpus collection '{self.collection_name}' chưa sẵn sàng (Trạng thái: {status_str}, corpus_ready: {corpus_ready}). "
                 "Hãy hoàn tất ingestion thành công trước khi truy vấn."
             )
@@ -119,13 +120,13 @@ class VectorRetriever:
         required_status_fields = ["collection_name", "corpus_fingerprint", "chunks_sha256", "model_id", "model_revision"]
         for fld in required_status_fields:
             if not col_status.get(fld):
-                raise RuntimeError(
+                raise KnowledgeBaseNotReadyError(
                     f"Trạng thái collection '{self.collection_name}' thiếu trường bắt buộc: '{fld}'."
                 )
 
         # 5. Kiểm tra tệp Manifest bắt buộc (không được bỏ qua hay nuốt lỗi)
         if not self.manifest_path.exists():
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Tệp manifest không tồn tại: {self.manifest_path}. Không thể xác thực tính toàn vẹn của kho tri thức."
             )
 
@@ -133,46 +134,46 @@ class VectorRetriever:
             with open(self.manifest_path, "r", encoding="utf-8") as f:
                 manifest_data = json.load(f)
         except Exception as exc:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Tệp manifest bị hỏng hoặc không đúng định dạng JSON ({self.manifest_path}): {exc}"
             )
 
         if not isinstance(manifest_data, dict):
-            raise RuntimeError(f"Tệp manifest ({self.manifest_path}) không phải là một JSON object hợp lệ.")
+            raise KnowledgeBaseNotReadyError(f"Tệp manifest ({self.manifest_path}) không phải là một JSON object hợp lệ.")
 
         required_manifest_fields = ["corpus_fingerprint", "chunks_sha256", "model_revision", "total_chunks"]
         for fld in required_manifest_fields:
             if not manifest_data.get(fld):
-                raise RuntimeError(f"Tệp manifest thiếu trường bắt buộc: '{fld}'.")
+                raise KnowledgeBaseNotReadyError(f"Tệp manifest thiếu trường bắt buộc: '{fld}'.")
 
         # 6. Đối soát Fingerprint & Chunks SHA-256 giữa Status và Manifest
         expected_fp = manifest_data["corpus_fingerprint"]
         actual_fp = col_status["corpus_fingerprint"]
         if actual_fp != expected_fp:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Corpus fingerprint trong trạng thái ({actual_fp}) không khớp với manifest hiện tại ({expected_fp})!"
             )
 
         expected_hash = manifest_data["chunks_sha256"]
         actual_hash = col_status["chunks_sha256"]
         if actual_hash != expected_hash:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Chunks SHA-256 trong trạng thái ({actual_hash}) không khớp với manifest ({expected_hash})!"
             )
 
         # 7. Kiểm tra model_id và model_revision
         if col_status["model_id"] != self.model_name:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Model ID trong trạng thái ingestion ({col_status['model_id']}) không khớp với cấu hình retriever ({self.model_name})!"
             )
 
         if col_status["model_revision"] != MODEL_REVISION:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Model revision trong trạng thái ingestion ({col_status['model_revision']}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
             )
 
         if manifest_data["model_revision"] != MODEL_REVISION:
-            raise RuntimeError(
+            raise KnowledgeBaseNotReadyError(
                 f"Model revision trong manifest ({manifest_data['model_revision']}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
             )
 
@@ -180,7 +181,7 @@ class VectorRetriever:
         try:
             available_collections = [c.name for c in self.client.list_collections()]
             if self.collection_name not in available_collections:
-                raise RuntimeError(
+                raise KnowledgeBaseNotReadyError(
                     f"Collection '{self.collection_name}' không tồn tại trong ChromaDB ({self.persist_dir}). "
                     f"Các collection hiện có: {available_collections}"
                 )
@@ -189,32 +190,32 @@ class VectorRetriever:
             col_meta = col.metadata or {}
 
             if col_meta.get("corpus_fingerprint") != expected_fp:
-                raise RuntimeError(
+                raise KnowledgeBaseNotReadyError(
                     f"Metadata collection ChromaDB có corpus_fingerprint ({col_meta.get('corpus_fingerprint')}) "
                     f"không khớp với manifest ({expected_fp})!"
                 )
 
             if col_meta.get("chunks_sha256") != expected_hash:
-                raise RuntimeError(
+                raise KnowledgeBaseNotReadyError(
                     f"Metadata collection ChromaDB có chunks_sha256 ({col_meta.get('chunks_sha256')}) "
                     f"không khớp với manifest ({expected_hash})!"
                 )
 
             if col_meta.get("model_revision") != MODEL_REVISION:
-                raise RuntimeError(
+                raise KnowledgeBaseNotReadyError(
                     f"Metadata collection ChromaDB có model_revision ({col_meta.get('model_revision')}) "
                     f"không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
                 )
-        except RuntimeError:
+        except KnowledgeBaseNotReadyError:
             raise
         except Exception as exc:
-            raise RuntimeError(f"Lỗi kiểm tra metadata ChromaDB collection: {exc}")
+            raise KnowledgeBaseNotReadyError(f"Lỗi kiểm tra metadata ChromaDB collection: {exc}")
 
         # 9. Đối soát hash của tệp chunk thực tế trên đĩa
         if self.chunks_file_path and self.chunks_file_path.exists():
             disk_chunks_hash = compute_sha256(self.chunks_file_path)
             if disk_chunks_hash != expected_hash:
-                raise RuntimeError(
+                raise KnowledgeBaseNotReadyError(
                     f"Mã băm tệp chunks trên đĩa ({disk_chunks_hash}) không khớp với manifest ({expected_hash})!"
                 )
 
@@ -293,6 +294,19 @@ class VectorRetriever:
             except Exception:
                 source_spans = []
 
+            # Tách biệt tiền tố ngữ cảnh (context_prefix) và văn bản nguồn nguyên bản (content)
+            if doc.startswith("[") and "\n" in doc:
+                context_prefix, pure_content = doc.split("\n", 1)
+            else:
+                context_prefix = ""
+                pure_content = doc
+
+            # Chuẩn hóa trang in: Không sử dụng -1 làm số trang, phải là None khi chưa rõ
+            raw_p_start = meta.get("start_page_printed")
+            printed_start = int(raw_p_start) if raw_p_start is not None and int(raw_p_start) > 0 else None
+            raw_p_end = meta.get("end_page_printed")
+            printed_end = int(raw_p_end) if raw_p_end is not None and int(raw_p_end) > 0 else None
+
             item = {
                 "rank": rank,
                 "chunk_id": cid,
@@ -304,13 +318,15 @@ class VectorRetriever:
                 "article_number": meta.get("article_number", 0),
                 "start_page_pdf": meta.get("start_page_pdf", 0),
                 "end_page_pdf": meta.get("end_page_pdf", 0),
-                "start_page_printed": meta.get("start_page_printed", -1),
-                "end_page_printed": meta.get("end_page_printed", -1),
+                "start_page_printed": printed_start,
+                "end_page_printed": printed_end,
                 "is_table": meta.get("is_table", False),
                 "is_cross_page": meta.get("start_page_pdf", 0) != meta.get("end_page_pdf", 0),
                 "token_count": meta.get("token_count", 0),
-                "char_count": meta.get("char_count", len(doc)),
-                "content": doc,
+                "char_count": len(pure_content),
+                "context_prefix": context_prefix,
+                "content": pure_content,
+                "embedding_text": doc,
                 "source_spans": source_spans,
             }
             output.append(item)

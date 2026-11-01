@@ -25,11 +25,11 @@ Thiết lập: **01/11/2026**. Đây là file riêng để **Antigravity ghi l�
 
 ## Báo cáo mới nhất
 
-- **Mã lượt:** `DNC-RAG-TASK-04-R02`
-- **Nhiệm vụ:** 04 — RAG cơ bản qua FastAPI và Gemini
+- **Mã lượt:** `DNC-RAG-TASK-04-R03`
+- **Nhiệm vụ:** 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live
 - **Ngày hoàn tất:** 01/11/2026
-- **Trạng thái tự báo:** `HOÀN THÀNH MỘT PHẦN`
-- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-04-R02](#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini)
+- **Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`
+- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-04-R03](#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live)
 
 ## Mẫu báo cáo sau mỗi lần làm
 
@@ -184,3 +184,130 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   3. Tính độc lập của bộ test (35 tests chạy hoàn toàn offline không cần API key và không làm ô nhiễm DB gốc).
 - Đã cập nhật mã lượt và liên kết trong BAO_CAO_BAN_GIAO.md: Đã cập nhật chỉ mục và mục tóm tắt `DNC-RAG-TASK-04-R02`.
 - Trạng thái rà soát: `CHƯA KIỂM TRA` — chờ Codex xác minh.
+
+---
+
+### DNC-RAG-TASK-04-R03 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live
+
+**Thời điểm bàn giao:** 2026-11-01 18:00:00, giờ Việt Nam.  
+**Định danh:** `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.  
+**File giao nhiệm vụ:** `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R03_CITATION_GEMINI_LIVE.md`.  
+**Tài liệu nhận xét phản biện từ Codex:** `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R02.md`.  
+**Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`.
+
+#### 1. Kết quả chính
+
+1. **Khắc phục triệt để logic Citation & Schema:**
+   - Xóa bỏ 100% cơ chế tự động gán nguồn dẫn đầu (Top-1 fallback) khi mô hình không viện dẫn nguồn.
+   - Triển khai chốt chặn kiểm định Schema: bắt buộc `status` nằm trong bộ enum chuẩn (`answered`, `needs_clarification`, `insufficient_evidence`, `out_of_scope`), bắt buộc `answer` không rỗng và `cited_source_ids` là danh sách.
+   - Cơ chế phát hiện và xử lý Hallucination: Khi mô hình viện dẫn mã nguồn ảo (`SRC-FAKE`) hoặc công bố `status="answered"` nhưng không có nguồn hợp lệ, Backend tự động hạ cấp an toàn sang `insufficient_evidence`.
+   - Làm sạch `quote_snippet`: Tách biệt `context_prefix` (`[Quy chế ...]`) khỏi nội dung thuần túy `content`, sinh trích đoạn sạch từ `source_spans` trên trang PDF gốc.
+   - Chuẩn hóa trường trang in `start_page_printed` sang dạng `nullable` (`None` thay vì `-1`).
+2. **Hệ thống phân cấp ngoại lệ định kiểu (`backend/errors.py`) & Global Exception Handler:**
+   - Xây dựng cây ngoại lệ: `DNCError` -> `KnowledgeBaseNotReadyError` (503), `ConfigurationError` (503), `ValidationError` (422), `LLMTimeoutError` (504), `LLMQuotaExceededError` (429), `LLMUpstreamError` (502), `RAGSchemaError` (502).
+   - FastAPI bắt ngoại lệ tập trung, trả về cấu trúc lỗi bảo mật JSON chuẩn (`request_id`, `error_code`, `detail`, `timestamp`), che giấu hoàn toàn stack trace và đường dẫn nội bộ.
+3. **Phân lập tường minh Mock và Live & Cấu hình an toàn:**
+   - Cấu hình `load_dotenv(override=False)` không bao giờ ghi đè môi trường sẵn có.
+   - Mặc định khởi tạo phục vụ thực tế (`allow_offline_mock=False`) ném `ConfigurationError` (HTTP 503) khi thiếu API key; Mock handler chỉ được kích hoạt khi có tiêm vào tường minh trong ngữ cảnh kiểm thử.
+   - Chuẩn hóa HTTP timeout qua SDK mới: `types.HttpOptions(timeout=...)`.
+   - Cơ chế Selective Retry: Không thử lại các mã lỗi cố định 400, 401, 403, 404 hoặc lỗi phân tích cú pháp JSON; chỉ thử lại các lỗi mạng tạm thời (Timeout, 5xx, 429) với backoff thích ứng.
+4. **Bộ kiểm thử tự động toàn diện:**
+   - Bổ sung 8 ca kiểm thử mới cho citation hallucination, schema parsing, nullable printed pages, và typed exception handling.
+   - Toàn bộ **43/43 ca kiểm thử** tự động chạy hoàn toàn offline đạt 100% (30.55s).
+5. **Đánh giá thực nghiệm Live thành công 10/10 ca phát triển:**
+   - Khảo sát mô hình: Xác định `gemini-3.5-flash-lite` là mô hình khuyến nghị chính thức từ Google, độ trễ cực nhanh (~1.4s), phản hồi JSON có cấu trúc chính xác tuyệt đối.
+   - Kịch bản `evaluation/run_eval_live_r03.py` thực thi thành công 10/10 ca phát triển chuẩn mực (`DEV_10_CAU_QD580.jsonl`).
+   - Xuất dữ liệu chi tiết tại `DNC_RAG_LIVE_DEV10_R03.jsonl` và `DNC_RAG_LIVE_DEV10_R03.csv`.
+   - Lập báo cáo kỹ thuật toàn diện tại `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md`.
+6. **Mục Errata:** Đính chính ngày ký Quyết định số 580/QĐ-ĐHNCT từ ngày 24/10/2024 về ngày chuẩn xác là **02/08/2024** trong tài liệu `BAO_CAO_RAG_CO_BAN_QD580.md`.
+
+#### 2. Đối chiếu từng yêu cầu và nhận xét cần sửa
+
+| Yêu cầu hoặc mã nhận xét Codex | Đã làm gì | Kết quả | Minh chứng | Phần còn thiếu |
+| :--- | :--- | :--- | :--- | :--- |
+| **CX-R02-01:** Bỏ top-1 auto-attach citation | Xóa bỏ đoạn gán mặc định `retrieved_raw[0]` khi mô hình không trích dẫn; kiểm tra đối soát nguồn thực tế | Đạt theo tự kiểm tra | `backend/rag_engine.py` (dòng 246-270); test `test_unanswered_does_not_auto_attach_top1_citation` | Không |
+| **CX-R02-02:** Hạ cấp trạng thái khi phát hiện trích dẫn ảo | Thêm logic kiểm tra danh sách `cited_source_ids`. Nếu có ID ảo ngoài ngữ cảnh -> hạ sang `insufficient_evidence` | Đạt theo tự kiểm tra | `backend/rag_engine.py` (dòng 275-295); test `test_hallucinated_citation_downgrade` | Không |
+| **CX-R02-03:** Ép chặt Schema validation | Kiểm tra status thuộc enum, answer kiểu string không rỗng, cited_source_ids kiểu list; ném `RAGSchemaError` | Đạt theo tự kiểm tra | `backend/rag_engine.py` (dòng 230-245); 4 bài test schema trong `tests/test_api_and_rag.py` | Không |
+| **CX-R02-04:** Làm sạch quote snippet & context prefix | Tách `context_prefix` khỏi `content`; trích xuất `quote_snippet` thuần túy từ `source_spans` trên văn bản PDF gốc | Đạt theo tự kiểm tra | `backend/retrieval.py` và `backend/rag_engine.py`; test `test_quote_snippet_no_context_prefix` | Không |
+| **CX-R02-05:** Trang in dạng nullable (`None`) | Đổi giá trị `-1` thành `None` cho trang in không xác định | Đạt theo tự kiểm tra | `backend/retrieval.py`, `backend/rag_engine.py`, `backend/main.py` (`CitationModel.printed_page: Optional[int]`) | Không |
+| **CX-R02-06:** Typed Exception Hierarchy & HTTP Status | Tạo `backend/errors.py` với `DNCError`, đăng ký exception handler trả về JSON an toàn kèm mã 422, 502, 503, 504 | Đạt theo tự kiểm tra | `backend/errors.py`, `backend/main.py`; test `test_chat_endpoint_empty_question_returns_422` | Không |
+| **CX-R02-07:** Bảo toàn môi trường & Phân lập Mock/Live | Dùng `load_dotenv(override=False)`; `allow_offline_mock=False` ném `ConfigurationError` khi thiếu key | Đạt theo tự kiểm tra | `backend/config.py`, `backend/gemini_client.py`; test `test_offline_client_raises_configuration_error_when_mock_disabled` | Không |
+| **CX-R02-08:** HTTP Timeout & Selective Retry | Truyền `types.HttpOptions(timeout=...)`; retry có chọn lọc trên 5xx/429/timeout, không retry 4xx/JSON error | Đạt theo tự kiểm tra | `backend/gemini_client.py` (dòng 104-180) | Không |
+| **CX-R02-09:** Thẩm định mô hình Live khả dụng | Khảo sát `gemini-3.5-flash-lite`, đo latency ~1.4s, cấu hình qua `GEMINI_MODEL` | Đạt theo tự kiểm tra | `backend/config.py`, `05_Mã Nguồn Chương Trình/.env.example`, `test_429.py` probe | Không |
+| **CX-R02-10:** Đánh giá thực nghiệm Live 10 ca | Chạy `evaluation/run_eval_live_r03.py` trên 10 ca phát triển, xuất JSONL/CSV, lập báo cáo phân tích | Đạt theo tự kiểm tra | `evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md`, `DNC_RAG_LIVE_DEV10_R03.jsonl`, `DNC_RAG_LIVE_DEV10_R03.csv` | Không |
+| **CX-R02-11:** Đính chính ngày QĐ 580 (Errata) | Chuyển mốc ngày ban hành từ 24/10/2024 về 02/08/2024 trong báo cáo cũ | Đạt theo tự kiểm tra | `evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md` (dòng 7) | Không |
+
+#### 3. File và cấu hình thay đổi
+
+- **File tạo mới:**
+  - `05_Mã Nguồn Chương Trình/backend/errors.py`: Hệ thống ngoại lệ định kiểu phân cấp chuẩn mực cho toàn bộ hệ thống.
+  - `05_Mã Nguồn Chương Trình/evaluation/run_eval_live_r03.py`: Script đánh giá thực nghiệm Live tự động trên 10 ca phát triển.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md`: Báo cáo kỹ thuật chi tiết đánh giá thực nghiệm Live RAG.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_LIVE_DEV10_R03.jsonl`: Kết quả thô telemetry và câu trả lời của 10 ca phát triển.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_LIVE_DEV10_R03.csv`: Bảng tổng hợp đối soát kết quả phục vụ nghiên cứu.
+- **File sửa và lý do:**
+  - `05_Mã Nguồn Chương Trình/backend/config.py`: Tích hợp `override=False` cho `load_dotenv`, cập nhật mô hình mặc định `gemini-3.5-flash-lite`.
+  - `05_Mã Nguồn Chương Trình/backend/gemini_client.py`: Tích hợp `types.HttpOptions`, retry có chọn lọc, bọc ngoại lệ typed, khống chế mock an toàn.
+  - `05_Mã Nguồn Chương Trình/backend/retrieval.py`: Bóc tách `context_prefix` khỏi `content`, chuẩn hóa `printed_page` sang nullable `None`, ném `KnowledgeBaseNotReadyError`.
+  - `05_Mã Nguồn Chương Trình/backend/rag_engine.py`: Bỏ auto-attach top 1, hạ cấp an toàn khi gặp hallucinated citations, sinh quote sạch từ source spans, tăng token lên 2048.
+  - `05_Mã Nguồn Chương Trình/backend/main.py`: Bổ sung global exception handler `@app.exception_handler(DNCError)`, chuẩn hóa `CitationModel`.
+  - `05_Mã Nguồn Chương Trình/tests/test_api_and_rag.py`: Bổ sung 8 bài test cho logic citation, schema, nullable trang in, exception handling; nâng tổng số test lên 43.
+  - `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md`: Sửa ngày ban hành QĐ 580 từ 24/10/2024 về 02/08/2024.
+  - `05_Mã Nguồn Chương Trình/.env.example`: Cập nhật cấu hình mô hình mẫu `gemini-3.5-flash-lite`.
+  - `ROADMAP.md`: Cập nhật minh chứng hoàn thành Tuần 1 và Tuần 3 với kết quả đánh giá thực nghiệm RAG Live.
+  - `BAO_CAO_ANTIGRAVITY.md` và `BAO_CAO_BAN_GIAO.md`: Ghi nhận nhật ký bàn giao lượt `DNC-RAG-TASK-04-R03`.
+- **Dữ liệu/model revision/collection/fingerprint đã dùng:**
+  - Kho tri thức: `qd580_baseline_v2` (104 chunks, 351 source spans, 26/26 trang PDF QĐ 580).
+  - Corpus fingerprint: `8f0c62a9ce8b2b049597599e10cc072760e21cf7cec442386848122226e977dd`.
+  - Chunks SHA-256: `5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398`.
+  - Mô hình Embedding: `bkai-foundation-models/vietnamese-bi-encoder` (Revision: `84f9d9ada0d1a3c37557398b9ae9fcedcdf40be0`).
+  - Mô hình LLM Live: `gemini-3.5-flash-lite` (Google GenAI SDK `google-genai==2.34.0`).
+
+#### 4. Kiểm thử và minh chứng
+
+| Lệnh kiểm thử | Môi trường | Mock hay dịch vụ thật | Số ca và kết quả | Minh chứng |
+| --- | --- | --- | --- | --- |
+| `python -m unittest tests/test_chunking_and_sources.py` | Local CPU (`.venv`) | Dữ liệu & Tokenizer thật | 5/5 qua (0 lỗi) | Log unittest |
+| `python -m unittest tests/test_lifecycle_and_regression.py` | Local CPU (`.venv`) | ChromaDB thật | 21/21 qua (0 lỗi) | Log unittest |
+| `python -m unittest tests/test_api_and_rag.py` | Local CPU (`.venv`) | Mock Handler tiêm tường minh | 17/17 qua (0 lỗi) | Log unittest |
+| `python -m unittest discover -s tests -p "test_*.py"` | Local CPU (`.venv`) | Toàn bộ 43 ca kiểm thử offline | 43/43 qua (0 lỗi) | 30.555s, OK |
+| `python evaluation/run_eval_live_r03.py` | Local kết nối Internet | Google Gemini Live (`gemini-3.5-flash-lite`) | 10/10 ca hoàn thành | `DNC_RAG_LIVE_DEV10_R03.jsonl` và `.csv` |
+
+- **Số liệu đo lường Telemetry trên 10 ca phát triển:**
+  - Thời gian truy xuất Vector trung bình: $58.5\text{ ms}$.
+  - Thời gian sinh phản hồi LLM trung bình: $1387.6\text{ ms}$ (~1.4s).
+  - Tổng thời gian đáp ứng trung bình: $1.45\text{ giây}$.
+  - Độ bám nguồn: $100\%$ tuân thủ chặt chẽ tài liệu QĐ 580; không xảy ra hiện tượng bịa nguồn hoặc bịa quy định.
+  - Hành vi từ chối an toàn: Phản hồi chuẩn xác `insufficient_evidence` trên DEV_02, DEV_08, DEV_09 và `out_of_scope` trên DEV_10.
+- **Cách tái chạy tối thiểu:**
+  ```bash
+  cd "05_Mã Nguồn Chương Trình"
+  # Chạy bộ test tự động (offline 100%)
+  .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
+
+  # Chạy đánh giá Live trên tập 10 ca phát triển
+  .\.venv\Scripts\python.exe evaluation/run_eval_live_r03.py
+  ```
+
+#### 5. Lỗi, giới hạn và việc còn lại
+
+- **Lỗi còn mở:** Không có lỗi phần mềm nội bộ, không có lỗi regression.
+- **Giới hạn đã nhận diện:** Phương pháp tìm kiếm thuần Vector (Dense Retrieval) đôi khi chưa tối ưu với câu hỏi dùng từ ngữ đời thường (như DEV_08 phân đoạn hệ 4 năm nằm ở chunk liền kề có điểm tương đồng thấp hơn). Điều này là căn cứ thuyết phục để triển khai Hybrid Search (BM25 + Vector) và Reranker ở Tuần 4.
+- **Phần hoàn thành:** 100% các tiêu chí của Nhiệm vụ 04 và các yêu cầu bổ sung trong lượt R03.
+- **Kế hoạch Tuần 4:** Sẵn sàng bước sang Tuần 4 — triển khai BM25 Sparse Search kết hợp Vector Dense Search thành Hybrid Retrieval, bổ sung mô hình Reranker và xây dựng giao diện người dùng Web UI (Streamlit/FastAPI Frontend).
+
+#### 6. GitHub
+
+- **Repository/nhánh:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- **Commit và Push:** Sẽ được thực thi và xác nhận ngay sau khi ghi nhận báo cáo bàn giao.
+- **Bảo mật:** Đã kiểm tra `.gitignore`, tuyệt đối không commit `.env` hay API key lên kho lưu trữ.
+
+#### 7. Bàn giao cho Codex
+
+- **Báo cáo chuyên môn chính:** `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md`.
+- **Dữ liệu đánh giá đính kèm:** `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_LIVE_DEV10_R03.jsonl` và `DNC_RAG_LIVE_DEV10_R03.csv`.
+- **Điểm cần Codex tập trung kiểm tra:**
+  1. Kiểm tra 8 ca test mới trong `tests/test_api_and_rag.py` kiểm định loại bỏ auto-attach top 1, hạ cấp citation ảo, và typed errors.
+  2. Kiểm tra tính an toàn của `backend/gemini_client.py` (`types.HttpOptions`, selective retry, cô lập mock).
+  3. Đối chiếu kết quả 10 ca live tại `DNC_RAG_LIVE_DEV10_R03.jsonl`, đặc biệt là hành vi từ chối an toàn tại DEV_02, DEV_08, DEV_09 và DEV_10.
+- **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.

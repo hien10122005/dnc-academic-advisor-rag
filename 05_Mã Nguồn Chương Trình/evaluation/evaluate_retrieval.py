@@ -17,6 +17,7 @@ Phiên bản v2.0 - Đánh giá nghiêm ngặt theo Source Span Character Inters
 from __future__ import annotations
 import json
 import os
+import re
 import statistics
 import sys
 import time
@@ -51,25 +52,39 @@ def load_corpus_pages() -> List[Dict[str, Any]]:
 
 
 def find_evidence_span_on_page(pages: List[Dict[str, Any]], pdf_page: int, quote: str) -> Tuple[int, int]:
-    """Tìm khoảng ký tự [start_char, end_char] của trích dẫn nguyên văn trên trang PDF."""
+    """Tìm khoảng ký tự [start_char, end_char] của trích dẫn nguyên văn trên trang PDF.
+
+    Quy tắc định vị bằng chứng nghiêm ngặt (Strict Evidence Locator):
+    1. Tìm chính xác (exact match) nguyên văn trước.
+    2. Nếu có lệch khoảng trắng hoặc ký tự xuống dòng, phân rã các từ và ghép regex r'\\s+'
+       để ánh xạ vị trí ký tự gốc thực sự trong chuỗi content của trang (chữa dứt điểm lỗi đoán offset 0).
+    3. Tuyệt đối KHÔNG fallback về [0, len(quote)] hay phỏng đoán offset.
+    4. Trả về (-1, -1) nếu không tìm thấy trích dẫn.
+    """
     if pdf_page < 1 or pdf_page > len(pages):
         return -1, -1
 
     p_content = pages[pdf_page - 1]["content"]
     clean_quote = quote.strip()
+    if not clean_quote:
+        return -1, -1
 
+    # 1. Tìm chính xác
     pos = p_content.find(clean_quote)
     if pos != -1:
         return pos, pos + len(clean_quote)
 
-    # Thử tìm với khoảng trắng chuẩn hóa nếu có lệch ký tự xuống dòng
-    norm_content = " ".join(p_content.split())
-    norm_quote = " ".join(clean_quote.split())
-    norm_pos = norm_content.find(norm_quote)
-    if norm_pos != -1:
-        # Ánh xạ xấp xỉ
-        return 0, len(clean_quote)
+    # 2. Tìm bằng regex ánh xạ linh hoạt khoảng trắng/xuống dòng về chuỗi gốc
+    words = clean_quote.split()
+    if not words:
+        return -1, -1
 
+    pattern = r"\s+".join(re.escape(w) for w in words)
+    matches = list(re.finditer(pattern, p_content))
+    if len(matches) >= 1:
+        return matches[0].start(), matches[0].end()
+
+    # 3. Không tìm thấy: báo không hợp lệ (-1, -1)
     return -1, -1
 
 

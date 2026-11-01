@@ -31,6 +31,7 @@ from backend.config import (
     MAX_INPUT_TOKENS,
     MODEL_REVISION,
     ORIGINAL_PDF_FILE,
+    load_tokenizer,
 )
 
 
@@ -521,7 +522,7 @@ def run_chunking() -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     print(f"Xác thực nguồn thành công: {len(pages)} trang đã kiểm chứng.")
 
     print(f"Khởi tạo Tokenizer: {EMBEDDING_MODEL_CANDIDATE} (Revision {MODEL_REVISION})...")
-    tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_CANDIDATE)
+    tokenizer = load_tokenizer(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
 
     articles = get_article_boundaries(pages)
     print(f"Phân tích thành công {len(articles)} điều khoản quy chế.")

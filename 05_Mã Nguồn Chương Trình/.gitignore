@@ -15,7 +15,9 @@ chroma_db/
 
 # Environment & Secrets
 .env
-.env.local
+.env.*
+*.env
+!.env.example
 *.log
 
 # IDE & OS

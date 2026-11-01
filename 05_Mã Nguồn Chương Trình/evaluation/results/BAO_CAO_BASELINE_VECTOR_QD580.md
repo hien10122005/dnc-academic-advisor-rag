@@ -39,23 +39,27 @@ Toàn bộ các thông số dưới đây được tính toán trực tiếp b�
 
 | Thuộc tính phân đoạn | Giá trị thực tế v2 | Ghi chú kỹ thuật |
 | :--- | :---: | :--- |
-| **Tổng số Chunks** | **104 chunks** | Tăng từ 70 lên 104 do chia nhỏ tuân thủ tokenizer |
-| **Phần Quyết định ban hành (`decision`)** | **4 chunks** | Căn cứ ban hành, Điều 1, Điều 2, Điều 3 (Trang 1) |
-| **Phần Quy chế đào tạo (`regulation`)** | **100 chunks** | Điều 1 đến Điều 32 (Trang 2 đến 26) |
+| **Tổng số Chunks** | **104 chunks** | Phân rã nhỏ mịn theo tokenizer BKAi (100% $\le 256$ tokens) |
+| **Phần Quyết định ban hành (`decision`)** | **6 chunks** | Căn cứ, xét đề nghị, Điều 1, Điều 2, Điều 3 (Trang 1) |
+| **Phần Quy chế đào tạo (`regulation`)** | **98 chunks** | Điều 1 đến Điều 32 (Trang 2 đến 26) |
 | **Số Chunks văn bản thường (Text)** | **95 chunks** | Chia theo mệnh đề, khoản và câu hoàn chỉnh |
-| **Số Chunks bảng biểu Markdown (Table)**| **9 chunks** | 6 bảng nguyên vẹn + 3 hàng của bảng Điều 28 |
-| **Số Chunks nối trang (Cross-page)** | **6 chunks** | Nối liền mạch Điều 14, 18, 20, 22, 25 qua trang scan |
-| **Số đoạn gối đầu (Overlap Spans)** | **27 đoạn** | Đều lưu đúng số trang gốc và offset bắt đầu từ 0 |
-| **Tổng số Source Spans đã kiểm chứng** | **351 spans** | Khớp chính xác $100\%$ từng ký tự với trang nguồn |
+| **Số Chunks bảng biểu Markdown (Table)**| **9 chunks** | 6 bảng nguyên vẹn + 3 sub-tables lặp header của bảng Điều 28 |
+| **Số Chunks nối trang (Cross-page)** | **19 chunks** | Nối liền mạch các điều khoản vắt qua ranh giới trang scan |
+| **Số đoạn gối đầu (Overlap Spans)** | **27 đoạn** | Đều lưu đúng số trang gốc và offset khớp nguyên văn |
+| **Tổng số Source Spans đã kiểm chứng** | **351 spans** | Khớp chính xác $100\%$ từng ký tự với trang nguồn gốc |
 
 ### 2.3 Phân bố Token và Ký tự
 
 | Thông số đo lường | Nhỏ nhất (Min) | Trung vị (Median) | Trung bình (Mean) | Lớn nhất (Max) | Giới hạn mô hình |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Số Token (`embedding_text`)** | **52** | **189.5** | **184.4** | **246** | $\le 256$ ($100\%$ đạt chuẩn) |
-| **Độ dài ký tự (`content`)** | **109** | **527.5** | **514.8** | **836** | Không bị phình to |
+| **Số Token (`embedding_text`)** | **52** | **198.0** | **184.4** | **246** | Mục tiêu $\le 240$, trần cứng $\le 256$ ($100\%$ đạt chuẩn) |
+| **Độ dài ký tự (`content`)** | **58** | **600.5** | **544.1** | **839** | Thống nhất từ artifact thực tế |
 
-*Quy ước đo lường: `token_count` tính trên toàn bộ chuỗi đưa vào mô hình gồm `[context_prefix] + \n + content` cùng 2 special tokens `<s>` và `</s>`; `char_count` tính trên chuỗi `content` thực của văn bản.*
+*Quy ước đo lường: `token_count` tính trên toàn bộ đầu vào mô hình gồm `[context_prefix] + \n + content` cùng các special tokens `<s>` và `</s>`; `char_count` tính trên chuỗi `content` thực của chunk.*
+
+### 2.4 Giải trình vùng nội dung đầu trang PDF 2 được lược bỏ có chủ đích
+- Đoạn đầu trang PDF 2 gồm $149$ ký tự không phải khoảng trắng (tiêu đề *"QUY CHẾ ĐÀO TẠO TRÌNH ĐỘ ĐẠI HỌC..."*, dòng viện dẫn *"Ban hành kèm theo Quyết định số 580/QĐ-ĐHNCT..."*, và tiêu đề *"CHƯƠNG I: QUY ĐỊNH CHUNG"*).
+- Đây là phần tiêu đề hành chính chung, không chứa quy phạm nghiệp vụ hay điều kiện ràng buộc học vụ nên được chủ đích lược bỏ khỏi spans của các điều khoản cụ thể. Toàn bộ nội dung quy phạm từ Điều 1 đến Điều 32 được bảo toàn $100\%$ không bị bỏ sót bất kỳ điều kiện hay ngoại lệ nào.
 
 ---
 
@@ -80,13 +84,16 @@ Mẫu số đánh giá: **9 ca Grounded** (`DEV_01` $\rightarrow$ `DEV_09`). Ca 
 | **Hit Rate@1 ($\ge 90\%$ bằng chứng)** | N/A* | **$55.6\%$** (5/9 ca) | Bắt trọn bằng chứng ngay Top 1 |
 | **Hit Rate@3 ($\ge 90\%$ bằng chứng)** | N/A* | **$77.8\%$** (7/9 ca) | Thu hồi tốt ở Top 3 |
 | **Hit Rate@5 ($\ge 90\%$ bằng chứng)** | N/A* | **$77.8\%$** (7/9 ca) | Ổn định ở Top 5 |
-| **Hit Rate@10 ($\ge 90\%$ bằng chứng)**| N/A* | **$100.0\%$** (9/9 ca) | Toàn bộ 9 ca đều có bằng chứng ở Top 10 |
-| **Mean Reciprocal Rank (MRR@10)** | N/A* | **$0.6806$** | Thứ hạng bằng chứng đầu trung bình $\approx 1.47$ |
+| **Hit Rate@10 ($\ge 90\%$ bằng chứng)**| N/A* | **$100.0\%$** (9/9 ca) | Toàn bộ 9 ca đều có ít nhất 1 bằng chứng $\ge 90\%$ ở Top 10** |
+| **Mean Reciprocal Rank (MRR@10)** | N/A* | **$0.6806$** | Đo vị trí tương hỗ của bằng chứng đầu tiên đạt chuẩn |
 | **Độ phủ bằng chứng trung bình@10** | N/A* | **$83.1\%$** | Tăng mạnh khả năng thu hồi đa nguồn |
-| **Tỷ lệ phủ đủ TẤT CẢ bằng chứng@10**| N/A* | **$66.7\%$** (6/9 ca) | 6/9 ca thu hồi trọn vẹn $100\%$ các ý |
-| **Độ trễ trung bình truy vấn** | $43.1\text{ ms}$ | **$63.6\text{ ms}$** | Phản hồi siêu tốc trên CPU ($< 100\text{ ms}$) |
+| **Tỷ lệ ca mọi bằng chứng đạt $\ge 90\%$**| N/A* | **$66.7\%$** (6/9 ca) | 6/9 ca thu hồi trọn vẹn mọi trích dẫn bằng chứng*** |
+| **Độ trễ trung bình truy vấn** | $43.1\text{ ms}$ | **$63.6\text{ ms}$** | Phép đo phát triển trên 10 query (Trung vị: $37.9\text{ ms}$)**** |
 
-*\*Ghi chú đối chiếu: Bản cũ v1 không lưu trữ `source_spans_json` trong metadata ChromaDB nên không thể truy xuất ngược khoảng ký tự để chấm theo tiêu chí span intersection. Ở bản v1, ca DEV_02 từng hoàn toàn rớt khỏi Top 10 do Điều 3 bị dồn vào chunk 2371 ký tự và bị cắt ngầm.*
+*\*Ghi chú đối chiếu: Bản cũ v1 không lưu trữ `source_spans_json` trong metadata ChromaDB nên không thể truy xuất ngược khoảng ký tự để chấm theo tiêu chí span intersection. Ở bản v1, ca DEV_02 từng hoàn toàn rớt khỏi Top 10 do Điều 3 bị dồn vào chunk 2371 ký tự và bị cắt ngầm.*  
+*\*\*Lưu ý phương pháp luận: Hit@10 = 100% nghĩa là mỗi ca đều tìm thấy ít nhất một bằng chứng đạt ngưỡng phủ ký tự $\ge 90\%$, không đồng nghĩa chatbot đã trả lời trọn vẹn mọi ý ngữ nghĩa của câu hỏi.*  
+*\*\*\*Lưu ý độ phủ: Tỷ lệ phủ ký tự $\ge 90\%$ là điều kiện cần; khi đánh giá câu trả lời tổng thể vẫn cần kiểm tra các con số và ý bắt buộc (mandatory points) độc lập.*  
+*\*\*\*\*Lưu ý độ trễ: Đây là phép thử phát triển nhỏ trên 10 query để kiểm tra tính sẵn sàng, chưa bao gồm phân vị P95 và số lần lặp lớn trong môi trường chịu tải.*
 
 ---
 

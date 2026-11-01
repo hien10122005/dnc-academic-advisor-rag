@@ -28,6 +28,7 @@ from backend.config import (
     MANIFEST_FILE,
     MAX_INPUT_TOKENS,
     MODEL_REVISION,
+    load_tokenizer,
 )
 from backend.chunking import compute_sha256, run_chunking
 
@@ -35,7 +36,7 @@ from backend.chunking import compute_sha256, run_chunking
 def test_token_limits():
     """Kiểm tra giới hạn token cứng <= 256 trên toàn bộ chunks."""
     print("\n--- Test 1: Kiểm tra Giới hạn Token (Hard Limit <= 256) ---")
-    tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_CANDIDATE)
+    tokenizer = load_tokenizer(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
 
     chunks = []
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:

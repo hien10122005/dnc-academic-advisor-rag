@@ -31,16 +31,21 @@ from backend.config import (
     INGESTION_STATUS_FILE,
     MANIFEST_FILE,
     MODEL_REVISION,
+    load_embedding_model,
 )
 
 
 class VietnameseEmbeddingFunction(EmbeddingFunction):
     """Lớp bọc SentenceTransformer tương thích chuẩn ChromaDB EmbeddingFunction."""
 
-    def __init__(self, model_name: str = EMBEDDING_MODEL_CANDIDATE):
-        print(f"Khởi tạo mô hình embedding: {model_name} (Revision: {MODEL_REVISION})...")
-        self.model = SentenceTransformer(model_name)
+    def __init__(self, model_name: str = EMBEDDING_MODEL_CANDIDATE, revision: str = MODEL_REVISION):
+        print(f"Khởi tạo mô hình embedding: {model_name} (Revision: {revision})...")
+        self.model = load_embedding_model(model_name, revision=revision)
+        self._name = f"vietnamese-bi-encoder-{revision[:7]}"
         print("Mô hình embedding đã sẵn sàng.")
+
+    def name(self) -> str:
+        return self._name
 
     def __call__(self, input: Documents) -> Embeddings:
         """Sinh vector embedding chuẩn hóa đơn vị L2 cho danh sách văn bản."""
@@ -61,32 +66,64 @@ def load_chunks(chunks_path: Path) -> List[Dict[str, Any]]:
     return chunks
 
 
-def save_ingestion_status(status_data: Dict[str, Any]):
-    """Ghi trạng thái ingestion vào tệp INGESTION_STATUS.json."""
-    os.makedirs(INGESTION_STATUS_FILE.parent, exist_ok=True)
-    with open(INGESTION_STATUS_FILE, "w", encoding="utf-8") as f:
-        json.dump(status_data, f, ensure_ascii=False, indent=2)
+def save_ingestion_status(status_data: Dict[str, Any], status_path: Optional[Path] = None):
+    """Ghi trạng thái ingestion vào tệp INGESTION_STATUS.json với thông tin theo từng collection."""
+    target_file = Path(status_path) if status_path else INGESTION_STATUS_FILE
+    os.makedirs(target_file.parent, exist_ok=True)
+
+    existing_data: Dict[str, Any] = {}
+    if target_file.exists():
+        try:
+            with open(target_file, "r", encoding="utf-8") as f:
+                existing_data = json.load(f)
+        except Exception:
+            existing_data = {}
+
+    collections_map = existing_data.get("collections", {})
+    col_name = status_data.get("collection_name", COLLECTION_NAME)
+    collections_map[col_name] = dict(status_data)
+
+    full_payload = dict(status_data)
+    full_payload["collections"] = collections_map
+    full_payload["last_updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(target_file, "w", encoding="utf-8") as f:
+        json.dump(full_payload, f, ensure_ascii=False, indent=2)
 
 
-def ingest_corpus(collection_name: str = COLLECTION_NAME) -> Dict[str, Any]:
+def ingest_corpus(
+    collection_name: str = COLLECTION_NAME,
+    persist_dir: Optional[Path] = None,
+    chunks_path: Optional[Path] = None,
+    manifest_path: Optional[Path] = None,
+    status_path: Optional[Path] = None,
+    force_recreate: bool = False,
+) -> Dict[str, Any]:
     """
     Nạp dữ liệu vào ChromaDB collection với vòng đời BUILDING -> READY.
+    Kiểm tra tương thích phiên bản trước khi ghi và xác thực tập ID trước khi báo READY.
     """
     start_time = time.time()
+    p_dir = Path(persist_dir) if persist_dir else CHROMA_PERSIST_DIR
+    c_file = Path(chunks_path) if chunks_path else CHUNKS_FILE
+    m_file = Path(manifest_path) if manifest_path else MANIFEST_FILE
+    s_file = Path(status_path) if status_path else INGESTION_STATUS_FILE
+
     print("=" * 80)
     print(f"BẮT ĐẦU INGESTION CORPUS VÀO CHROMADB (Collection: {collection_name})")
     print("=" * 80)
 
     # 1. Đọc chunks và manifest
-    chunks = load_chunks(CHUNKS_FILE)
-    print(f"Đã đọc {len(chunks)} chunks từ {CHUNKS_FILE}.")
+    chunks = load_chunks(c_file)
+    print(f"Đã đọc {len(chunks)} chunks từ {c_file}.")
 
     manifest_data = {}
-    if MANIFEST_FILE.exists():
-        with open(MANIFEST_FILE, "r", encoding="utf-8") as f:
+    if m_file.exists():
+        with open(m_file, "r", encoding="utf-8") as f:
             manifest_data = json.load(f)
 
     corpus_fingerprint = manifest_data.get("corpus_fingerprint", "unknown")
+    chunks_sha256 = manifest_data.get("chunks_sha256", "unknown")
 
     # 2. Cập nhật trạng thái ban đầu: BUILDING
     status_data = {
@@ -95,20 +132,46 @@ def ingest_corpus(collection_name: str = COLLECTION_NAME) -> Dict[str, Any]:
         "collection_name": collection_name,
         "chunk_version": CHUNK_VERSION,
         "corpus_fingerprint": corpus_fingerprint,
+        "chunks_sha256": chunks_sha256,
         "model_id": EMBEDDING_MODEL_CANDIDATE,
         "model_revision": MODEL_REVISION,
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "total_chunks_expected": len(chunks),
     }
-    save_ingestion_status(status_data)
+    save_ingestion_status(status_data, status_path=s_file)
 
     try:
         # 3. Khởi tạo ChromaDB client & Embedding function
-        embed_fn = VietnameseEmbeddingFunction(EMBEDDING_MODEL_CANDIDATE)
-        os.makedirs(CHROMA_PERSIST_DIR, exist_ok=True)
-        client = chromadb.PersistentClient(path=str(CHROMA_PERSIST_DIR))
+        embed_fn = VietnameseEmbeddingFunction(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
+        os.makedirs(p_dir, exist_ok=True)
+        client = chromadb.PersistentClient(path=str(p_dir))
 
-        # 4. Lấy hoặc tạo collection với metadata phiên bản
+        # 4. Kiểm tra tương thích metadata nếu collection đã tồn tại
+        existing_colls = [c.name for c in client.list_collections()]
+        if collection_name in existing_colls:
+            existing_col = client.get_collection(name=collection_name)
+            existing_meta = existing_col.metadata or {}
+
+            incompatible = []
+            if existing_meta.get("corpus_fingerprint") and existing_meta.get("corpus_fingerprint") != corpus_fingerprint:
+                incompatible.append(f"corpus_fingerprint không khớp (cũ: {existing_meta.get('corpus_fingerprint')}, mới: {corpus_fingerprint})")
+            if existing_meta.get("model_revision") and existing_meta.get("model_revision") != MODEL_REVISION:
+                incompatible.append(f"model_revision không khớp (cũ: {existing_meta.get('model_revision')}, mới: {MODEL_REVISION})")
+            if existing_meta.get("model_name") and existing_meta.get("model_name") != EMBEDDING_MODEL_CANDIDATE:
+                incompatible.append(f"model_name không khớp (cũ: {existing_meta.get('model_name')}, mới: {EMBEDDING_MODEL_CANDIDATE})")
+            if existing_meta.get("chunk_version") and existing_meta.get("chunk_version") != CHUNK_VERSION:
+                incompatible.append(f"chunk_version không khớp (cũ: {existing_meta.get('chunk_version')}, mới: {CHUNK_VERSION})")
+
+            if incompatible and not force_recreate:
+                err_msg = (
+                    f"Collection '{collection_name}' đã tồn tại với phiên bản/metadata không tương thích: "
+                    f"{'; '.join(incompatible)}. Yêu cầu cô lập phiên bản sang collection mới hoặc chỉ định force_recreate=True."
+                )
+                raise ValueError(err_msg)
+            elif incompatible and force_recreate:
+                print(f"force_recreate=True: Xóa và tạo mới collection '{collection_name}'...")
+                client.delete_collection(name=collection_name)
+
         collection = client.get_or_create_collection(
             name=collection_name,
             embedding_function=embed_fn,
@@ -119,7 +182,7 @@ def ingest_corpus(collection_name: str = COLLECTION_NAME) -> Dict[str, Any]:
                 "chunk_version": CHUNK_VERSION,
                 "document_id": "QD580_DHNCT_2024",
                 "corpus_fingerprint": corpus_fingerprint,
-                "chunks_sha256": manifest_data.get("chunks_sha256", "unknown"),
+                "chunks_sha256": chunks_sha256,
             }
         )
 
@@ -165,11 +228,29 @@ def ingest_corpus(collection_name: str = COLLECTION_NAME) -> Dict[str, Any]:
             )
             print(f"  -> Đã nạp từ chunk {i + 1} đến {end_idx}/{len(ids)}")
 
-        final_count = collection.count()
+        # 7. Xác thực nghiêm ngặt tính toàn vẹn ID và số lượng trước khi đặt READY
+        actual_ids = set(collection.get()["ids"])
+        expected_ids = set(ids)
+        missing_ids = expected_ids - actual_ids
+        extra_ids = actual_ids - expected_ids
+
+        if missing_ids or extra_ids:
+            err_msg = (
+                f"Xác nhận tập ID thất bại trong collection '{collection_name}'! "
+                f"Thiếu {len(missing_ids)} ID, tồn dư {len(extra_ids)} ID không hợp lệ."
+            )
+            raise RuntimeError(err_msg)
+
+        final_count = len(actual_ids)
+        if final_count != len(chunks):
+            raise RuntimeError(
+                f"Số lượng chunk trong collection ({final_count}) không khớp với tệp chunks ({len(chunks)})!"
+            )
+
         elapsed = time.time() - start_time
         print(f"Hoàn thành nạp dữ liệu! Tổng số chunk trong collection: {final_count} (Thời gian: {elapsed:.2f}s)")
 
-        # 7. Cập nhật trạng thái thành công: READY
+        # 8. Cập nhật trạng thái thành công: READY
         status_data.update({
             "status": "READY",
             "corpus_ready": True,
@@ -177,12 +258,24 @@ def ingest_corpus(collection_name: str = COLLECTION_NAME) -> Dict[str, Any]:
             "elapsed_seconds": round(elapsed, 2),
             "final_chunk_count": final_count,
             "initial_chunk_count": initial_count,
+            "all_ids_verified": True,
         })
-        save_ingestion_status(status_data)
-        print(f"Đã lưu báo cáo trạng thái ingestion tại: {INGESTION_STATUS_FILE}")
+        save_ingestion_status(status_data, status_path=s_file)
+        print(f"Đã lưu báo cáo trạng thái ingestion tại: {s_file}")
         return status_data
 
     except Exception as exc:
+        elapsed = time.time() - start_time
+        status_data.update({
+            "status": "FAILED",
+            "corpus_ready": False,
+            "error_message": str(exc),
+            "failed_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "elapsed_seconds": round(elapsed, 2),
+        })
+        save_ingestion_status(status_data, status_path=s_file)
+        print(f"LỖI INGESTION: {exc}")
+        raise exc
         elapsed = time.time() - start_time
         status_data.update({
             "status": "FAILED",

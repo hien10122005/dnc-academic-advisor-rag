@@ -49,3 +49,21 @@ EMBEDDING_MODEL_CANDIDATE = "bkai-foundation-models/vietnamese-bi-encoder"
 MODEL_REVISION = "84f9d9ada0d1a3c37557398b9ae9fcedcdf40be0"
 EMBEDDING_DIM = 768
 DISTANCE_METRIC = "cosine"
+
+
+def load_tokenizer(model_name: str = EMBEDDING_MODEL_CANDIDATE, revision: str = MODEL_REVISION):
+    """Tải AutoTokenizer với revision commit hash bắt buộc và kiểm tra tính hợp lệ."""
+    from transformers import AutoTokenizer
+    if revision != MODEL_REVISION:
+        raise ValueError(f"Revision '{revision}' không khớp MODEL_REVISION chuẩn '{MODEL_REVISION}'")
+    tokenizer = AutoTokenizer.from_pretrained(model_name, revision=revision)
+    return tokenizer
+
+
+def load_embedding_model(model_name: str = EMBEDDING_MODEL_CANDIDATE, revision: str = MODEL_REVISION):
+    """Tải SentenceTransformer với revision commit hash bắt buộc và kiểm tra tính hợp lệ."""
+    from sentence_transformers import SentenceTransformer
+    if revision != MODEL_REVISION:
+        raise ValueError(f"Revision '{revision}' không khớp MODEL_REVISION chuẩn '{MODEL_REVISION}'")
+    model = SentenceTransformer(model_name, revision=revision)
+    return model

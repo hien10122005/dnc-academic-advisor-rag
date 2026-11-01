@@ -24,9 +24,10 @@ chroma_db/
 
 # Secrets & Environment Variables (Keep only .env.example)
 .env
+.env.*
 *.env
 !.env.example
-05_Mã Nguồn Chương Trình/.env
+!05_Mã Nguồn Chương Trình/.env.example
 
 # Temporary Files, Logs, and Scratch Scripts
 scratch/

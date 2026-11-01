@@ -27,6 +27,7 @@ from backend.config import (
     INGESTION_STATUS_FILE,
     MANIFEST_FILE,
     MODEL_REVISION,
+    load_embedding_model,
 )
 
 
@@ -38,10 +39,14 @@ class VectorRetriever:
         persist_dir: str = str(CHROMA_PERSIST_DIR),
         collection_name: str = COLLECTION_NAME,
         model_name: str = EMBEDDING_MODEL_CANDIDATE,
+        status_file_path: Optional[Path] = None,
+        manifest_path: Optional[Path] = None,
     ):
         self.persist_dir = str(persist_dir)
         self.collection_name = collection_name
         self.model_name = model_name
+        self.status_file_path = Path(status_file_path) if status_file_path else INGESTION_STATUS_FILE
+        self.manifest_path = Path(manifest_path) if manifest_path else MANIFEST_FILE
 
         self._client: Optional[chromadb.PersistentClient] = None
         self._collection: Optional[chromadb.Collection] = None
@@ -49,19 +54,75 @@ class VectorRetriever:
         self._manifest_data: Optional[Dict[str, Any]] = None
 
     def check_readiness(self):
-        """Xác thực trạng thái READY của collection trước khi truy vấn."""
-        if os.path.exists(INGESTION_STATUS_FILE):
+        """Xác thực trạng thái READY của collection trước khi truy vấn. Chặn mọi trường hợp thiếu/hỏng/sai phiên bản."""
+        if not self.status_file_path.exists():
+            raise RuntimeError(
+                f"Tệp trạng thái ingestion không tồn tại: {self.status_file_path}. Chưa có dữ liệu nào được nạp."
+            )
+
+        try:
+            with open(self.status_file_path, "r", encoding="utf-8") as f:
+                status_data = json.load(f)
+        except Exception as exc:
+            raise RuntimeError(
+                f"Tệp trạng thái ingestion bị hỏng hoặc không đúng định dạng JSON ({self.status_file_path}): {exc}"
+            )
+
+        # Tìm thông tin trạng thái của collection tương ứng
+        col_status = None
+        if isinstance(status_data, dict):
+            collections_map = status_data.get("collections", {})
+            if isinstance(collections_map, dict) and self.collection_name in collections_map:
+                col_status = collections_map[self.collection_name]
+            elif status_data.get("collection_name") == self.collection_name:
+                col_status = status_data
+
+        if col_status is None:
+            available_cols = list(status_data.get("collections", {}).keys()) if isinstance(status_data, dict) else []
+            if not available_cols and isinstance(status_data, dict) and status_data.get("collection_name"):
+                available_cols = [status_data.get("collection_name")]
+            raise RuntimeError(
+                f"Không tìm thấy trạng thái cho collection '{self.collection_name}' trong {self.status_file_path}. "
+                f"Các collection hiện có: {available_cols}"
+            )
+
+        status_str = col_status.get("status")
+        corpus_ready = col_status.get("corpus_ready", False)
+
+        if status_str != "READY" or not corpus_ready:
+            raise RuntimeError(
+                f"Corpus collection '{self.collection_name}' chưa sẵn sàng (Trạng thái: {status_str}, corpus_ready: {corpus_ready}). "
+                "Hãy hoàn tất ingestion thành công trước khi truy vấn."
+            )
+
+        # Kiểm tra tính tương thích giữa trạng thái và manifest
+        if self.manifest_path.exists():
             try:
-                with open(INGESTION_STATUS_FILE, "r", encoding="utf-8") as f:
-                    status = json.load(f)
-                    if status.get("status") != "READY" or not status.get("corpus_ready"):
-                        raise RuntimeError(
-                            f"Corpus chưa sẵn sàng (Status: {status.get('status')}). "
-                            "Hãy chạy backend.ingestion để hoàn tất việc nạp dữ liệu."
-                        )
-            except Exception as e:
-                if isinstance(e, RuntimeError):
-                    raise e
+                with open(self.manifest_path, "r", encoding="utf-8") as f:
+                    manifest_data = json.load(f)
+                expected_fp = manifest_data.get("corpus_fingerprint")
+                actual_fp = col_status.get("corpus_fingerprint")
+                if expected_fp and actual_fp and expected_fp != actual_fp:
+                    raise RuntimeError(
+                        f"Corpus fingerprint trong trạng thái ({actual_fp}) không khớp với manifest hiện tại ({expected_fp})!"
+                    )
+            except RuntimeError:
+                raise
+            except Exception:
+                pass
+
+        # Kiểm tra model_id và model_revision
+        status_model = col_status.get("model_id")
+        if status_model and status_model != self.model_name:
+            raise RuntimeError(
+                f"Model ID trong trạng thái ingestion ({status_model}) không khớp với cấu hình retriever ({self.model_name})!"
+            )
+
+        status_rev = col_status.get("model_revision")
+        if status_rev and status_rev != MODEL_REVISION:
+            raise RuntimeError(
+                f"Model revision trong trạng thái ingestion ({status_rev}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
+            )
 
     @property
     def client(self) -> chromadb.PersistentClient:
@@ -71,15 +132,15 @@ class VectorRetriever:
 
     @property
     def collection(self) -> chromadb.Collection:
+        self.check_readiness()
         if self._collection is None:
-            self.check_readiness()
             self._collection = self.client.get_collection(name=self.collection_name)
         return self._collection
 
     @property
     def model(self) -> SentenceTransformer:
         if self._model is None:
-            self._model = SentenceTransformer(self.model_name)
+            self._model = load_embedding_model(self.model_name, revision=MODEL_REVISION)
         return self._model
 
     def retrieve(
@@ -87,7 +148,10 @@ class VectorRetriever:
         query: str,
         top_k: int = 10,
     ) -> List[Dict[str, Any]]:
-        """Truy vấn Top-K chunks tương đồng nhất với câu hỏi."""
+        """Truy vấn Top-K chunks tương đồng nhất với câu hỏi. Kiểm tra readiness trên mỗi request."""
+        # Luôn xác thực readiness trên mỗi truy vấn (ngăn chặn stale cache khi trạng thái chuyển sang BUILDING/FAILED)
+        self.check_readiness()
+
         if not query or not query.strip():
             return []
 

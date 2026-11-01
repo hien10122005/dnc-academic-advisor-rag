@@ -37,7 +37,8 @@ Tại giai đoạn hiện tại (Nhiệm vụ 03 - Phiên bản v2.0), hệ th�
 │   └── INGESTION_STATUS.json      # Báo cáo trạng thái READY và lịch sử nạp vector
 ├── tests/
 │   ├── __init__.py
-│   └── test_chunking_and_sources.py # 5 bài unit/integration test tự động
+│   ├── test_chunking_and_sources.py     # 5 bài unit/integration test chunking & source spans
+│   └── test_lifecycle_and_regression.py # 14 bài regression test vòng đời ingestion, readiness & regex offset
 ├── evaluation/
 │   ├── __init__.py
 │   ├── DEV_10_CAU_QD580.jsonl     # Snapshot bộ 10 ca kiểm thử đã chuẩn hóa bằng chứng
@@ -73,10 +74,14 @@ pip install -r requirements.txt
 
 ## 4. Hướng dẫn thực thi các module
 
-### 4.1 Chạy bộ kiểm thử tự động (Unit & Integration Tests)
-Kiểm tra 5 tiêu chí kỹ thuật bắt buộc:
+### 4.1 Chạy bộ kiểm thử tự động (Unit & Regression Tests)
+Kiểm tra toàn diện 19 tiêu chí kỹ thuật:
 ```powershell
+# 1. Kiểm tra 5 tiêu chí chunking, token limit, source spans, coverage & idempotency:
 .\.venv\Scripts\python.exe -m tests.test_chunking_and_sources
+
+# 2. Kiểm tra 14 tiêu chí vòng đời ingestion, readiness cache invalidation, revision & whitespace regex:
+.\.venv\Scripts\python.exe -m tests.test_lifecycle_and_regression
 ```
 
 ### 4.2 Chạy quy trình phân đoạn (Chunking v2.0)

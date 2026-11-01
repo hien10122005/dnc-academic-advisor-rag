@@ -13,6 +13,7 @@ Kiểm tra 5 tiêu chí bắt buộc theo yêu cầu nghiệm thu:
 import json
 import re
 import sys
+import unittest
 from pathlib import Path
 
 # Thêm thư mục mã nguồn vào sys.path
@@ -188,19 +189,22 @@ def test_idempotency():
     print("-> Test 5 ĐẠT: Chạy lại sinh đúng 100% mã băm và cấu trúc!")
 
 
-def main():
-    print("=" * 80)
-    print("CHẠY BỘ KIỂM THỬ TỰ ĐỘNG CHUNKING & SOURCE INTEGRITY")
-    print("=" * 80)
-    test_token_limits()
-    test_source_spans_verbatim()
-    test_overlap_sources()
-    test_content_coverage()
-    test_idempotency()
-    print("\n" + "=" * 80)
-    print("TẤT CẢ 5 BÀI KIỂM THỬ ĐÃ ĐẠT 100% THÀNH CÔNG!")
-    print("=" * 80)
+class TestChunkingAndSources(unittest.TestCase):
+    def test_token_limits(self):
+        test_token_limits()
+
+    def test_source_spans_verbatim(self):
+        test_source_spans_verbatim()
+
+    def test_overlap_sources(self):
+        test_overlap_sources()
+
+    def test_content_coverage(self):
+        test_content_coverage()
+
+    def test_idempotency(self):
+        test_idempotency()
 
 
 if __name__ == "__main__":
-    main()
+    unittest.main()

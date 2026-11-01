@@ -1,4 +1,4 @@
-# Requirements for Task 03: Chunking & Local Vector Baseline
+# Requirements for Task 03 & 04: Vector Retrieval & FastAPI RAG with Gemini
 # Tested on Python 3.14 (AMD64)
 chromadb==1.5.9
 sentence-transformers==6.2.0
@@ -8,3 +8,7 @@ pydantic==2.14.2
 numpy==2.5.4
 tqdm==4.70.1
 python-dotenv==1.2.4
+fastapi==0.162.0
+uvicorn==0.42.0
+google-genai==2.34.0
+httpx==0.28.1

@@ -102,6 +102,7 @@ def ingest_corpus(
     """
     Nạp dữ liệu vào ChromaDB collection với vòng đời BUILDING -> READY.
     Kiểm tra tương thích phiên bản trước khi ghi và xác thực tập ID trước khi báo READY.
+    Bất kỳ lỗi nào trước hoặc trong quá trình nạp đều lập tức ghi nhận FAILED.
     """
     start_time = time.time()
     p_dir = Path(persist_dir) if persist_dir else CHROMA_PERSIST_DIR
@@ -113,34 +114,40 @@ def ingest_corpus(
     print(f"BẮT ĐẦU INGESTION CORPUS VÀO CHROMADB (Collection: {collection_name})")
     print("=" * 80)
 
-    # 1. Đọc chunks và manifest
-    chunks = load_chunks(c_file)
-    print(f"Đã đọc {len(chunks)} chunks từ {c_file}.")
-
-    manifest_data = {}
-    if m_file.exists():
-        with open(m_file, "r", encoding="utf-8") as f:
-            manifest_data = json.load(f)
-
-    corpus_fingerprint = manifest_data.get("corpus_fingerprint", "unknown")
-    chunks_sha256 = manifest_data.get("chunks_sha256", "unknown")
-
-    # 2. Cập nhật trạng thái ban đầu: BUILDING
+    # 1. Cập nhật trạng thái ban đầu ngay lập tức: BUILDING
     status_data = {
         "status": "BUILDING",
         "corpus_ready": False,
         "collection_name": collection_name,
         "chunk_version": CHUNK_VERSION,
-        "corpus_fingerprint": corpus_fingerprint,
-        "chunks_sha256": chunks_sha256,
+        "corpus_fingerprint": "unknown",
+        "chunks_sha256": "unknown",
         "model_id": EMBEDDING_MODEL_CANDIDATE,
         "model_revision": MODEL_REVISION,
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "total_chunks_expected": len(chunks),
+        "total_chunks_expected": 0,
     }
     save_ingestion_status(status_data, status_path=s_file)
 
     try:
+        # 2. Đọc chunks và manifest
+        chunks = load_chunks(c_file)
+        print(f"Đã đọc {len(chunks)} chunks từ {c_file}.")
+
+        manifest_data = {}
+        if m_file.exists():
+            with open(m_file, "r", encoding="utf-8") as f:
+                manifest_data = json.load(f)
+
+        corpus_fingerprint = manifest_data.get("corpus_fingerprint", "unknown")
+        chunks_sha256 = manifest_data.get("chunks_sha256", "unknown")
+
+        status_data.update({
+            "corpus_fingerprint": corpus_fingerprint,
+            "chunks_sha256": chunks_sha256,
+            "total_chunks_expected": len(chunks),
+        })
+        save_ingestion_status(status_data, status_path=s_file)
         # 3. Khởi tạo ChromaDB client & Embedding function
         embed_fn = VietnameseEmbeddingFunction(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
         os.makedirs(p_dir, exist_ok=True)

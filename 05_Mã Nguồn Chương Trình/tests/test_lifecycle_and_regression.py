@@ -229,28 +229,88 @@ class TestIngestionLifecycleAndInvariants(unittest.TestCase):
 
 
 class TestRetrieverReadinessVerification(unittest.TestCase):
-    """Kiểm thử nghiêm ngặt cơ chế check_readiness trong VectorRetriever."""
+    """Kiểm thử nghiêm ngặt cơ chế check_readiness (Preflight) trong VectorRetriever."""
 
     def setUp(self):
-        self.temp_dir = tempfile.TemporaryDirectory()
+        import gc
+        gc.collect()
+        self.temp_dir = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
         self.temp_path = Path(self.temp_dir.name)
+        self.persist_dir = self.temp_path / "test_chroma"
         self.status_file = self.temp_path / "INGESTION_STATUS.json"
         self.manifest_file = self.temp_path / "test_manifest.json"
+        self.chunks_file = self.temp_path / "test_chunks.jsonl"
 
+        # Tạo file chunks giả lập
+        with open(self.chunks_file, "w", encoding="utf-8") as f:
+            f.write('{"chunk_id": "c1", "content": "test"}\n')
+
+        from backend.retrieval import compute_sha256
+        self.valid_chunks_hash = compute_sha256(self.chunks_file)
+
+        # Tạo manifest chuẩn đầy đủ trường
+        self.valid_manifest = {
+            "corpus_fingerprint": "valid_fingerprint_123",
+            "chunks_sha256": self.valid_chunks_hash,
+            "model_revision": MODEL_REVISION,
+            "total_chunks": 1,
+        }
         with open(self.manifest_file, "w", encoding="utf-8") as f:
-            json.dump({
+            json.dump(self.valid_manifest, f)
+
+        # Tạo Chroma collection mẫu có metadata chuẩn
+        from backend.ingestion import VietnameseEmbeddingFunction
+        embed_fn = VietnameseEmbeddingFunction(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
+        self.client = chromadb.PersistentClient(path=str(self.persist_dir))
+        self.collection = self.client.create_collection(
+            name="test_col",
+            embedding_function=embed_fn,
+            metadata={
                 "corpus_fingerprint": "valid_fingerprint_123",
-            }, f)
+                "chunks_sha256": self.valid_chunks_hash,
+                "model_revision": MODEL_REVISION,
+            }
+        )
+
+        # Tạo file trạng thái chuẩn
+        self.valid_status = {
+            "collection_name": "test_col",
+            "status": "READY",
+            "corpus_ready": True,
+            "corpus_fingerprint": "valid_fingerprint_123",
+            "chunks_sha256": self.valid_chunks_hash,
+            "model_id": EMBEDDING_MODEL_CANDIDATE,
+            "model_revision": MODEL_REVISION,
+        }
+        with open(self.status_file, "w", encoding="utf-8") as f:
+            json.dump(self.valid_status, f)
 
     def tearDown(self):
+        import gc
+        gc.collect()
         self.temp_dir.cleanup()
+
+    def test_valid_preflight_passes(self):
+        """Preflight đầy đủ và đồng nhất 3 chiều phải qua thành công."""
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col",
+            status_file_path=self.status_file,
+            manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
+        )
+        info = retriever.check_readiness()
+        self.assertEqual(info["status"], "READY")
+        self.assertEqual(info["collection_name"], "test_col")
 
     def test_reject_missing_status_file(self):
         """Chặn truy vấn khi tệp INGESTION_STATUS.json không tồn tại."""
         retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
             collection_name="test_col",
             status_file_path=self.temp_path / "not_found.json",
             manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
         )
         with self.assertRaises(RuntimeError) as ctx:
             retriever.check_readiness()
@@ -262,30 +322,94 @@ class TestRetrieverReadinessVerification(unittest.TestCase):
             f.write("{ status: READY, unclosed json ...")
 
         retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
             collection_name="test_col",
             status_file_path=self.status_file,
             manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
         )
         with self.assertRaises(RuntimeError) as ctx:
             retriever.check_readiness()
         self.assertIn("bị hỏng hoặc không đúng định dạng", str(ctx.exception))
 
-    def test_reject_mismatched_collection(self):
-        """Chặn truy vấn khi trạng thái READY nhưng là của collection khác."""
-        with open(self.status_file, "w", encoding="utf-8") as f:
+    def test_reject_missing_manifest_file(self):
+        """Chặn truy vấn khi tệp manifest không tồn tại (chữa lỗi nuốt lỗi manifest)."""
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col",
+            status_file_path=self.status_file,
+            manifest_path=self.temp_path / "missing_manifest.json",
+            chunks_file_path=self.chunks_file,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            retriever.check_readiness()
+        self.assertIn("manifest không tồn tại", str(ctx.exception))
+
+    def test_reject_corrupted_manifest_json(self):
+        """Chặn truy vấn khi tệp manifest chứa JSON hỏng (chữa lỗi nuốt lỗi manifest)."""
+        with open(self.manifest_file, "w", encoding="utf-8") as f:
+            f.write("{ corpus_fingerprint: incomplete ...")
+
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col",
+            status_file_path=self.status_file,
+            manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            retriever.check_readiness()
+        self.assertIn("manifest bị hỏng hoặc không đúng định dạng", str(ctx.exception))
+
+    def test_reject_manifest_missing_fields(self):
+        """Chặn truy vấn khi manifest thiếu trường bắt buộc (ví dụ chunks_sha256)."""
+        with open(self.manifest_file, "w", encoding="utf-8") as f:
             json.dump({
-                "collection_name": "other_collection_xyz",
-                "status": "READY",
-                "corpus_ready": True,
                 "corpus_fingerprint": "valid_fingerprint_123",
-                "model_id": EMBEDDING_MODEL_CANDIDATE,
-                "model_revision": MODEL_REVISION,
+                # Thiếu chunks_sha256 và model_revision
             }, f)
 
         retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col",
+            status_file_path=self.status_file,
+            manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            retriever.check_readiness()
+        self.assertIn("manifest thiếu trường bắt buộc", str(ctx.exception))
+
+    def test_reject_status_non_boolean_ready(self):
+        """Chặn truy vấn khi corpus_ready không phải kiểu boolean True (ví dụ là string 'true')."""
+        self.valid_status["corpus_ready"] = "true"  # Sai kiểu (string thay vì boolean)
+        with open(self.status_file, "w", encoding="utf-8") as f:
+            json.dump(self.valid_status, f)
+
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col",
+            status_file_path=self.status_file,
+            manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            retriever.check_readiness()
+        self.assertIn("chưa sẵn sàng", str(ctx.exception))
+
+    def test_reject_mismatched_collection(self):
+        """Chặn truy vấn khi trạng thái READY nhưng là của collection khác."""
+        wrong_status = dict(self.valid_status)
+        wrong_status["collection_name"] = "other_collection_xyz"
+        with open(self.status_file, "w", encoding="utf-8") as f:
+            json.dump(wrong_status, f)
+
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
             collection_name="my_target_collection",
             status_file_path=self.status_file,
             manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
         )
         with self.assertRaises(RuntimeError) as ctx:
             retriever.check_readiness()
@@ -293,52 +417,87 @@ class TestRetrieverReadinessVerification(unittest.TestCase):
 
     def test_reject_mismatched_fingerprint(self):
         """Chặn truy vấn khi fingerprint trong trạng thái khác với manifest."""
+        wrong_status = dict(self.valid_status)
+        wrong_status["corpus_fingerprint"] = "stale_fingerprint_999"
         with open(self.status_file, "w", encoding="utf-8") as f:
-            json.dump({
-                "collection_name": "test_col",
-                "status": "READY",
-                "corpus_ready": True,
-                "corpus_fingerprint": "stale_fingerprint_999",
-                "model_id": EMBEDDING_MODEL_CANDIDATE,
-                "model_revision": MODEL_REVISION,
-            }, f)
+            json.dump(wrong_status, f)
 
         retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
             collection_name="test_col",
             status_file_path=self.status_file,
             manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
         )
         with self.assertRaises(RuntimeError) as ctx:
             retriever.check_readiness()
         self.assertIn("không khớp với manifest", str(ctx.exception))
 
-    def test_cache_invalidation_when_status_changes_to_building(self):
-        """Retriever phải chặn ngay khi trạng thái đổi sang BUILDING sau khi đối tượng đã được khởi tạo."""
-        # 1. Trạng thái ban đầu: READY
-        status_payload = {
-            "collection_name": "test_col",
-            "status": "READY",
-            "corpus_ready": True,
-            "corpus_fingerprint": "valid_fingerprint_123",
-            "model_id": EMBEDDING_MODEL_CANDIDATE,
-            "model_revision": MODEL_REVISION,
-        }
+    def test_reject_chroma_metadata_mismatch(self):
+        """Chặn truy vấn khi Chroma collection metadata bị lệch fingerprint so với manifest."""
+        # Tạo collection thứ 2 với metadata lệch
+        from backend.ingestion import VietnameseEmbeddingFunction
+        embed_fn = VietnameseEmbeddingFunction(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
+        self.client.create_collection(
+            name="test_col_mismatched_meta",
+            embedding_function=embed_fn,
+            metadata={
+                "corpus_fingerprint": "corrupted_fp_in_db",
+                "chunks_sha256": self.valid_chunks_hash,
+                "model_revision": MODEL_REVISION,
+            }
+        )
+        status_payload = dict(self.valid_status)
+        status_payload["collection_name"] = "test_col_mismatched_meta"
         with open(self.status_file, "w", encoding="utf-8") as f:
             json.dump(status_payload, f)
 
         retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col_mismatched_meta",
+            status_file_path=self.status_file,
+            manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            retriever.check_readiness()
+        self.assertIn("Metadata collection ChromaDB có corpus_fingerprint", str(ctx.exception))
+
+    def test_reject_disk_chunk_hash_mismatch(self):
+        """Chặn truy vấn khi tệp chunks trên đĩa bị sửa đổi dẫn đến sai mã băm SHA-256."""
+        # Ghi đè file chunks với nội dung khác
+        with open(self.chunks_file, "w", encoding="utf-8") as f:
+            f.write('{"tampered": true}\n')
+
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
             collection_name="test_col",
             status_file_path=self.status_file,
             manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            retriever.check_readiness()
+        self.assertIn("Mã băm tệp chunks trên đĩa", str(ctx.exception))
+
+    def test_cache_invalidation_when_status_changes_to_building(self):
+        """Retriever phải chặn ngay khi trạng thái đổi sang BUILDING sau khi đối tượng đã được khởi tạo."""
+        retriever = VectorRetriever(
+            persist_dir=str(self.persist_dir),
+            collection_name="test_col",
+            status_file_path=self.status_file,
+            manifest_path=self.manifest_file,
+            chunks_file_path=self.chunks_file,
         )
         # Lần kiểm tra đầu: OK
         retriever.check_readiness()
 
         # 2. Một tiến trình khác chuyển trạng thái sang BUILDING
-        status_payload["status"] = "BUILDING"
-        status_payload["corpus_ready"] = False
+        building_status = dict(self.valid_status)
+        building_status["status"] = "BUILDING"
+        building_status["corpus_ready"] = False
         with open(self.status_file, "w", encoding="utf-8") as f:
-            json.dump(status_payload, f)
+            json.dump(building_status, f)
 
         # Lần kiểm tra tiếp theo: Bắt buộc phải raise RuntimeError
         with self.assertRaises(RuntimeError) as ctx:

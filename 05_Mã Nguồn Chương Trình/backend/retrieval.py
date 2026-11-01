@@ -10,6 +10,7 @@ Nâng cấp:
 
 from __future__ import annotations
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -22,6 +23,8 @@ from sentence_transformers import SentenceTransformer
 
 from backend.config import (
     CHROMA_PERSIST_DIR,
+    CHUNKS_FILE,
+    CHUNK_VERSION,
     COLLECTION_NAME,
     EMBEDDING_MODEL_CANDIDATE,
     INGESTION_STATUS_FILE,
@@ -31,8 +34,17 @@ from backend.config import (
 )
 
 
+def compute_sha256(filepath: Path) -> str:
+    """Tính mã băm SHA-256 của tệp tin."""
+    h = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        while chunk := f.read(65536):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 class VectorRetriever:
-    """Retriever truy vấn vector ngữ nghĩa trên ChromaDB với kiểm tra vòng đời READY."""
+    """Retriever truy vấn vector ngữ nghĩa trên ChromaDB với kiểm tra vòng đời READY và Preflight đối soát ba chiều."""
 
     def __init__(
         self,
@@ -41,25 +53,33 @@ class VectorRetriever:
         model_name: str = EMBEDDING_MODEL_CANDIDATE,
         status_file_path: Optional[Path] = None,
         manifest_path: Optional[Path] = None,
+        chunks_file_path: Optional[Path] = None,
     ):
         self.persist_dir = str(persist_dir)
         self.collection_name = collection_name
         self.model_name = model_name
         self.status_file_path = Path(status_file_path) if status_file_path else INGESTION_STATUS_FILE
         self.manifest_path = Path(manifest_path) if manifest_path else MANIFEST_FILE
+        self.chunks_file_path = Path(chunks_file_path) if chunks_file_path else CHUNKS_FILE
 
         self._client: Optional[chromadb.PersistentClient] = None
         self._collection: Optional[chromadb.Collection] = None
         self._model: Optional[SentenceTransformer] = None
         self._manifest_data: Optional[Dict[str, Any]] = None
 
-    def check_readiness(self):
-        """Xác thực trạng thái READY của collection trước khi truy vấn. Chặn mọi trường hợp thiếu/hỏng/sai phiên bản."""
+    def check_readiness(self) -> Dict[str, Any]:
+        """
+        Xác thực tính sẵn sàng nghiêm ngặt (Preflight Readiness Verification).
+        Đối soát 3 chiều: Ingestion Status <-> Manifest <-> ChromaDB Collection Metadata <-> Chunks SHA-256.
+        Ném RuntimeError với thông báo lỗi cụ thể nếu phát hiện bất kỳ sự bất đồng nhất nào.
+        """
+        # 1. Kiểm tra sự tồn tại của tệp trạng thái
         if not self.status_file_path.exists():
             raise RuntimeError(
                 f"Tệp trạng thái ingestion không tồn tại: {self.status_file_path}. Chưa có dữ liệu nào được nạp."
             )
 
+        # 2. Đọc và phân tích JSON tệp trạng thái
         try:
             with open(self.status_file_path, "r", encoding="utf-8") as f:
                 status_data = json.load(f)
@@ -68,7 +88,7 @@ class VectorRetriever:
                 f"Tệp trạng thái ingestion bị hỏng hoặc không đúng định dạng JSON ({self.status_file_path}): {exc}"
             )
 
-        # Tìm thông tin trạng thái của collection tương ứng
+        # 3. Tìm thông tin trạng thái theo collection
         col_status = None
         if isinstance(status_data, dict):
             collections_map = status_data.get("collections", {})
@@ -77,7 +97,7 @@ class VectorRetriever:
             elif status_data.get("collection_name") == self.collection_name:
                 col_status = status_data
 
-        if col_status is None:
+        if col_status is None or not isinstance(col_status, dict):
             available_cols = list(status_data.get("collections", {}).keys()) if isinstance(status_data, dict) else []
             if not available_cols and isinstance(status_data, dict) and status_data.get("collection_name"):
                 available_cols = [status_data.get("collection_name")]
@@ -86,43 +106,127 @@ class VectorRetriever:
                 f"Các collection hiện có: {available_cols}"
             )
 
+        # 4. Kiểm tra schema trạng thái nghiêm ngặt (kiểu boolean, trạng thái READY)
         status_str = col_status.get("status")
-        corpus_ready = col_status.get("corpus_ready", False)
+        corpus_ready = col_status.get("corpus_ready")
 
-        if status_str != "READY" or not corpus_ready:
+        if not isinstance(corpus_ready, bool) or corpus_ready is not True or status_str != "READY":
             raise RuntimeError(
                 f"Corpus collection '{self.collection_name}' chưa sẵn sàng (Trạng thái: {status_str}, corpus_ready: {corpus_ready}). "
                 "Hãy hoàn tất ingestion thành công trước khi truy vấn."
             )
 
-        # Kiểm tra tính tương thích giữa trạng thái và manifest
-        if self.manifest_path.exists():
-            try:
-                with open(self.manifest_path, "r", encoding="utf-8") as f:
-                    manifest_data = json.load(f)
-                expected_fp = manifest_data.get("corpus_fingerprint")
-                actual_fp = col_status.get("corpus_fingerprint")
-                if expected_fp and actual_fp and expected_fp != actual_fp:
-                    raise RuntimeError(
-                        f"Corpus fingerprint trong trạng thái ({actual_fp}) không khớp với manifest hiện tại ({expected_fp})!"
-                    )
-            except RuntimeError:
-                raise
-            except Exception:
-                pass
+        required_status_fields = ["collection_name", "corpus_fingerprint", "chunks_sha256", "model_id", "model_revision"]
+        for fld in required_status_fields:
+            if not col_status.get(fld):
+                raise RuntimeError(
+                    f"Trạng thái collection '{self.collection_name}' thiếu trường bắt buộc: '{fld}'."
+                )
 
-        # Kiểm tra model_id và model_revision
-        status_model = col_status.get("model_id")
-        if status_model and status_model != self.model_name:
+        # 5. Kiểm tra tệp Manifest bắt buộc (không được bỏ qua hay nuốt lỗi)
+        if not self.manifest_path.exists():
             raise RuntimeError(
-                f"Model ID trong trạng thái ingestion ({status_model}) không khớp với cấu hình retriever ({self.model_name})!"
+                f"Tệp manifest không tồn tại: {self.manifest_path}. Không thể xác thực tính toàn vẹn của kho tri thức."
             )
 
-        status_rev = col_status.get("model_revision")
-        if status_rev and status_rev != MODEL_REVISION:
+        try:
+            with open(self.manifest_path, "r", encoding="utf-8") as f:
+                manifest_data = json.load(f)
+        except Exception as exc:
             raise RuntimeError(
-                f"Model revision trong trạng thái ingestion ({status_rev}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
+                f"Tệp manifest bị hỏng hoặc không đúng định dạng JSON ({self.manifest_path}): {exc}"
             )
+
+        if not isinstance(manifest_data, dict):
+            raise RuntimeError(f"Tệp manifest ({self.manifest_path}) không phải là một JSON object hợp lệ.")
+
+        required_manifest_fields = ["corpus_fingerprint", "chunks_sha256", "model_revision", "total_chunks"]
+        for fld in required_manifest_fields:
+            if not manifest_data.get(fld):
+                raise RuntimeError(f"Tệp manifest thiếu trường bắt buộc: '{fld}'.")
+
+        # 6. Đối soát Fingerprint & Chunks SHA-256 giữa Status và Manifest
+        expected_fp = manifest_data["corpus_fingerprint"]
+        actual_fp = col_status["corpus_fingerprint"]
+        if actual_fp != expected_fp:
+            raise RuntimeError(
+                f"Corpus fingerprint trong trạng thái ({actual_fp}) không khớp với manifest hiện tại ({expected_fp})!"
+            )
+
+        expected_hash = manifest_data["chunks_sha256"]
+        actual_hash = col_status["chunks_sha256"]
+        if actual_hash != expected_hash:
+            raise RuntimeError(
+                f"Chunks SHA-256 trong trạng thái ({actual_hash}) không khớp với manifest ({expected_hash})!"
+            )
+
+        # 7. Kiểm tra model_id và model_revision
+        if col_status["model_id"] != self.model_name:
+            raise RuntimeError(
+                f"Model ID trong trạng thái ingestion ({col_status['model_id']}) không khớp với cấu hình retriever ({self.model_name})!"
+            )
+
+        if col_status["model_revision"] != MODEL_REVISION:
+            raise RuntimeError(
+                f"Model revision trong trạng thái ingestion ({col_status['model_revision']}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
+            )
+
+        if manifest_data["model_revision"] != MODEL_REVISION:
+            raise RuntimeError(
+                f"Model revision trong manifest ({manifest_data['model_revision']}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
+            )
+
+        # 8. Đối soát Metadata thực tế trong ChromaDB Collection
+        try:
+            available_collections = [c.name for c in self.client.list_collections()]
+            if self.collection_name not in available_collections:
+                raise RuntimeError(
+                    f"Collection '{self.collection_name}' không tồn tại trong ChromaDB ({self.persist_dir}). "
+                    f"Các collection hiện có: {available_collections}"
+                )
+
+            col = self.client.get_collection(name=self.collection_name)
+            col_meta = col.metadata or {}
+
+            if col_meta.get("corpus_fingerprint") != expected_fp:
+                raise RuntimeError(
+                    f"Metadata collection ChromaDB có corpus_fingerprint ({col_meta.get('corpus_fingerprint')}) "
+                    f"không khớp với manifest ({expected_fp})!"
+                )
+
+            if col_meta.get("chunks_sha256") != expected_hash:
+                raise RuntimeError(
+                    f"Metadata collection ChromaDB có chunks_sha256 ({col_meta.get('chunks_sha256')}) "
+                    f"không khớp với manifest ({expected_hash})!"
+                )
+
+            if col_meta.get("model_revision") != MODEL_REVISION:
+                raise RuntimeError(
+                    f"Metadata collection ChromaDB có model_revision ({col_meta.get('model_revision')}) "
+                    f"không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
+                )
+        except RuntimeError:
+            raise
+        except Exception as exc:
+            raise RuntimeError(f"Lỗi kiểm tra metadata ChromaDB collection: {exc}")
+
+        # 9. Đối soát hash của tệp chunk thực tế trên đĩa
+        if self.chunks_file_path and self.chunks_file_path.exists():
+            disk_chunks_hash = compute_sha256(self.chunks_file_path)
+            if disk_chunks_hash != expected_hash:
+                raise RuntimeError(
+                    f"Mã băm tệp chunks trên đĩa ({disk_chunks_hash}) không khớp với manifest ({expected_hash})!"
+                )
+
+        return {
+            "status": "READY",
+            "collection_name": self.collection_name,
+            "corpus_fingerprint": expected_fp,
+            "chunks_sha256": expected_hash,
+            "model_name": self.model_name,
+            "model_revision": MODEL_REVISION,
+            "total_chunks": manifest_data["total_chunks"],
+        }
 
     @property
     def client(self) -> chromadb.PersistentClient:
@@ -142,6 +246,10 @@ class VectorRetriever:
         if self._model is None:
             self._model = load_embedding_model(self.model_name, revision=MODEL_REVISION)
         return self._model
+
+    @model.setter
+    def model(self, value: Optional[SentenceTransformer]) -> None:
+        self._model = value
 
     def retrieve(
         self,

@@ -28,7 +28,7 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 | --- | --- | --- | --- |
 | 1 | 26/10–01/11/2026 | Chốt phạm vi, đề cương, môi trường và kế hoạch kiểm chứng dữ liệu | Đã chuẩn bị; hoàn thành kiểm chứng dữ liệu QĐ 580 và thiết lập môi trường |
 | 2 | 02/11–08/11 | Ingestion có nguồn, vector search chạy thử; lập bộ đánh giá nháp | Đã có minh chứng thực tế: Pipeline chunking v2.0 (104 chunks), collection qd580_baseline_v2, 5 bài test tự động đạt 100%, bộ đánh giá nghiêm ngặt (Hit@10 100%, MRR 0.6806) |
-| 3 | 09/11–15/11 | RAG cơ bản qua FastAPI, citation và luồng thiếu căn cứ | Chưa có minh chứng thực hiện |
+| 3 | 09/11–15/11 | RAG cơ bản qua FastAPI, citation và luồng thiếu căn cứ | Đã hoàn thành nghiệm thu Nhiệm vụ 04 (01/11/2026): FastAPI /health & /chat, Preflight đối soát 3 chiều, Gemini Client đa chế độ, RAG Engine lọc hallucinated citation, CLI tra cứu, 35/35 test đạt 100%. Phần đánh giá chất lượng LLM thực tế chờ cấu hình GEMINI_API_KEY |
 | 4 | 16/11–22/11 | Giao diện, hybrid search, reranking và hội thoại giới hạn | Chưa có minh chứng thực hiện |
 | 5 | 23/11–29/11 | Admin tối giản, đủ dữ liệu đã kiểm chứng, chốt bộ đánh giá | Chưa có minh chứng thực hiện |
 | 6 | 30/11–06/12 | So sánh A/B/C, phân tích lỗi, sơ đồ và minh chứng demo | Chưa có minh chứng thực hiện |
@@ -73,18 +73,18 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 
 ## 5. Tuần 3 — RAG cơ bản và backend
 
-- [ ] Tạo `rag_engine.py`, `main.py`; triển khai `/health` và `/chat`.
-- [ ] Câu hỏi → vector search → ngữ cảnh có source ID → Gemini → câu trả lời và citations.
-- [ ] Nguồn do backend dựng từ metadata, không để mô hình tự tạo trang hoặc số quyết định.
-- [ ] Kiểm tra câu không có căn cứ; tách `insufficient_evidence` khỏi lỗi mạng/API.
-- [ ] Thêm hành vi hỏi lại khi thiếu dữ kiện và thông báo phạm vi sản phẩm đồ án.
-- [ ] Thử trường hợp nguồn mâu thuẫn; không tự động chọn văn bản ưu tiên thiếu căn cứ.
-- [ ] Giới hạn đầu vào, số đoạn và độ dài đầu ra; timeout và thử lại có giới hạn.
-- [ ] Ghi số đo từng bước; tải mô hình một lần khi backend khởi động.
-- [ ] Chạy baseline A trên tập phát triển, ghi lỗi và hướng sửa; chưa tinh chỉnh trên tập kiểm thử cuối.
+- [x] Tạo `rag_engine.py`, `main.py`; triển khai `/health` và `/chat` (minh chứng: `backend/rag_engine.py`, `backend/main.py` với Lifespan nạp model một lần, GET `/health` HTTP 200/503, POST `/chat` với business status `answered`, `needs_clarification`, `insufficient_evidence`, `out_of_scope` ngày 01/11/2026).
+- [x] Câu hỏi → vector search → ngữ cảnh có source ID → Gemini → câu trả lời và citations (minh chứng: Pipeline RAG qua GeminiClient `google-genai` SDK / Offline Mock stub với model `gemini-2.5-flash`, gán nhãn ngữ cảnh `SRC-k` ngày 01/11/2026).
+- [x] Nguồn do backend dựng từ metadata, không để mô hình tự tạo trang hoặc số quyết định (minh chứng: Backend Citation Verification trong `RAGEngine.answer_question()` lọc bỏ triệt để hallucinated source IDs, ánh xạ chính xác về metadata QĐ 580 ngày 01/11/2026).
+- [x] Kiểm tra câu không có căn cứ; tách `insufficient_evidence` khỏi lỗi mạng/API (minh chứng: Xử lý phân biệt rõ ràng câu hỏi ngoài phạm vi, câu hỏi thiếu căn cứ và lỗi upstream 502/503 trong `rag_engine.py` và `test_api_and_rag.py` ngày 01/11/2026).
+- [x] Thêm hành vi hỏi lại khi thiếu dữ kiện và thông báo phạm vi sản phẩm đồ án (minh chứng: System prompt quy định rõ ràng vai trò hỗ trợ học vụ phi chính thức, yêu cầu làm rõ khi thiếu dữ kiện ngày 01/11/2026).
+- [ ] Thử trường hợp nguồn mâu thuẫn; không tự động chọn văn bản ưu tiên thiếu căn cứ (để ngỏ cho giai đoạn tích hợp thêm quy chế mới ở Tuần 4-5).
+- [x] Giới hạn đầu vào, số đoạn và độ dài đầu ra; timeout và thử lại có giới hạn (minh chứng: Pydantic validation 1000 ký tự trả về HTTP 422, `max_output_tokens=1024`, retry hữu hạn 2 lần với backoff trong `gemini_client.py` ngày 01/11/2026).
+- [x] Ghi số đo từng bước; tải mô hình một lần khi backend khởi động (minh chứng: `timings` trả lời chi tiết `retrieval_ms`, `llm_ms`, `total_ms`; FastAPI Lifespan nạp model Bi-Encoder vào RAM một lần duy nhất ngày 01/11/2026).
+- [ ] Chạy baseline A trên tập phát triển, ghi lỗi và hướng sửa (Offline Mock đã kiểm thử hoàn tất; đánh giá chất lượng LLM thật đang chờ người dùng cấp `GEMINI_API_KEY`).
 - [ ] Tiếp tục hoàn thiện đáp án chuẩn và đối chiếu các nhóm dữ liệu khác.
 
-**Điều kiện hoàn thành:** gọi API nhận được câu trả lời có nguồn; có ví dụ thành công, thiếu căn cứ và lỗi dịch vụ được phân biệt đúng.
+**Điều kiện hoàn thành:** gọi API nhận được câu trả lời có nguồn; có ví dụ thành công, thiếu căn cứ và lỗi dịch vụ được phân biệt đúng. Hoàn tất toàn bộ bước A, B, C, D độc lập và 35/35 bài test tự động đạt 100%. Phần kết nối Gemini thật đang chờ người dùng cấp `GEMINI_API_KEY`.
 
 **Gặp giảng viên lần 2 dự kiến:** cuối tuần 3; trình bày demo baseline, dữ liệu và cách đánh giá, ghi góp ý thật.
 

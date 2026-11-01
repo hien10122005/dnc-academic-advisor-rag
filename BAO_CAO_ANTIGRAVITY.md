@@ -546,3 +546,93 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   3. Kiểm tra tính trung thực của trace trong `DNC_RAG_AB_DEV10_TASK05.jsonl` (thu thập từ chính engine, không gọi duplicate retrieval).
   4. Đối chiếu kết quả A/B giữa Dense và Hybrid trong việc giải quyết DEV_02 và DEV_08.
 - **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.
+
+---
+
+### DNC-RAG-TASK-05-R02 — Chốt hybrid và bằng chứng thực nghiệm
+
+**Thời điểm bàn giao:** 20:00 ngày 01/11/2026, giờ Việt Nam.  
+**Định danh:** `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).  
+**File giao nhiệm vụ:** `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R02_CHOT_HYBRID.md`.  
+**Tài liệu nhận xét Codex R01:** `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R01.md`.  
+**Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`.  
+
+#### 1. Kết quả chính
+
+1. **Khắc phục toàn diện lỗi Cache & Preflight ([P1]):**
+   - Triển khai cơ chế kiểm tra `indexed_fingerprint` động: So khớp `self._bm25_index.indexed_fingerprint` với `readiness['corpus_fingerprint']` trên mỗi truy cập property `bm25_index`. Nếu phát hiện fingerprint thay đổi, tự động vô hiệu hóa và tái tạo sạch sẽ chỉ mục BM25 trong RAM.
+   - Thắt chặt tiền kiểm tra Fail-closed: Bắt buộc `chunks_file_path.exists()` trong `check_readiness()`, từ chối phục vụ ngay lập tức (`KnowledgeBaseNotReadyError`) nếu thiếu tệp chunks.
+   - Kiểm tra đối soát trùng lặp `chunk_id` và đối soát khớp tập ID set giữa `chunks.jsonl` và `manifest.json`.
+   - Bổ sung `retriever.preload_bm25()` vào startup lifespan của FastAPI.
+
+2. **Chuẩn hóa Hợp đồng RRF và Observability Trace ([P2]):**
+   - Gán thứ hạng cuối cùng `rank = 1..k` nhất quán sau khi hoàn tất sắp xếp RRF.
+   - Chuẩn hóa các hit chỉ có ở sparse: gán `similarity = None` và `distance = None` (nullable chân thực, không gán giả 0.0), tự động suy diễn `is_cross_page` dạng boolean, loại bỏ triệt để nguy cơ `KeyError` ở API và CLI.
+   - Cập nhật Pydantic `CitationModel`: `similarity: Optional[float] = None`.
+   - Bổ sung đầy đủ candidate scores (`dense_rank`, `dense_score`, `bm25_rank`, `bm25_score`, `rrf_score`) và cấu hình `fusion_config` trong `return_trace=True` của `RAGEngine`.
+   - Validate chế độ `mode in ("dense", "hybrid")` ở cả 3 tầng: API, CLI, RAGEngine. Duy trì `mode="dense"` làm mặc định.
+
+3. **Cô lập Kiểm thử Tự động ([P2]):**
+   - Tái cấu trúc `TestHybridIntegration.test_api_chat_endpoint_mode_validation`: Sử dụng fixture `setUp` inject mock `RAGEngine` trả về `RAGResponse` chuẩn và `tearDown` khôi phục `main_module.rag_engine_instance` nguyên vẹn.
+   - Bộ kiểm thử toàn diện tăng lên **70 bài test** (thêm 7 test cases cho fail-closed, cache invalidation, duplicate IDs, ID set mismatch, sparse-only contract, RRF ranking). Toàn bộ 70 tests chạy hoàn toàn offline độc lập, **đạt 100% (70/70 OK)**.
+
+4. **Đính chính số đo và Lập Rubric chi tiết ([P1/P2]):**
+   - Giữ nguyên vẹn 20 artifacts raw gốc trong `DNC_RAG_AB_DEV10_TASK05.jsonl` và `.csv`.
+   - Lập tệp rubric độc lập `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05.md` chấm chi tiết 36 ý bắt buộc cho 20 lượt chạy (10 dense + 10 hybrid).
+   - Đánh giá thẳng thắn phát ngôn sai của Hybrid tại DEV_07: câu *"từ điểm D+ trở xuống là dưới 5.0"* bị chấm **SAI (Claim Error)**.
+   - Báo cáo chi tiết kỹ thuật tại `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md` với đầy đủ errata (SHA commit, PyTorch warm-up timing, giải thích Hit@5 là $\ge 1$ evidence $\ge 90\%$, mean coverage 80.34%, MRR giảm nhẹ xuống 0.6574).
+
+#### 2. Đối chiếu từng phát hiện của Codex R01
+
+| Mã phát hiện | Yêu cầu khắc phục | Kết quả xử lý | Minh chứng |
+| :--- | :--- | :---: | :--- |
+| **[P1] BM25 cache invalidation** | So sánh fingerprint BM25 với corpus mới sau readiness; rebuild nếu đổi | ĐẠT | `backend/retrieval.py` (`bm25_index`), test `test_bm25_cache_invalidation_on_fingerprint_change` |
+| **[P1] Preflight missing chunks** | Từ chối dứt khoát khi tệp chunks không tồn tại | ĐẠT | `backend/retrieval.py` (`check_readiness`), test `test_retriever_check_readiness_fail_closed_missing_chunks` |
+| **[P2] Test API isolation** | Quản lý mock engine riêng, restore global state sau test | ĐẠT | `tests/test_hybrid_bm25_rrf.py` (`setUp`/`tearDown`) |
+| **[P2] RRF contract & nullable** | Gán rank 1..k sau fusion, nullable similarity/distance cho sparse-only, có is_cross_page | ĐẠT | `backend/bm25_retriever.py` (`reciprocal_rank_fusion`), tests `test_rrf_sparse_only_contract` |
+| **[P2] Engine trace candidate scores** | Lưu dense/bm25 rank-score và rrf_score riêng trong trace, lưu fusion_config | ĐẠT | `backend/rag_engine.py` (dataclass `SourceContext` & `trace_data`) |
+| **[P1/P2] DEV_07 & Rubric chi tiết** | Chấm câu "D+ trở xuống là dưới 5.0" là Sai; lập rubric từng ý cho 20 records | ĐẠT | `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05.md` |
+| **[P2] Errata & Provenance** | Ghi đúng Python 3.14.6, đính chính SHA, nạp weights ngoài engine timing, preload BM25 startup | ĐẠT | `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md` (Mục 1 & 3) |
+
+#### 3. File và cấu hình thay đổi
+
+- **File tạo mới:**
+  - `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05.md`: Rubric chi tiết 36 ý bắt buộc cho 20 lượt chạy.
+  - `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md`: Báo cáo kỹ thuật chốt Hybrid và bằng chứng thực nghiệm.
+- **File chỉnh sửa:**
+  - `backend/bm25_retriever.py`: Thêm kiểm tra trùng ID, kiểm tra ID set khớp manifest, gán rank 1..k sau fusion, nullable similarity/distance cho sparse-only hits.
+  - `backend/retrieval.py`: Thêm fail-closed khi thiếu chunks file, kiểm tra fingerprint invalidation trong `bm25_index`, thêm `preload_bm25()`.
+  - `backend/rag_engine.py`: Validate `mode`, mở rộng `SourceContext` và `CitationItem` với candidate scores nullable, lưu `fusion_config` và candidate scores trong trace.
+  - `backend/main.py`: Thêm `retriever.preload_bm25()` trong startup lifespan, cập nhật `CitationModel.similarity` nullable.
+  - `backend/cli.py`: Thêm tham số `--mode`, in citations tương thích với nullable similarity.
+  - `tests/test_hybrid_bm25_rrf.py`: Mở rộng lên 17 tests với mock fixture cô lập, kiểm tra fail-closed, cache invalidation, duplicate IDs, ID mismatch, sparse-only contract.
+  - `05_Mã Nguồn Chương Trình/README.md`, `ROADMAP.md`, `BAO_CAO_BAN_GIAO.md`.
+
+#### 4. Kiểm thử và chạy thực tế
+
+- **Lệnh chạy toàn bộ 70 unit tests offline:**
+  `.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"`
+  -> `Ran 70 tests in 53.476s. OK!`
+- **Lệnh chạy riêng nhóm test Hybrid R02:**
+  `.\.venv\Scripts\python.exe -m unittest tests/test_hybrid_bm25_rrf.py`
+  -> `Ran 17 tests in 1.688s. OK!`
+
+#### 5. Lỗi, giới hạn và việc còn lại
+
+- **Lỗi phần mềm nội bộ:** 0 lỗi. Toàn bộ 70 tests đều vượt qua độc lập.
+- **Giới hạn đã xác định:**
+  - Lỗi phát ngôn của LLM tại DEV_07 ("từ điểm D+ trở xuống là dưới 5.0") cho thấy việc ngữ cảnh có đủ nguồn chưa ngăn chặn được 100% ảo giác suy diễn của mô hình. Cần xem xét thêm cơ chế Cross-Encoder Reranker hoặc Post-generation Claim Verification ở giai đoạn sau.
+  - Chế độ mặc định tiếp tục duy trì `dense` cho tính tương thích ngược; `hybrid` hoạt động hoàn chỉnh khi được chọn.
+  - Chưa triển khai Cross-Encoder Reranker, UI hay SQLite/Multi-turn trong lượt này theo đúng phạm vi nhiệm vụ.
+
+#### 6. GitHub
+
+- **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- **Commit triển khai:** Sẽ cập nhật theo lệnh `git rev-parse HEAD` sau commit.
+- **Bảo mật:** Không commit `.env` hay API key lên kho lưu trữ.
+
+#### 7. Bàn giao cho Codex
+
+- **Báo cáo chuyên môn chính:** `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md`.
+- **Rubric đánh giá chi tiết:** `05_Mã Nguồn Chương Trình/evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05.md`.
+- **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.

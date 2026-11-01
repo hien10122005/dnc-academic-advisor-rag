@@ -57,6 +57,10 @@ async def lifespan(app: FastAPI):
         _ = retriever.model
         logger.info("Mô hình Embedding Bi-Encoder đã được nạp sẵn sàng vào bộ nhớ.")
 
+        # Nạp trước chỉ mục BM25 vào bộ nhớ RAM
+        retriever.preload_bm25()
+        logger.info("Chỉ mục BM25 Sparse Search đã được nạp sẵn sàng vào bộ nhớ.")
+
         gemini_client = GeminiClient()
         logger.info("Khởi tạo Gemini Client (Chế độ Live: %s, Model: %s).", gemini_client.is_live, gemini_client.model)
 
@@ -153,7 +157,7 @@ class CitationModel(BaseModel):
     pdf_page: int = Field(..., description="Số trang trong tệp PDF gốc")
     printed_page: Optional[int] = Field(None, description="Số trang in trên văn bản gốc (None nếu không xác định)")
     quote_snippet: str = Field(..., description="Trích đoạn ngắn nội dung căn cứ")
-    similarity: float = Field(..., description="Độ tương đồng ngữ nghĩa (Cosine Similarity)")
+    similarity: Optional[float] = Field(None, description="Độ tương đồng ngữ nghĩa (Cosine Similarity), None nếu là sparse-only hit")
 
 
 class ChatResponse(BaseModel):

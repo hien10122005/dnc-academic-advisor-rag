@@ -1,5 +1,5 @@
 # MÃ NGUỒN CHƯƠNG TRÌNH: HỆ THỐNG TRỢ LÝ HỌC VỤ ĐẠI HỌC NAM CẦN THƠ
-## Module Chunking Tokenizer-Aware, Vector Storage, FastAPI REST API, RAG Engine & Hybrid BM25+RRF (Phiên bản v2.5 - Nhiệm vụ 05)
+## Module Chunking Tokenizer-Aware, Vector Storage, FastAPI REST API, RAG Engine & Hybrid BM25+RRF (Phiên bản v2.6 - Nhiệm vụ 05 Lượt R02)
 
 ---
 
@@ -7,14 +7,14 @@
 
 Thư mục này chứa toàn bộ mã nguồn của hệ thống Trợ lý học vụ hỗ trợ sinh viên dựa trên kỹ thuật RAG (Retrieval-Augmented Generation) cho Trường Đại học Nam Cần Thơ (DNC).
 
-Tại giai đoạn hiện tại (Nhiệm vụ 05 - Lượt R01: Đo đúng baseline và tích hợp Hybrid BM25 + RRF):
+Tại giai đoạn hiện tại (Nhiệm vụ 05 - Lượt R02: Chốt kỹ thuật Hybrid BM25+RRF và kiểm định thực nghiệm):
 1. **Module Cấu trúc hóa & Phân đoạn văn bản (`backend/chunking.py`):** Xử lý văn bản Quyết định số 580/QĐ-ĐHNCT thành **104 chunks** định danh bất biến, bảo toàn cấu trúc điều khoản, phân biệt phần quyết định ban hành với quy chế, giữ nguyên vẹn bảng điểm Markdown và ghép liền các điều khoản nối qua trang. Đảm bảo $100\%$ chunks tuân thủ giới hạn cứng $\le 256$ tokens của mô hình embedding.
-2. **Bộ Tách từ & Chỉ mục BM25 Sparse (`backend/bm25_retriever.py`):** Xây dựng bộ tách từ `tokenize_vietnamese` bảo toàn dấu tiếng Việt và số hiệu quy chế, triển khai BM25Okapi Index tính IDF theo chuẩn Lucene (tránh IDF âm), kết hợp thuật toán Reciprocal Rank Fusion ($k=60$) hòa trộn Top-20 Dense và Top-20 Sparse.
-3. **Bộ Kiểm thử Tự động 63 Bài (`tests/`):** 
+2. **Bộ Tách từ & Chỉ mục BM25 Sparse (`backend/bm25_retriever.py`):** Xây dựng bộ tách từ `tokenize_vietnamese` bảo toàn dấu tiếng Việt và số hiệu quy chế, triển khai BM25Okapi Index tính IDF theo chuẩn Lucene (tránh IDF âm), kết hợp thuật toán Reciprocal Rank Fusion ($k=60$) hòa trộn Top-20 Dense và Top-20 Sparse. Đảm bảo rank cuối cùng từ $1..k$, điểm số nullable (`similarity=None`, `distance=None`) cho các hit chỉ xuất hiện ở sparse.
+3. **Bộ Kiểm thử Tự động 70 Bài (`tests/`):** 
    - `test_chunking_and_sources.py` (5 bài): Giới hạn token, tính toàn vẹn 351 source spans, nguồn overlap, độ phủ 51 hàng bảng/142 khoản và tính bất biến cô lập trong TemporaryDirectory.
    - `test_lifecycle_and_regression.py` (21 bài): Vòng đời ingestion, đối soát 3 chiều Preflight (status <-> manifest <-> collection metadata <-> hash), chống stale cache, nạp lại an toàn và ánh xạ whitespace regex.
    - `test_api_and_rag.py` (27 bài): FastAPI `/health`, `/chat`, validation 422, lọc hallucinated source ID, hạ cấp an toàn khi trích dẫn ảo, kiểm định schema phản hồi, xử lý trang in nullable, khử rò rỉ đường dẫn nội bộ `E:\private` và sentinel token, kiểm soát retry SDK (`attempts=1`), non-retry 401/404/ValueError, transient 503 retry, trích đoạn chứng cứ thực chất, bọc ngoại lệ định kiểu `DNCError`, và kiểm thử spy thu thập trace không gọi lặp retrieval.
-   - `test_hybrid_bm25_rrf.py` (10 bài): Kiểm định tokenizer tiếng Việt, tính đơn định BM25, công thức RRF tính tay, xử lý query sparse rỗng, hòa trộn Top-5 và kiểm tra tham số `mode` qua API `/chat`.
+   - `test_hybrid_bm25_rrf.py` (17 bài): Kiểm định tokenizer tiếng Việt, tính đơn định BM25, công thức RRF tính tay, xử lý query sparse rỗng, hòa trộn Top-5, kiểm tra hợp đồng sparse-only nullable, kiểm tra fail-closed khi thiếu chunks file, kiểm tra đối soát ID set và trùng lặp chunk_id, kiểm tra tự động hủy/tái tạo cache BM25 khi đổi fingerprint, và kiểm tra tham số `mode` qua API `/chat` được cách ly tuyệt đối bằng mock engine.
 4. **Module Nạp dữ liệu Vector (`backend/ingestion.py`):** Sử dụng mô hình embedding ứng viên tiếng Việt `bkai-foundation-models/vietnamese-bi-encoder` (Revision: `84f9d9ada0d1a3c37557398b9ae9fcedcdf40be0`), lưu trữ vào ChromaDB collection `qd580_baseline_v2` với cơ chế `upsert` bất biến và quản lý vòng đời trạng thái `BUILDING` $\rightarrow$ `READY`.
 5. **Kiểm tra Tiền trạm Chốt chặn (Preflight Readiness - `backend/retrieval.py`):** Xác thực đa chiều trạng thái kho trước mọi truy vấn; tự động từ chối phục vụ (HTTP 503) nếu manifest hỏng/thiếu, lệch revision, lệch hash hoặc collection chưa nạp, đồng bộ đồng thời cho cả Dense và BM25 Index.
 6. **Lớp Kết nối Gemini Đa chế độ (`backend/gemini_client.py`):** Tích hợp SDK chính thức `google-genai` (model mặc định `gemini-3.5-flash-lite`), phân loại lỗi có cấu trúc (HTTP status code), retry có chọn lọc trên lỗi tạm thời, vô hiệu hóa retry nội bộ của SDK, tự động ném `ConfigurationError` (HTTP 503) khi chưa cấu hình `GEMINI_API_KEY` ở chế độ phục vụ.
@@ -88,17 +88,17 @@ pip install -r requirements.txt
 
 ## 4. Hướng dẫn thực thi các module
 
-### 4.1 Chạy toàn bộ bộ kiểm thử tự động (63 Tests Toàn diện)
-Hệ thống tích hợp 63 bài kiểm thử tự động phân lập, chạy hoàn toàn offline không cần internet hay API key:
+### 4.1 Chạy toàn bộ bộ kiểm thử tự động (70 Tests Toàn diện)
+Hệ thống tích hợp 70 bài kiểm thử tự động phân lập, chạy hoàn toàn offline không cần internet hay API key:
 ```powershell
-# Chạy toàn bộ 63 bài test trong thư mục tests/:
+# Chạy toàn bộ 70 bài test trong thư mục tests/:
 $env:HF_HUB_OFFLINE="1"; $env:TRANSFORMERS_OFFLINE="1"; $env:GEMINI_API_KEY=""; .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
 
 # Hoặc chạy từng bộ test độc lập:
 .\.venv\Scripts\python.exe -m unittest tests/test_chunking_and_sources.py     # 5 bài test chunking & source spans
 .\.venv\Scripts\python.exe -m unittest tests/test_lifecycle_and_regression.py # 21 bài test vòng đời & preflight
 .\.venv\Scripts\python.exe -m unittest tests/test_api_and_rag.py              # 27 bài test FastAPI & RAG engine
-.\.venv\Scripts\python.exe -m unittest tests/test_hybrid_bm25_rrf.py          # 10 bài test BM25, RRF & hybrid mode
+.\.venv\Scripts\python.exe -m unittest tests/test_hybrid_bm25_rrf.py          # 17 bài test BM25, RRF & hybrid mode
 ```
 
 ### 4.2 Chạy đánh giá so sánh thực nghiệm A/B (Retrieval & Live Gemini)

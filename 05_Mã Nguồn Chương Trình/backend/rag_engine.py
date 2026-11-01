@@ -61,7 +61,7 @@ BỘ QUY TẮC BẮT BUỘC KHI TRẢ LỜI:
 
 @dataclass
 class SourceContext:
-    """Mô hình đại diện cho một đoạn ngữ cảnh trích xuất từ ChromaDB."""
+    """Mô hình đại diện cho một đoạn ngữ cảnh trích xuất từ ChromaDB hoặc BM25."""
     source_id: str
     chunk_id: str
     document_id: str
@@ -77,7 +77,12 @@ class SourceContext:
     context_prefix: str
     content: str
     embedding_text: str
-    similarity: float
+    similarity: Optional[float] = None
+    dense_rank: Optional[int] = None
+    dense_score: Optional[float] = None
+    bm25_rank: Optional[int] = None
+    bm25_score: Optional[float] = None
+    rrf_score: Optional[float] = None
     source_spans: List[Dict[str, Any]] = field(default_factory=list)
 
 
@@ -91,7 +96,7 @@ class CitationItem:
     pdf_page: int
     printed_page: Optional[int]
     quote_snippet: str
-    similarity: float
+    similarity: Optional[float] = None
     spans: List[Dict[str, Any]] = field(default_factory=list)
 
 
@@ -149,12 +154,19 @@ class RAGEngine:
         if len(clean_question) > 1000:
             raise ValidationError(f"Câu hỏi quá dài ({len(clean_question)} ký tự). Giới hạn tối đa là 1000 ký tự.")
 
+        # Xác thực chế độ truy xuất (mode)
+        clean_mode = (mode or "dense").strip().lower()
+        if clean_mode not in ("dense", "hybrid"):
+            raise ValidationError(f"Chế độ truy xuất '{clean_mode}' không hợp lệ. Chỉ chấp nhận 'dense' hoặc 'hybrid'.")
+
         # 2. Tiền kiểm tra tính sẵn sàng của kho tri thức (Preflight) & Truy xuất
         k = top_k if top_k is not None else self.top_k
         retrieval_start = time.perf_counter()
 
         # Hỗ trợ cả 2 chế độ: dense và hybrid
-        if mode == "hybrid" and hasattr(self.retriever, "retrieve_hybrid"):
+        if clean_mode == "hybrid":
+            if not hasattr(self.retriever, "retrieve_hybrid"):
+                raise ValidationError("Retriever hiện tại không hỗ trợ chế độ 'hybrid'.")
             retrieved_raw = self.retriever.retrieve_hybrid(clean_question, top_k=k)
         else:
             retrieved_raw = self.retriever.retrieve(clean_question, top_k=k)
@@ -179,6 +191,8 @@ class RAGEngine:
             if pr_end is not None and (int(pr_end) <= 0 or pr_end == -1):
                 pr_end = None
 
+            sim_val = float(item["similarity"]) if item.get("similarity") is not None else None
+
             src_ctx = SourceContext(
                 source_id=src_id,
                 chunk_id=item.get("chunk_id", ""),
@@ -195,7 +209,12 @@ class RAGEngine:
                 context_prefix=ctx_prefix,
                 content=pure_content,
                 embedding_text=item.get("embedding_text", pure_content),
-                similarity=float(item.get("similarity", 0.0)),
+                similarity=sim_val,
+                dense_rank=item.get("dense_rank"),
+                dense_score=float(item["dense_score"]) if item.get("dense_score") is not None else None,
+                bm25_rank=item.get("bm25_rank"),
+                bm25_score=float(item["bm25_score"]) if item.get("bm25_score") is not None else None,
+                rrf_score=float(item["rrf_score"]) if item.get("rrf_score") is not None else None,
                 source_spans=item.get("source_spans", []),
             )
             source_contexts.append(src_ctx)
@@ -362,6 +381,12 @@ class RAGEngine:
                     "temperature": 0.0,
                     "model": self.llm_client.model,
                 },
+                "fusion_config": {
+                    "dense_top_k": 20,
+                    "bm25_top_k": 20,
+                    "rrf_k": 60,
+                    "final_k": k,
+                } if clean_mode == "hybrid" else None,
                 "retrieved_contexts": [
                     {
                         "source_id": s.source_id,
@@ -372,12 +397,17 @@ class RAGEngine:
                         "start_page_printed": s.start_page_printed,
                         "end_page_printed": s.end_page_printed,
                         "similarity": s.similarity,
+                        "dense_rank": s.dense_rank,
+                        "dense_score": s.dense_score,
+                        "bm25_rank": s.bm25_rank,
+                        "bm25_score": s.bm25_score,
+                        "rrf_score": s.rrf_score,
                         "content": s.content,
                         "source_spans": s.source_spans,
                     }
                     for s in source_contexts
                 ],
-                "mode": mode,
+                "mode": clean_mode,
             }
 
         return RAGResponse(

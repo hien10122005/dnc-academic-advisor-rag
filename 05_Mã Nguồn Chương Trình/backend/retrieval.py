@@ -212,13 +212,16 @@ class VectorRetriever:
         except Exception as exc:
             raise KnowledgeBaseNotReadyError(f"Lỗi kiểm tra metadata ChromaDB collection: {exc}")
 
-        # 9. Đối soát hash của tệp chunk thực tế trên đĩa
-        if self.chunks_file_path and self.chunks_file_path.exists():
-            disk_chunks_hash = compute_sha256(self.chunks_file_path)
-            if disk_chunks_hash != expected_hash:
-                raise KnowledgeBaseNotReadyError(
-                    f"Mã băm tệp chunks trên đĩa ({disk_chunks_hash}) không khớp với manifest ({expected_hash})!"
-                )
+        # 9. Đối soát hash của tệp chunk thực tế trên đĩa (Fail-closed)
+        if not self.chunks_file_path or not self.chunks_file_path.exists():
+            raise KnowledgeBaseNotReadyError(
+                f"Tệp chunks không tồn tại trên đĩa: {self.chunks_file_path}."
+            )
+        disk_chunks_hash = compute_sha256(self.chunks_file_path)
+        if disk_chunks_hash != expected_hash:
+            raise KnowledgeBaseNotReadyError(
+                f"Mã băm tệp chunks trên đĩa ({disk_chunks_hash}) không khớp với manifest ({expected_hash})!"
+            )
 
         return {
             "status": "READY",
@@ -336,15 +339,23 @@ class VectorRetriever:
 
     @property
     def bm25_index(self):
-        """Khởi tạo hoặc trả về chỉ mục BM25OkapiIndex được nạp và cache trong bộ nhớ."""
-        self.check_readiness()
-        if self._bm25_index is None:
+        """
+        Khởi tạo hoặc trả về chỉ mục BM25OkapiIndex được nạp và cache trong bộ nhớ.
+        Tự động vô hiệu hóa và tái tạo nếu corpus_fingerprint trong kho tri thức thay đổi.
+        """
+        readiness = self.check_readiness()
+        current_fp = readiness.get("corpus_fingerprint")
+        if self._bm25_index is None or getattr(self._bm25_index, "indexed_fingerprint", None) != current_fp:
             from backend.bm25_retriever import BM25OkapiIndex
             self._bm25_index = BM25OkapiIndex(
                 chunks_file_path=self.chunks_file_path,
                 manifest_file_path=self.manifest_path,
             )
         return self._bm25_index
+
+    def preload_bm25(self) -> None:
+        """Nạp trước chỉ mục BM25 vào bộ nhớ RAM (được gọi trong startup lifespan)."""
+        _ = self.bm25_index
 
     def retrieve_hybrid(
         self,

@@ -37,6 +37,7 @@ def main():
     )
     parser.add_argument("query", nargs="?", type=str, help="Câu hỏi tra cứu học vụ")
     parser.add_argument("--top-k", type=int, default=5, help="Số đoạn trích xuất tối đa (mặc định: 5)")
+    parser.add_argument("--mode", type=str, choices=["dense", "hybrid"], default="dense", help="Chế độ truy xuất: 'dense' (mặc định) hoặc 'hybrid'")
     parser.add_argument("--interactive", action="store_true", help="Chế độ hỏi đáp liên tục qua bàn phím")
 
     args = parser.parse_args()
@@ -66,20 +67,21 @@ def main():
 
     def run_query(user_q: str):
         print("\n" + "-" * 80)
-        print(f"CÂU HỎI: {user_q}")
+        print(f"CÂU HỎI: {user_q} [Chế độ: {args.mode.upper()}]")
         print("-" * 80)
-        res = engine.answer_question(user_q, top_k=args.top_k)
+        res = engine.answer_question(user_q, top_k=args.top_k, mode=args.mode)
         print(f"TRẠNG THÁI NGHIỆP VỤ: {res.status}")
         print(
             f"THỜI GIAN ĐÁP ỨNG:   Tổng {res.timings.get('total_ms', 0):.1f}ms "
-            f"(Vector: {res.timings.get('retrieval_ms', 0):.1f}ms, LLM: {res.timings.get('llm_ms', 0):.1f}ms)"
+            f"(Retrieval: {res.timings.get('retrieval_ms', 0):.1f}ms, LLM: {res.timings.get('llm_generation_ms', res.timings.get('llm_ms', 0)):.1f}ms)"
         )
         print("\nCÂU TRẢ LỜI:")
         print(res.answer)
         print("\nCĂN CỨ & TRÍCH DẪN (CITATIONS):")
         if res.citations:
             for c in res.citations:
-                print(f"  [{c.source_id}] {c.document_id} - {c.article} (Trang PDF: {c.pdf_page})")
+                sim_str = f" | Cosine Sim: {c.similarity:.4f}" if c.similarity is not None else " | Sparse Hit"
+                print(f"  [{c.source_id}] {c.document_id} - {c.article} (Trang PDF: {c.pdf_page}{sim_str})")
                 print(f"        Trích dẫn: {c.quote_snippet}")
         else:
             print("  (Không có căn cứ trích dẫn phù hợp hoặc câu hỏi ngoài phạm vi)")

@@ -82,29 +82,36 @@ class BM25OkapiIndex:
         self._build_index()
 
     def _build_index(self) -> None:
-        """Đọc chunks và xây dựng ma trận chỉ mục BM25."""
+        """Đọc chunks và xây dựng ma trận chỉ mục BM25 có xác thực tính toàn vẹn và bộ ID."""
         if not self.chunks_file_path.exists():
             raise KnowledgeBaseNotReadyError(
                 f"Tệp chunks không tồn tại để khởi tạo BM25: {self.chunks_file_path}"
             )
 
         # 1. Tiền kiểm tra tính toàn vẹn với manifest nếu có
+        manifest_chunk_ids: List[str] = []
+        expected_total: Optional[int] = None
+        expected_fp: Optional[str] = None
+
         if self.manifest_file_path.exists():
             try:
                 with open(self.manifest_file_path, "r", encoding="utf-8") as mf:
                     m_data = json.load(mf)
                     expected_hash = m_data.get("chunks_sha256")
+                    expected_fp = m_data.get("corpus_fingerprint")
+                    expected_total = m_data.get("total_chunks")
                     actual_hash = compute_sha256(self.chunks_file_path)
                     if expected_hash and actual_hash != expected_hash:
                         raise KnowledgeBaseNotReadyError(
                             f"Mã băm chunks ({actual_hash}) không khớp manifest ({expected_hash}) khi khởi tạo BM25!"
                         )
+                    manifest_chunk_ids = [c["chunk_id"] for c in m_data.get("chunks", []) if "chunk_id" in c]
             except KnowledgeBaseNotReadyError:
                 raise
             except Exception as e:
                 raise KnowledgeBaseNotReadyError(f"Lỗi kiểm tra manifest BM25: {e}")
 
-        # 2. Nạp dữ liệu 104 chunks
+        # 2. Nạp dữ liệu chunks
         chunks = []
         with open(self.chunks_file_path, "r", encoding="utf-8") as f:
             for line in f:
@@ -112,10 +119,33 @@ class BM25OkapiIndex:
                 if line_str:
                     chunks.append(json.loads(line_str))
 
-        if len(chunks) != 104:
+        if expected_total is not None and len(chunks) != expected_total:
             raise KnowledgeBaseNotReadyError(
-                f"Kho tri thức BM25 yêu cầu đúng 104 chunks quy chế QĐ 580 (Thực tế: {len(chunks)} chunks)."
+                f"Kho tri thức BM25 yêu cầu đúng {expected_total} chunks theo manifest (Thực tế: {len(chunks)} chunks)."
             )
+
+        # 3. Kiểm tra trùng lặp chunk_id trong tệp chunks
+        chunk_ids = [c.get("chunk_id") for c in chunks if c.get("chunk_id")]
+        if len(chunk_ids) != len(set(chunk_ids)):
+            seen_ids = set()
+            duplicates = set()
+            for cid in chunk_ids:
+                if cid in seen_ids:
+                    duplicates.add(cid)
+                seen_ids.add(cid)
+            raise KnowledgeBaseNotReadyError(
+                f"Phát hiện chunk_id bị trùng lặp trong tệp chunks khi khởi tạo BM25: {list(duplicates)}"
+            )
+
+        # 4. Đối soát tập chunk IDs giữa BM25 và manifest
+        if manifest_chunk_ids:
+            if set(chunk_ids) != set(manifest_chunk_ids):
+                missing_in_file = set(manifest_chunk_ids) - set(chunk_ids)
+                extra_in_file = set(chunk_ids) - set(manifest_chunk_ids)
+                raise KnowledgeBaseNotReadyError(
+                    f"Tập chunk IDs trong tệp chunks không khớp với manifest! "
+                    f"Thiếu: {list(missing_in_file)[:5]}, Dư: {list(extra_in_file)[:5]}"
+                )
 
         self.corpus_chunks = chunks
         self.doc_count = len(chunks)
@@ -152,7 +182,7 @@ class BM25OkapiIndex:
             # Công thức chuẩn Lucene/Okapi: ln((N - df + 0.5) / (df + 0.5) + 1.0)
             self.idf[term] = math.log((self.doc_count - freq + 0.5) / (freq + 0.5) + 1.0)
 
-        self.indexed_fingerprint = compute_sha256(self.chunks_file_path)
+        self.indexed_fingerprint = expected_fp or actual_hash if self.manifest_file_path.exists() else compute_sha256(self.chunks_file_path)
 
     def search(self, query: str, top_k: int = 20) -> List[Dict[str, Any]]:
         """
@@ -218,12 +248,15 @@ def reciprocal_rank_fusion(
     - Deduplicate theo chunk_id.
     - Tie-break ổn định: ưu tiên RRF cao hơn, sau đó dense_rank nhỏ hơn, cuối cùng theo chunk_id.
     - Lưu tách bạch dense_rank, dense_score, bm25_rank, bm25_score và rrf_score.
+    - Gán rank cuối cùng từ 1..top_k cho danh sách kết quả.
+    - Với các hit chỉ có ở sparse (không có trong dense), similarity và distance là None (nullable).
     """
-    dense_map: Dict[str, Tuple[int, float, Dict[str, Any]]] = {}
+    dense_map: Dict[str, Tuple[int, Optional[float], Optional[float], Dict[str, Any]]] = {}
     for rank, item in enumerate(dense_hits, start=1):
         cid = item.get("chunk_id", "")
-        sc = float(item.get("similarity", 0.0))
-        dense_map[cid] = (rank, sc, item)
+        sc = float(item["similarity"]) if item.get("similarity") is not None else None
+        dist = float(item["distance"]) if item.get("distance") is not None else None
+        dense_map[cid] = (rank, sc, dist, item)
 
     bm25_map: Dict[str, Tuple[int, float, Dict[str, Any]]] = {}
     for rank, item in enumerate(bm25_hits, start=1):
@@ -240,12 +273,13 @@ def reciprocal_rank_fusion(
         rrf_score = 0.0
         d_rank: Optional[int] = None
         d_score: Optional[float] = None
+        d_dist: Optional[float] = None
         b_rank: Optional[int] = None
         b_score: Optional[float] = None
         base_item: Dict[str, Any] = {}
 
         if cid in dense_map:
-            d_rank, d_score, base_item = dense_map[cid]
+            d_rank, d_score, d_dist, base_item = dense_map[cid]
             rrf_score += 1.0 / (rrf_k + d_rank)
 
         if cid in bm25_map:
@@ -261,9 +295,16 @@ def reciprocal_rank_fusion(
         fused_item["bm25_score"] = b_score
         fused_item["rrf_score"] = round(rrf_score, 6)
 
-        # Giữ similarity là dense_score (nếu có) để tương thích với cấu trúc downstream,
-        # đồng thời bảo đảm trường rrf_score độc lập rõ ràng
-        fused_item["similarity"] = d_score if d_score is not None else 0.0
+        # Biểu diễn rõ nullable thay vì giả độ tin cậy 0.0
+        fused_item["similarity"] = d_score
+        fused_item["distance"] = d_dist
+
+        # Bảo đảm is_cross_page tồn tại cho mọi downstream
+        if "is_cross_page" not in fused_item:
+            p_start = fused_item.get("start_page_pdf", 0)
+            p_end = fused_item.get("end_page_pdf", 0)
+            fused_item["is_cross_page"] = (p_start != p_end)
+
         fused_candidates.append(fused_item)
 
     # Tie-break ổn định:
@@ -278,4 +319,8 @@ def reciprocal_rank_fusion(
         )
     )
 
-    return fused_candidates[:top_k]
+    top_results = fused_candidates[:top_k]
+    for final_rank, item in enumerate(top_results, start=1):
+        item["rank"] = final_rank
+
+    return top_results

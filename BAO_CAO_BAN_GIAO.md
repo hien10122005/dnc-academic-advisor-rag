@@ -61,9 +61,10 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | `DNC-RAG-TASK-04-R03` | 01/11/2026 | 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live | `HOÀN THÀNH — CHỜ KIỂM TRA` | `ĐẠT MỘT PHẦN — CẦN SỬA` | [Báo cáo RAG Live R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live) |
 | `DNC-RAG-TASK-04-R04` | 01/11/2026 | 04 — Chốt baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `ĐẠT MỘT PHẦN — TASK05 CÓ ĐIỀU KIỆN` | [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc) |
 
-| `DNC-RAG-TASK-05-R01` | 01/11/2026 | 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và so sánh A/B | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) |
+| `DNC-RAG-TASK-05-R01` | 01/11/2026 | 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và so sánh A/B | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA` | [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) |
+| `DNC-RAG-TASK-05-R02` | 01/11/2026 | 05 — Chốt hybrid, đồng bộ cache/preflight, chuẩn hóa trace/contract và chấm rubric trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo chốt Hybrid R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r02--chot-hybrid-va-bang-chung-thuc-nghiem) |
 
-Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R01) — Đo đúng baseline và tích hợp Hybrid BM25 + RRF**, tại [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md).
+Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R02) — Chốt hybrid và bằng chứng thực nghiệm**, tại [Báo cáo chốt Hybrid R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md).
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -306,9 +307,9 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 
 #### B. Codex rà soát
 
-- Trạng thái: CHƯA KIỂM TRA.
-- Ngày kiểm tra:
-- Xác minh độc lập:
-- Nhận xét:
-- Báo cáo:
-- Kết luận chuyển bước:
+- Trạng thái: CẦN SỬA có giới hạn; không làm lại thuật toán hybrid.
+- Ngày kiểm tra: 01/11/2026.
+- Xác minh độc lập: 63/63 suite offline qua; rerun retrieval A/B vào thư mục tạm khớp thứ hạng và chỉ số cả 9 ca có evidence. Đọc 20 traces, tính telemetry, đối chiếu hash. Không gọi lại Gemini trong review. HEAD/remote bb88f0c21c9e6a37d08abdc0732a9c73663a9a20; code SHA thật 3c5a93d249300619791d4ba804165d97f6550193.
+- Còn mở: stale BM25 cache, thiếu chunk file vẫn READY, test API hybrid chạy riêng fail 503, rank/metadata fusion và trace chưa thống nhất. Báo cáo nhầm Hit@5 với đầy đủ mọi evidence; DEV07 có câu sai D+ và thiếu điều kiện; Python/SHA/errata cần đối chiếu.
+- Báo cáo: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R01.md`.
+- Kết luận chuyển bước: giao `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R02_CHOT_HYBRID.md`. Sửa phạm vi hẹp, tái dùng artifacts để chấm lại, chưa UI/reranker/admin/multi-turn.

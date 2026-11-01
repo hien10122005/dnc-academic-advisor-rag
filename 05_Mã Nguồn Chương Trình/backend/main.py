@@ -139,6 +139,10 @@ class ChatRequest(BaseModel):
         description="Câu hỏi học vụ của sinh viên (Ví dụ: 'Điều kiện cảnh báo kết quả học tập là gì?')",
         examples=["Trường tổ chức mỗi năm gồm bao nhiêu học kỳ?"]
     )
+    mode: Optional[str] = Field(
+        "dense",
+        description="Chế độ truy xuất: 'dense' (mặc định) hoặc 'hybrid' (kết hợp Dense Bi-encoder + BM25 qua RRF)"
+    )
 
 
 class CitationModel(BaseModel):
@@ -238,13 +242,18 @@ def chat_endpoint(request: ChatRequest):
     if len(clean_q) > 1000:
         raise ValidationError(f"Câu hỏi quá dài ({len(clean_q)} ký tự). Giới hạn tối đa là 1000 ký tự.")
 
-    # 2. Kiểm tra tính sẵn sàng của RAG Engine
+    # 2. Kiểm tra chế độ truy xuất (mode)
+    clean_mode = (request.mode or "dense").strip().lower()
+    if clean_mode not in ("dense", "hybrid"):
+        raise ValidationError(f"Chế độ truy xuất không hợp lệ: '{clean_mode}'. Chỉ chấp nhận 'dense' hoặc 'hybrid'.")
+
+    # 3. Kiểm tra tính sẵn sàng của RAG Engine
     if rag_engine_instance is None:
         raise KnowledgeBaseNotReadyError("Dịch vụ RAG chưa sẵn sàng phục vụ. Vui lòng kiểm tra trạng thái tại /health.")
 
-    # 3. Thực thi RAG Engine
+    # 4. Thực thi RAG Engine
     try:
-        response = rag_engine_instance.answer_question(clean_q)
+        response = rag_engine_instance.answer_question(clean_q, mode=clean_mode)
         return ChatResponse(
             request_id=response.request_id,
             status=response.status,

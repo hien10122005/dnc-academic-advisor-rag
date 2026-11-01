@@ -512,8 +512,14 @@ def build_chunks_for_article(
     return chunks
 
 
-def run_chunking() -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+def run_chunking(
+    output_chunks_file: Optional[Path] = None,
+    output_manifest_file: Optional[Path] = None,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """Hàm thực thi chính của pipeline chunking."""
+    target_chunks = Path(output_chunks_file) if output_chunks_file is not None else CHUNKS_FILE
+    target_manifest = Path(output_manifest_file) if output_manifest_file is not None else MANIFEST_FILE
+
     print("=" * 80)
     print("BẮT ĐẦU PIPELINE CHUNKING TOKENIZER-AWARE (QĐ 580 - v2.0)")
     print("=" * 80)
@@ -572,14 +578,14 @@ def run_chunking() -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
 
     print("Đối soát nguồn thành công 100%!")
 
-    # Xuất tệp QD580_CHUNKS.jsonl
-    os.makedirs(CHUNKS_FILE.parent, exist_ok=True)
-    with open(CHUNKS_FILE, "w", encoding="utf-8") as f:
+    # Xuất tệp chunks
+    os.makedirs(target_chunks.parent, exist_ok=True)
+    with open(target_chunks, "w", encoding="utf-8") as f:
         for c in all_chunks:
             f.write(json.dumps(c, ensure_ascii=False) + "\n")
-    print(f"Đã lưu tệp chunks tại: {CHUNKS_FILE}")
+    print(f"Đã lưu tệp chunks tại: {target_chunks}")
 
-    chunks_sha256 = compute_sha256(CHUNKS_FILE)
+    chunks_sha256 = compute_sha256(target_chunks)
 
     # Tính corpus fingerprint
     fingerprint_raw = f"{val_meta['source_pdf_sha256']}:{val_meta['corpus_pages_sha256']}:{chunks_sha256}:{MODEL_REVISION}:{CHUNK_VERSION}"
@@ -612,9 +618,10 @@ def run_chunking() -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
         "chunks": all_chunks,
     }
 
-    with open(MANIFEST_FILE, "w", encoding="utf-8") as f:
+    os.makedirs(target_manifest.parent, exist_ok=True)
+    with open(target_manifest, "w", encoding="utf-8") as f:
         json.dump(manifest_data, f, ensure_ascii=False, indent=2)
-    print(f"Đã lưu tệp manifest tại: {MANIFEST_FILE}")
+    print(f"Đã lưu tệp manifest tại: {target_manifest}")
     print(f"Corpus Fingerprint SHA-256: {corpus_fingerprint}")
     print("=" * 80)
     return all_chunks, manifest_data

@@ -59,9 +59,11 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | `TASK-04-R01` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CHƯA KIỂM TRA` | [Báo cáo RAG cơ bản QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_CO_BAN_QD580.md) |
 | `DNC-RAG-TASK-04-R02` | 01/11/2026 | 04 — RAG cơ bản qua FastAPI và Gemini | `HOÀN THÀNH MỘT PHẦN` | `CẦN SỬA` | [Báo cáo chi tiết BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r02--rag-co-ban-qua-fastapi-va-gemini) |
 | `DNC-RAG-TASK-04-R03` | 01/11/2026 | 04 — Hoàn thiện citation, cấu hình an toàn và đánh giá RAG Gemini Live | `HOÀN THÀNH — CHỜ KIỂM TRA` | `ĐẠT MỘT PHẦN — CẦN SỬA` | [Báo cáo RAG Live R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_RAG_LIVE_QD580_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r03--hoan-thien-citation-va-gemini-live) |
-| `DNC-RAG-TASK-04-R04` | 01/11/2026 | 04 — Chốt baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc) |
+| `DNC-RAG-TASK-04-R04` | 01/11/2026 | 04 — Chốt baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `ĐẠT MỘT PHẦN — TASK05 CÓ ĐIỀU KIỆN` | [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc) |
 
-Nhiệm vụ gần nhất đã hoàn tất tự báo: **04 (Lượt R04) — Chốt baseline A và đánh giá trung thực**, tại [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md).
+| `DNC-RAG-TASK-05-R01` | 01/11/2026 | 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và so sánh A/B | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) |
+
+Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R01) — Đo đúng baseline và tích hợp Hybrid BM25 + RRF**, tại [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md).
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -264,8 +266,48 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 
 #### B. Codex rà soát
 
-- Trạng thái: `CHƯA KIỂM TRA`.
+- Trạng thái: ĐẠT MỘT PHẦN — cho phép Task05 theo hai chặng, sửa điều kiện đo trước khi so sánh.
+- Ngày kiểm tra: 01/11/2026.
+- Xác minh độc lập: 50/50 tests qua, 0 fail/error/skip, không gọi Gemini; idempotency được reviewer chuyển output tạm. Đọc 10 artifacts live R04, kiểm tra định danh citations và tính lại telemetry khớp. HEAD/remote main b68811f9aac8fd0aa479e8410cbaaafafcecc656. Chưa chạy lại live trong lượt review.
+- Nhận xét: lỗi path cũ được chặn; SDK retry/mock flag cải thiện. Còn classifier nhầm code=503 khi message chứa 404; trace được dựng riêng và retriever gọi hai lần; ca đầu đã warm trước timing; metadata/rubric và public message cần sửa gọn.
+- Báo cáo: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R04.md`.
+- Kết luận chuyển bước: giao `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_HYBRID_BM25_RRF.md`. Chặng A sửa các điểm còn mở, chặng B thêm BM25 + RRF và so sánh A/B. Chưa UI/reranker/admin/multi-turn.
+
+---
+
+### DNC-RAG-TASK-05-R01 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và so sánh A/B
+
+#### A. Antigravity báo cáo
+
+- Ngày/giờ hoàn tất: 2026-11-01 19:00:00 (giờ Việt Nam).
+- Project ID: `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_HYBRID_BM25_RRF.md`.
+- Tài liệu nhận xét Codex R04: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R04.md`.
+- Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
+- Tóm tắt kết quả:
+  1. **Hoàn tất 7 yêu cầu Chặng A bắt buộc:**
+     - Phân loại retry theo HTTP status code số nguyên có cấu trúc (bảo vệ 503 có request id "404123" vẫn retry, 401 chứa "quota" không retry, xử lý timeout thực tế và chuỗi lỗi hỗn hợp).
+     - Thiết lập `is_infrastructure_error = True` trong `DNCError`, sử dụng public message cố định, triệt tiêu nguy cơ rò rỉ sentinel tokens hay internal SDK payload.
+     - Cô lập tính bất biến (Idempotency) trong `TemporaryDirectory()`, không ghi đè artifact dùng chung.
+     - Trích xuất `trace` trực tiếp từ runtime của engine qua `return_trace=True`, không truy xuất lần hai; có unit test spy xác nhận prompt và single retrieval call.
+     - Đo lường thời gian bằng `time.perf_counter()`, tách biệt cold/warm, retrieval/generation.
+     - Xây dựng rubric từng ý bắt buộc (Đạt / Một phần / Thiếu / Sai), DEV_06 theo 5 ý gold, DEV_09 N/A multi-turn; tách biệt citation membership, evidence correctness, và answer faithfulness.
+     - Bổ sung Errata minh bạch cho báo cáo R04.
+  2. **Triển khai hoàn chỉnh Chặng B (Hybrid BM25 + RRF):**
+     - Xây dựng `backend/bm25_retriever.py`: Tokenizer tiếng Việt Unicode NFC bảo toàn dấu và số hiệu điều khoản, BM25Okapi Index tính Lucene non-negative IDF, Reciprocal Rank Fusion ($k=60$) hòa trộn Top-20 Dense và Top-20 Sparse.
+     - Tích hợp vào `backend/retrieval.py` (`retrieve_hybrid`), `backend/rag_engine.py` (`mode="dense"|"hybrid"`), `backend/main.py` (`POST /chat` nhận `mode`), `backend/cli.py` (`--mode`).
+     - Bộ kiểm thử tự động tăng từ 50 lên **63 bài test** (thêm 10 bài test hybrid và 3 bài test chặng A), **đạt 100% offline**.
+  3. **Thực nghiệm A/B trên 10 ca phát triển (DEV_01 -> DEV_10):**
+     - **Retrieval A/B:** Hit@5 tăng từ 77.8% (Dense) lên **100% (Hybrid)** (+22.2%). Mean Evidence Coverage@5 tăng từ 63.7% lên **80.3%** (+16.7%).
+     - **Giải cứu 2 ca khó:** Ca `DEV_02` (Điều 3 từ Rank 6 -> Rank 4) và `DEV_08` (Điều 7 từ Rank 8 -> Rank 3) chuyển từ thất bại (`insufficient_evidence`) sang trả lời chính xác có trích dẫn.
+     - **Độ trễ:** Chi phí Hybrid retrieval chỉ tốn thêm ~5.7ms so với Dense warm (68.0ms vs 62.3ms).
+- Báo cáo chi tiết: Xem toàn văn bảng đối chiếu, minh chứng và telemetry tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-05-R01](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) và [Báo cáo kỹ thuật Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md).
+
+#### B. Codex rà soát
+
+- Trạng thái: CHƯA KIỂM TRA.
 - Ngày kiểm tra:
 - Xác minh độc lập:
-- Nhận xét và đánh giá:
+- Nhận xét:
+- Báo cáo:
 - Kết luận chuyển bước:

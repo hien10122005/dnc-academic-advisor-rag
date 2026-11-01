@@ -1,0 +1,2493 @@
+{
+  "dense": {
+    "metrics": {
+      "mode": "dense",
+      "n_grounded": 9,
+      "hit_at_1_ratio": 0.5556,
+      "hit_at_3_ratio": 0.7778,
+      "hit_at_5_ratio": 0.7778,
+      "hit_at_10_ratio": 1.0,
+      "partial_hit_10_ratio": 1.0,
+      "full_case_coverage_10_ratio": 0.6667,
+      "mean_mrr_10": 0.6806,
+      "mean_cov_at_3": 0.5812,
+      "mean_cov_at_5": 0.6368,
+      "mean_cov_at_10": 0.8312,
+      "latency_mean_ms": 64.0,
+      "latency_median_ms": 58.59
+    },
+    "grounded_cases": [
+      {
+        "case_id": "DEV_01",
+        "question": "Theo Quyết định 580/QĐ-ĐHNCT, học phần có điểm đánh giá bao nhiêu thì được tính là học phần tích lũy và bảng quy đổi điểm chữ, điểm số thang 4 được quy định như thế nào?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 69.89,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.5,
+        "mean_cov_5": 1.0,
+        "mean_cov_10": 1.0,
+        "ev_cov_at_10": [
+          1.0,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.5698
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c065_reg_d17_p15_11eac111",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.518
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c063_reg_d17_p15_db0b2505",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.5135
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c064_reg_d17_p15_bdd85ce2",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.4659
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.451
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c074_reg_d20_p17_72cb1cb5",
+            "doc_part": "regulation",
+            "article": "Điều 20. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy",
+            "pdf_page": 17,
+            "similarity": 0.417
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c067_reg_d17_p16_e990105c",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 16,
+            "similarity": 0.4078
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c075_reg_d20_p18_21f21039",
+            "doc_part": "regulation",
+            "article": "Điều 20. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy",
+            "pdf_page": 18,
+            "similarity": 0.4011
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c073_reg_d19_p17_45c0de48",
+            "doc_part": "regulation",
+            "article": "Điều 19. Công nhận kết quả học tập và chuyển đổi tín chỉ",
+            "pdf_page": 17,
+            "similarity": 0.3947
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c083_reg_d24_p20_94a253a7",
+            "doc_part": "regulation",
+            "article": "Điều 24. Giao thực hiện, phân công giáo viên hướng dẫn, chấm đồ án, khoá luận tốt nghiệp.",
+            "pdf_page": 20,
+            "similarity": 0.3927
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_02",
+        "question": "Trường Đại học Nam Cần Thơ tổ chức năm học gồm bao nhiêu học kỳ và thời lượng của mỗi học kỳ được quy định ra sao theo QĐ 580?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 52.99,
+        "expected_ev_count": 2,
+        "first_hit_rank": 6,
+        "mrr_10": 0.1667,
+        "hit_1": 0,
+        "hit_3": 0,
+        "hit_5": 0,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.0,
+        "mean_cov_5": 0.0,
+        "mean_cov_10": 1.0,
+        "ev_cov_at_10": [
+          1.0,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c002_dec_d00_p01_82c0fc7d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.5401
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c001_dec_d00_p01_667aec0f",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.537
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c008_reg_d02_p02_84ee9eec",
+            "doc_part": "regulation",
+            "article": "Điều 2. Chương trình đào tạo, đề cương chi tiết học phần",
+            "pdf_page": 2,
+            "similarity": 0.4939
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.4743
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c055_reg_d14_p13_0b8ca01f",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4701
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c014_reg_d03_p03_ebccfc59",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.4697
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.4669
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c052_reg_d14_p13_e328cfb5",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4572
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c054_reg_d14_p13_34edee00",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4425
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c102_reg_d31_p25_254726fe",
+            "doc_part": "regulation",
+            "article": "Điều 31. Tổ chức thực hiện",
+            "pdf_page": 25,
+            "similarity": 0.4343
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_03",
+        "question": "Khối lượng tín chỉ tối thiểu và tối đa sinh viên được phép đăng ký trong mỗi học kỳ theo từng chương trình đào tạo là bao nhiêu?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 50.55,
+        "expected_ev_count": 1,
+        "first_hit_rank": 3,
+        "mrr_10": 0.3333,
+        "hit_1": 0,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9926,
+        "mean_cov_5": 0.9926,
+        "mean_cov_10": 0.9926,
+        "ev_cov_at_10": [
+          0.9926
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 8,
+            "similarity": 0.4171
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c052_reg_d14_p13_e328cfb5",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4025
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 9,
+            "similarity": 0.3891
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c090_reg_d28_p23_9d3e70c5",
+            "doc_part": "regulation",
+            "article": "Điều 28. Nghĩa vụ và quyền lợi của sinh viên trong học tập, nghiên cứu",
+            "pdf_page": 23,
+            "similarity": 0.362
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.3551
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.347
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c057_reg_d15_p14_a11c5abd",
+            "doc_part": "regulation",
+            "article": "Điều 15. Học liên thông đối với người có văn bằng khác",
+            "pdf_page": 14,
+            "similarity": 0.3468
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.3456
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c082_reg_d23_p20_1210eee6",
+            "doc_part": "regulation",
+            "article": "Điều 23. Thực tập cuối khóa, làm đồ án hoặc khoá luận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.3449
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c007_reg_d01_p02_9f0d6ad2",
+            "doc_part": "regulation",
+            "article": "Điều 1. Phạm vi điều chỉnh và đối tượng áp dụng.",
+            "pdf_page": 2,
+            "similarity": 0.3393
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_04",
+        "question": "Sinh viên muốn đăng ký học cùng lúc hai chương trình (song bằng) tại Trường Đại học Nam Cần Thơ cần đáp ứng những điều kiện gì?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 50.01,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9963,
+        "mean_cov_5": 0.9963,
+        "mean_cov_10": 0.9963,
+        "ev_cov_at_10": [
+          0.9926,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.6129
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.5904
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c048_reg_d11_p12_c85a99c9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 12,
+            "similarity": 0.5574
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c047_reg_d11_p11_00643e7f",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.5145
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c057_reg_d15_p14_a11c5abd",
+            "doc_part": "regulation",
+            "article": "Điều 15. Học liên thông đối với người có văn bằng khác",
+            "pdf_page": 14,
+            "similarity": 0.4627
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c052_reg_d14_p13_e328cfb5",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4513
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.4381
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c046_reg_d11_p11_31183ef9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.4378
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c008_reg_d02_p02_84ee9eec",
+            "doc_part": "regulation",
+            "article": "Điều 2. Chương trình đào tạo, đề cương chi tiết học phần",
+            "pdf_page": 2,
+            "similarity": 0.436
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c055_reg_d14_p13_0b8ca01f",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.3985
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_05",
+        "question": "Theo quy chế 580, sau khi thi lại kết thúc học phần, điểm học phần của sinh viên được giới hạn ở mức tối đa là bao nhiêu và những loại học phần nào không tổ chức thi lại?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 62.66,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9986,
+        "mean_cov_5": 0.9986,
+        "mean_cov_10": 0.9986,
+        "ev_cov_at_10": [
+          1.0,
+          0.9972
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.5651
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c071_reg_d18_p17_9798887b",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 17,
+            "similarity": 0.5551
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c069_reg_d18_p16_86011ae0",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.5266
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.5153
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c068_reg_d18_p16_b2c9d427",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.5096
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c072_reg_d18_p17_ddd6e291",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 17,
+            "similarity": 0.4942
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c078_reg_d21_p18_b95bd65a",
+            "doc_part": "regulation",
+            "article": "Điều 21. Phúc khảo và khiếu nại điểm",
+            "pdf_page": 18,
+            "similarity": 0.4859
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c037_reg_d08_p09_5f316438",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.4609
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c046_reg_d11_p11_31183ef9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.4383
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c094_reg_d28_p23_b9eb3011",
+            "doc_part": "regulation",
+            "article": "Điều 28. Nghĩa vụ và quyền lợi của sinh viên trong học tập, nghiên cứu",
+            "pdf_page": 23,
+            "similarity": 0.415
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_06",
+        "question": "Điều kiện để sinh viên được xét và công nhận tốt nghiệp đại học theo Quyết định 580/QĐ-ĐHNCT bao gồm những tiêu chuẩn nào?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 53.21,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9933,
+        "mean_cov_5": 0.9933,
+        "mean_cov_10": 0.9933,
+        "ev_cov_at_10": [
+          0.9929,
+          0.9938
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+            "doc_part": "regulation",
+            "article": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.6635
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c085_reg_d25_p21_3fc22772",
+            "doc_part": "regulation",
+            "article": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp",
+            "pdf_page": 21,
+            "similarity": 0.5392
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c082_reg_d23_p20_1210eee6",
+            "doc_part": "regulation",
+            "article": "Điều 23. Thực tập cuối khóa, làm đồ án hoặc khoá luận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.4867
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c088_reg_d26_p21_feeb49db",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.4758
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c089_reg_d27_p21_74185adc",
+            "doc_part": "regulation",
+            "article": "Điều 27. Thủ tục quản lý và cấp văn bằng tốt nghiệp",
+            "pdf_page": 21,
+            "similarity": 0.4702
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c087_reg_d26_p21_6790bf08",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.4538
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.427
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c086_reg_d26_p21_17011148",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.423
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c080_reg_d22_p19_bfc583bb",
+            "doc_part": "regulation",
+            "article": "Điều 22. Thông báo điểm và xác nhận kết quả học tập",
+            "pdf_page": 19,
+            "similarity": 0.4163
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.4056
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_07",
+        "question": "Kỳ rồi em thi môn Cơ sở dữ liệu bị 4.5 điểm, trên bảng điểm để chữ D. Cho em hỏi điểm này có được tính qua môn không hay em bắt buộc phải học lại?",
+        "category": "DOI_THUONG",
+        "latency_ms": 66.39,
+        "expected_ev_count": 4,
+        "first_hit_rank": 2,
+        "mrr_10": 0.5,
+        "hit_1": 0,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 0,
+        "mean_cov_3": 0.25,
+        "mean_cov_5": 0.25,
+        "mean_cov_10": 0.5,
+        "ev_cov_at_10": [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.2676
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2433
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2263
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c065_reg_d17_p15_11eac111",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2241
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c079_reg_d22_p19_21fd4d5e",
+            "doc_part": "regulation",
+            "article": "Điều 22. Thông báo điểm và xác nhận kết quả học tập",
+            "pdf_page": 19,
+            "similarity": 0.2237
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c078_reg_d21_p18_b95bd65a",
+            "doc_part": "regulation",
+            "article": "Điều 21. Phúc khảo và khiếu nại điểm",
+            "pdf_page": 18,
+            "similarity": 0.2156
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c063_reg_d17_p15_db0b2505",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2112
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c037_reg_d08_p09_5f316438",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.2077
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c067_reg_d17_p16_e990105c",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 16,
+            "similarity": 0.2061
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c073_reg_d19_p17_45c0de48",
+            "doc_part": "regulation",
+            "article": "Điều 19. Công nhận kết quả học tập và chuyển đổi tín chỉ",
+            "pdf_page": 17,
+            "similarity": 0.2052
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_08",
+        "question": "Mình đang học ngành Công nghệ thông tin hệ 4 năm, kỳ tới mình tính học vượt để ra trường sớm thì được đăng ký tối đa bao nhiêu chỉ một kỳ vậy?",
+        "category": "DOI_THUONG",
+        "latency_ms": 80.98,
+        "expected_ev_count": 2,
+        "first_hit_rank": 8,
+        "mrr_10": 0.125,
+        "hit_1": 0,
+        "hit_3": 0,
+        "hit_5": 0,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 0,
+        "mean_cov_3": 0.0,
+        "mean_cov_5": 0.0,
+        "mean_cov_10": 0.5,
+        "ev_cov_at_10": [
+          1.0,
+          0.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c029_reg_d05_p07_a951b236",
+            "doc_part": "regulation",
+            "article": "Điều 5. Thời gian và kế hoạch đào tạo",
+            "pdf_page": 7,
+            "similarity": 0.3258
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 9,
+            "similarity": 0.2883
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.2804
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c048_reg_d11_p12_c85a99c9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 12,
+            "similarity": 0.261
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c057_reg_d15_p14_a11c5abd",
+            "doc_part": "regulation",
+            "article": "Điều 15. Học liên thông đối với người có văn bằng khác",
+            "pdf_page": 14,
+            "similarity": 0.2582
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c087_reg_d26_p21_6790bf08",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.2554
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.2514
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 8,
+            "similarity": 0.2483
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c049_reg_d12_p12_af7f8353",
+            "doc_part": "regulation",
+            "article": "Điều 12. Chuyển ngành học",
+            "pdf_page": 12,
+            "similarity": 0.2442
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c047_reg_d11_p11_00643e7f",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.2371
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_09",
+        "question": "Vậy nếu sau khi đăng ký muộn xong mà mình thấy quá tải muốn rút bớt học phần thì trong QĐ 580 có quy định điều kiện rút và việc hoàn tiền học phí thế nào?",
+        "category": "NOI_TIEP_CO_LICH_SU",
+        "latency_ms": 54.53,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 0,
+        "mean_cov_3": 0.5,
+        "mean_cov_5": 0.5,
+        "mean_cov_10": 0.5,
+        "ev_cov_at_10": [
+          0.0,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c016_reg_d03_p04_5877e426",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.5292
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c015_reg_d03_p03_c07b9acf",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.5276
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c073_reg_d19_p17_45c0de48",
+            "doc_part": "regulation",
+            "article": "Điều 19. Công nhận kết quả học tập và chuyển đổi tín chỉ",
+            "pdf_page": 17,
+            "similarity": 0.4944
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c020_reg_d03_p05_ee454089",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 5,
+            "similarity": 0.4899
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c095_reg_d28_p24_5e848e92",
+            "doc_part": "regulation",
+            "article": "Điều 28. Nghĩa vụ và quyền lợi của sinh viên trong học tập, nghiên cứu",
+            "pdf_page": 24,
+            "similarity": 0.4345
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c019_reg_d03_p04_97710010",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.432
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c014_reg_d03_p03_ebccfc59",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.4208
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c018_reg_d03_p04_62400dd1",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.4089
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c065_reg_d17_p15_11eac111",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.3827
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c021_reg_d03_p05_0f17c9e8",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 5,
+            "similarity": 0.3817
+          }
+        ]
+      }
+    ],
+    "out_of_scope_cases": [
+      {
+        "case_id": "DEV_10",
+        "question": "Theo Quyết định 580/QĐ-ĐHNCT, mức học phí cụ thể cho một tín chỉ của sinh viên ngành CNTT năm học 2026-2027 là bao nhiêu tiền và cách tính điểm rèn luyện của sinh viên như thế nào?",
+        "latency_ms": 98.78,
+        "top_1_chunk": "qd580_v2_c016_reg_d03_p04_5877e426",
+        "top_1_score": 0.4295,
+        "chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c016_reg_d03_p04_5877e426",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.4295
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c015_reg_d03_p03_c07b9acf",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.4111
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c042_reg_d10_p10_1d52fb8c",
+            "doc_part": "regulation",
+            "article": "Điều 10. Cảnh báo học tập - Bị buộc thôi học.",
+            "pdf_page": 10,
+            "similarity": 0.3932
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.3843
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c001_dec_d00_p01_667aec0f",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.381
+          }
+        ]
+      }
+    ]
+  },
+  "hybrid": {
+    "metrics": {
+      "mode": "hybrid",
+      "n_grounded": 9,
+      "hit_at_1_ratio": 0.4444,
+      "hit_at_3_ratio": 0.8889,
+      "hit_at_5_ratio": 1.0,
+      "hit_at_10_ratio": 1.0,
+      "partial_hit_10_ratio": 1.0,
+      "full_case_coverage_10_ratio": 0.7778,
+      "mean_mrr_10": 0.6574,
+      "mean_cov_at_3": 0.6923,
+      "mean_cov_at_5": 0.8034,
+      "mean_cov_at_10": 0.9143,
+      "latency_mean_ms": 82.63,
+      "latency_median_ms": 81.77
+    },
+    "grounded_cases": [
+      {
+        "case_id": "DEV_01",
+        "question": "Theo Quyết định 580/QĐ-ĐHNCT, học phần có điểm đánh giá bao nhiêu thì được tính là học phần tích lũy và bảng quy đổi điểm chữ, điểm số thang 4 được quy định như thế nào?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 95.25,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 1.0,
+        "mean_cov_5": 1.0,
+        "mean_cov_10": 1.0,
+        "ev_cov_at_10": [
+          1.0,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.5698,
+            "rrf_score": 0.032787,
+            "dense_rank": 1,
+            "dense_score": 0.5698,
+            "bm25_rank": 1,
+            "bm25_score": 33.3059
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c065_reg_d17_p15_11eac111",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.518,
+            "rrf_score": 0.032002,
+            "dense_rank": 2,
+            "dense_score": 0.518,
+            "bm25_rank": 3,
+            "bm25_score": 29.39
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.451,
+            "rrf_score": 0.031514,
+            "dense_rank": 5,
+            "dense_score": 0.451,
+            "bm25_rank": 2,
+            "bm25_score": 31.5448
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c064_reg_d17_p15_bdd85ce2",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.4659,
+            "rrf_score": 0.03101,
+            "dense_rank": 4,
+            "dense_score": 0.4659,
+            "bm25_rank": 5,
+            "bm25_score": 27.2393
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c075_reg_d20_p18_21f21039",
+            "doc_part": "regulation",
+            "article": "Điều 20. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy",
+            "pdf_page": 18,
+            "similarity": 0.4011,
+            "rrf_score": 0.030331,
+            "dense_rank": 8,
+            "dense_score": 0.4011,
+            "bm25_rank": 4,
+            "bm25_score": 29.1184
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c074_reg_d20_p17_72cb1cb5",
+            "doc_part": "regulation",
+            "article": "Điều 20. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy",
+            "pdf_page": 17,
+            "similarity": 0.417,
+            "rrf_score": 0.030303,
+            "dense_rank": 6,
+            "dense_score": 0.417,
+            "bm25_rank": 6,
+            "bm25_score": 24.3348
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c063_reg_d17_p15_db0b2505",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.5135,
+            "rrf_score": 0.030159,
+            "dense_rank": 3,
+            "dense_score": 0.5135,
+            "bm25_rank": 10,
+            "bm25_score": 22.3533
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c067_reg_d17_p16_e990105c",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 16,
+            "similarity": 0.4078,
+            "rrf_score": 0.029418,
+            "dense_rank": 7,
+            "dense_score": 0.4078,
+            "bm25_rank": 9,
+            "bm25_score": 22.6543
+          },
+          {
+            "rank": 12,
+            "chunk_id": "qd580_v2_c077_reg_d20_p18_e078d185",
+            "doc_part": "regulation",
+            "article": "Điều 20. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy",
+            "pdf_page": 18,
+            "similarity": 0.3674,
+            "rrf_score": 0.028814,
+            "dense_rank": 12,
+            "dense_score": 0.3674,
+            "bm25_rank": 7,
+            "bm25_score": 24.0239
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c073_reg_d19_p17_45c0de48",
+            "doc_part": "regulation",
+            "article": "Điều 19. Công nhận kết quả học tập và chuyển đổi tín chỉ",
+            "pdf_page": 17,
+            "similarity": 0.3947,
+            "rrf_score": 0.02748,
+            "dense_rank": 9,
+            "dense_score": 0.3947,
+            "bm25_rank": 17,
+            "bm25_score": 19.9944
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_02",
+        "question": "Trường Đại học Nam Cần Thơ tổ chức năm học gồm bao nhiêu học kỳ và thời lượng của mỗi học kỳ được quy định ra sao theo QĐ 580?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 71.23,
+        "expected_ev_count": 2,
+        "first_hit_rank": 4,
+        "mrr_10": 0.25,
+        "hit_1": 0,
+        "hit_3": 0,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.0,
+        "mean_cov_5": 1.0,
+        "mean_cov_10": 1.0,
+        "ev_cov_at_10": [
+          1.0,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c002_dec_d00_p01_82c0fc7d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.5401,
+            "rrf_score": 0.032522,
+            "dense_rank": 1,
+            "dense_score": 0.5401,
+            "bm25_rank": 2,
+            "bm25_score": 25.9038
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c001_dec_d00_p01_667aec0f",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.537,
+            "rrf_score": 0.032522,
+            "dense_rank": 2,
+            "dense_score": 0.537,
+            "bm25_rank": 1,
+            "bm25_score": 27.9262
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.4743,
+            "rrf_score": 0.031498,
+            "dense_rank": 4,
+            "dense_score": 0.4743,
+            "bm25_rank": 3,
+            "bm25_score": 25.0009
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c014_reg_d03_p03_ebccfc59",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.4697,
+            "rrf_score": 0.030777,
+            "dense_rank": 6,
+            "dense_score": 0.4697,
+            "bm25_rank": 4,
+            "bm25_score": 22.788
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c055_reg_d14_p13_0b8ca01f",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4701,
+            "rrf_score": 0.029877,
+            "dense_rank": 5,
+            "dense_score": 0.4701,
+            "bm25_rank": 9,
+            "bm25_score": 15.384
+          },
+          {
+            "rank": 11,
+            "chunk_id": "qd580_v2_c007_reg_d01_p02_9f0d6ad2",
+            "doc_part": "regulation",
+            "article": "Điều 1. Phạm vi điều chỉnh và đối tượng áp dụng.",
+            "pdf_page": 2,
+            "similarity": 0.4285,
+            "rrf_score": 0.029469,
+            "dense_rank": 11,
+            "dense_score": 0.4285,
+            "bm25_rank": 5,
+            "bm25_score": 18.42
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c054_reg_d14_p13_34edee00",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4425,
+            "rrf_score": 0.028778,
+            "dense_rank": 9,
+            "dense_score": 0.4425,
+            "bm25_rank": 10,
+            "bm25_score": 14.616
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c008_reg_d02_p02_84ee9eec",
+            "doc_part": "regulation",
+            "article": "Điều 2. Chương trình đào tạo, đề cương chi tiết học phần",
+            "pdf_page": 2,
+            "similarity": 0.4939,
+            "rrf_score": 0.028694,
+            "dense_rank": 3,
+            "dense_score": 0.4939,
+            "bm25_rank": 18,
+            "bm25_score": 12.356
+          },
+          {
+            "rank": 14,
+            "chunk_id": "qd580_v2_c006_dec_d03_p01_97ea83e0",
+            "doc_part": "decision",
+            "article": "Điều 3. Trách nhiệm thi hành quyết định",
+            "pdf_page": 1,
+            "similarity": 0.3901,
+            "rrf_score": 0.028665,
+            "dense_rank": 14,
+            "dense_score": 0.3901,
+            "bm25_rank": 6,
+            "bm25_score": 18.0624
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.4669,
+            "rrf_score": 0.028624,
+            "dense_rank": 7,
+            "dense_score": 0.4669,
+            "bm25_rank": 13,
+            "bm25_score": 14.2912
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_03",
+        "question": "Khối lượng tín chỉ tối thiểu và tối đa sinh viên được phép đăng ký trong mỗi học kỳ theo từng chương trình đào tạo là bao nhiêu?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 64.37,
+        "expected_ev_count": 1,
+        "first_hit_rank": 2,
+        "mrr_10": 0.5,
+        "hit_1": 0,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9926,
+        "mean_cov_5": 0.9926,
+        "mean_cov_10": 0.9926,
+        "ev_cov_at_10": [
+          0.9926
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 8,
+            "similarity": 0.4171,
+            "rrf_score": 0.032522,
+            "dense_rank": 1,
+            "dense_score": 0.4171,
+            "bm25_rank": 2,
+            "bm25_score": 34.2332
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 9,
+            "similarity": 0.3891,
+            "rrf_score": 0.032266,
+            "dense_rank": 3,
+            "dense_score": 0.3891,
+            "bm25_rank": 1,
+            "bm25_score": 34.8545
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c052_reg_d14_p13_e328cfb5",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4025,
+            "rrf_score": 0.030018,
+            "dense_rank": 2,
+            "dense_score": 0.4025,
+            "bm25_rank": 12,
+            "bm25_score": 15.5037
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c082_reg_d23_p20_1210eee6",
+            "doc_part": "regulation",
+            "article": "Điều 23. Thực tập cuối khóa, làm đồ án hoặc khoá luận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.3449,
+            "rrf_score": 0.029644,
+            "dense_rank": 9,
+            "dense_score": 0.3449,
+            "bm25_rank": 6,
+            "bm25_score": 18.9519
+          },
+          {
+            "rank": 13,
+            "chunk_id": "qd580_v2_c009_reg_d02_p02_96327514",
+            "doc_part": "regulation",
+            "article": "Điều 2. Chương trình đào tạo, đề cương chi tiết học phần",
+            "pdf_page": 2,
+            "similarity": 0.332,
+            "rrf_score": 0.029324,
+            "dense_rank": 13,
+            "dense_score": 0.332,
+            "bm25_rank": 4,
+            "bm25_score": 21.4936
+          },
+          {
+            "rank": 12,
+            "chunk_id": "qd580_v2_c047_reg_d11_p11_00643e7f",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.3328,
+            "rrf_score": 0.028595,
+            "dense_rank": 12,
+            "dense_score": 0.3328,
+            "bm25_rank": 8,
+            "bm25_score": 17.3988
+          },
+          {
+            "rank": 16,
+            "chunk_id": "qd580_v2_c024_reg_d03_p05_d47e795c",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 5,
+            "similarity": 0.3052,
+            "rrf_score": 0.028543,
+            "dense_rank": 16,
+            "dense_score": 0.3052,
+            "bm25_rank": 5,
+            "bm25_score": 20.4495
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.347,
+            "rrf_score": 0.028309,
+            "dense_rank": 6,
+            "dense_score": 0.347,
+            "bm25_rank": 16,
+            "bm25_score": 13.5783
+          },
+          {
+            "rank": 19,
+            "chunk_id": "qd580_v2_c030_reg_d05_p07_1b3d8e29",
+            "doc_part": "regulation",
+            "article": "Điều 5. Thời gian và kế hoạch đào tạo",
+            "pdf_page": 7,
+            "similarity": 0.2955,
+            "rrf_score": 0.026944,
+            "dense_rank": 19,
+            "dense_score": 0.2955,
+            "bm25_rank": 10,
+            "bm25_score": 15.724
+          },
+          {
+            "rank": 15,
+            "chunk_id": "qd580_v2_c015_reg_d03_p03_c07b9acf",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.3172,
+            "rrf_score": 0.025833,
+            "dense_rank": 15,
+            "dense_score": 0.3172,
+            "bm25_rank": 20,
+            "bm25_score": 12.6419
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_04",
+        "question": "Sinh viên muốn đăng ký học cùng lúc hai chương trình (song bằng) tại Trường Đại học Nam Cần Thơ cần đáp ứng những điều kiện gì?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 76.69,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9963,
+        "mean_cov_5": 0.9963,
+        "mean_cov_10": 0.9963,
+        "ev_cov_at_10": [
+          0.9926,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.6129,
+            "rrf_score": 0.032787,
+            "dense_rank": 1,
+            "dense_score": 0.6129,
+            "bm25_rank": 1,
+            "bm25_score": 25.5431
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.5904,
+            "rrf_score": 0.032002,
+            "dense_rank": 2,
+            "dense_score": 0.5904,
+            "bm25_rank": 3,
+            "bm25_score": 22.0808
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c048_reg_d11_p12_c85a99c9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 12,
+            "similarity": 0.5574,
+            "rrf_score": 0.032002,
+            "dense_rank": 3,
+            "dense_score": 0.5574,
+            "bm25_rank": 2,
+            "bm25_score": 25.2593
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c057_reg_d15_p14_a11c5abd",
+            "doc_part": "regulation",
+            "article": "Điều 15. Học liên thông đối với người có văn bằng khác",
+            "pdf_page": 14,
+            "similarity": 0.4627,
+            "rrf_score": 0.030769,
+            "dense_rank": 5,
+            "dense_score": 0.4627,
+            "bm25_rank": 5,
+            "bm25_score": 20.6779
+          },
+          {
+            "rank": 10,
+            "chunk_id": "qd580_v2_c055_reg_d14_p13_0b8ca01f",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.3985,
+            "rrf_score": 0.029911,
+            "dense_rank": 10,
+            "dense_score": 0.3985,
+            "bm25_rank": 4,
+            "bm25_score": 21.8877
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.4381,
+            "rrf_score": 0.029211,
+            "dense_rank": 7,
+            "dense_score": 0.4381,
+            "bm25_rank": 10,
+            "bm25_score": 16.6254
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c008_reg_d02_p02_84ee9eec",
+            "doc_part": "regulation",
+            "article": "Điều 2. Chương trình đào tạo, đề cương chi tiết học phần",
+            "pdf_page": 2,
+            "similarity": 0.436,
+            "rrf_score": 0.029199,
+            "dense_rank": 9,
+            "dense_score": 0.436,
+            "bm25_rank": 8,
+            "bm25_score": 17.5475
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c052_reg_d14_p13_e328cfb5",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 13,
+            "similarity": 0.4513,
+            "rrf_score": 0.02904,
+            "dense_rank": 6,
+            "dense_score": 0.4513,
+            "bm25_rank": 12,
+            "bm25_score": 15.6967
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c047_reg_d11_p11_00643e7f",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.5145,
+            "rrf_score": 0.028612,
+            "dense_rank": 4,
+            "dense_score": 0.5145,
+            "bm25_rank": 17,
+            "bm25_score": 14.3486
+          },
+          {
+            "rank": 15,
+            "chunk_id": "qd580_v2_c056_reg_d14_p14_72fdb262",
+            "doc_part": "regulation",
+            "article": "Điều 14. Liên kết đào tạo",
+            "pdf_page": 14,
+            "similarity": 0.3795,
+            "rrf_score": 0.028485,
+            "dense_rank": 15,
+            "dense_score": 0.3795,
+            "bm25_rank": 6,
+            "bm25_score": 19.8026
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_05",
+        "question": "Theo quy chế 580, sau khi thi lại kết thúc học phần, điểm học phần của sinh viên được giới hạn ở mức tối đa là bao nhiêu và những loại học phần nào không tổ chức thi lại?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 96.04,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9986,
+        "mean_cov_5": 0.9986,
+        "mean_cov_10": 0.9986,
+        "ev_cov_at_10": [
+          1.0,
+          0.9972
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.5651,
+            "rrf_score": 0.032522,
+            "dense_rank": 1,
+            "dense_score": 0.5651,
+            "bm25_rank": 2,
+            "bm25_score": 33.7733
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c071_reg_d18_p17_9798887b",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 17,
+            "similarity": 0.5551,
+            "rrf_score": 0.032522,
+            "dense_rank": 2,
+            "dense_score": 0.5551,
+            "bm25_rank": 1,
+            "bm25_score": 34.9759
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c069_reg_d18_p16_86011ae0",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.5266,
+            "rrf_score": 0.031258,
+            "dense_rank": 3,
+            "dense_score": 0.5266,
+            "bm25_rank": 5,
+            "bm25_score": 25.086
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c072_reg_d18_p17_ddd6e291",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 17,
+            "similarity": 0.4942,
+            "rrf_score": 0.030777,
+            "dense_rank": 6,
+            "dense_score": 0.4942,
+            "bm25_rank": 4,
+            "bm25_score": 27.212
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.5153,
+            "rrf_score": 0.03055,
+            "dense_rank": 4,
+            "dense_score": 0.5153,
+            "bm25_rank": 7,
+            "bm25_score": 23.4914
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c078_reg_d21_p18_b95bd65a",
+            "doc_part": "regulation",
+            "article": "Điều 21. Phúc khảo và khiếu nại điểm",
+            "pdf_page": 18,
+            "similarity": 0.4859,
+            "rrf_score": 0.030077,
+            "dense_rank": 7,
+            "dense_score": 0.4859,
+            "bm25_rank": 6,
+            "bm25_score": 24.8733
+          },
+          {
+            "rank": 15,
+            "chunk_id": "qd580_v2_c065_reg_d17_p15_11eac111",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.394,
+            "rrf_score": 0.029206,
+            "dense_rank": 15,
+            "dense_score": 0.394,
+            "bm25_rank": 3,
+            "bm25_score": 30.0507
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c068_reg_d18_p16_b2c9d427",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.5096,
+            "rrf_score": 0.028898,
+            "dense_rank": 5,
+            "dense_score": 0.5096,
+            "bm25_rank": 14,
+            "bm25_score": 18.8778
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c037_reg_d08_p09_5f316438",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.4609,
+            "rrf_score": 0.028595,
+            "dense_rank": 8,
+            "dense_score": 0.4609,
+            "bm25_rank": 12,
+            "bm25_score": 18.9468
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c046_reg_d11_p11_31183ef9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.4383,
+            "rrf_score": 0.028577,
+            "dense_rank": 9,
+            "dense_score": 0.4383,
+            "bm25_rank": 11,
+            "bm25_score": 19.3142
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_06",
+        "question": "Điều kiện để sinh viên được xét và công nhận tốt nghiệp đại học theo Quyết định 580/QĐ-ĐHNCT bao gồm những tiêu chuẩn nào?",
+        "category": "TRUC_TIEP",
+        "latency_ms": 78.56,
+        "expected_ev_count": 2,
+        "first_hit_rank": 3,
+        "mrr_10": 0.3333,
+        "hit_1": 0,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.9933,
+        "mean_cov_5": 0.9933,
+        "mean_cov_10": 0.9933,
+        "ev_cov_at_10": [
+          0.9929,
+          0.9938
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c085_reg_d25_p21_3fc22772",
+            "doc_part": "regulation",
+            "article": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp",
+            "pdf_page": 21,
+            "similarity": 0.5392,
+            "rrf_score": 0.031514,
+            "dense_rank": 2,
+            "dense_score": 0.5392,
+            "bm25_rank": 5,
+            "bm25_score": 20.5981
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.427,
+            "rrf_score": 0.031319,
+            "dense_rank": 7,
+            "dense_score": 0.427,
+            "bm25_rank": 1,
+            "bm25_score": 22.435
+          },
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+            "doc_part": "regulation",
+            "article": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.6635,
+            "rrf_score": 0.031099,
+            "dense_rank": 1,
+            "dense_score": 0.6635,
+            "bm25_rank": 8,
+            "bm25_score": 17.841
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c087_reg_d26_p21_6790bf08",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.4538,
+            "rrf_score": 0.030777,
+            "dense_rank": 6,
+            "dense_score": 0.4538,
+            "bm25_rank": 4,
+            "bm25_score": 20.6917
+          },
+          {
+            "rank": 14,
+            "chunk_id": "qd580_v2_c004_dec_d01_p01_ec9c2fb0",
+            "doc_part": "decision",
+            "article": "Điều 1. Ban hành kèm theo quyết định này Quy chế tổ chức đào tạo trình độ đại học",
+            "pdf_page": 1,
+            "similarity": 0.3819,
+            "rrf_score": 0.029643,
+            "dense_rank": 14,
+            "dense_score": 0.3819,
+            "bm25_rank": 2,
+            "bm25_score": 21.6847
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c089_reg_d27_p21_74185adc",
+            "doc_part": "regulation",
+            "article": "Điều 27. Thủ tục quản lý và cấp văn bằng tốt nghiệp",
+            "pdf_page": 21,
+            "similarity": 0.4702,
+            "rrf_score": 0.029469,
+            "dense_rank": 5,
+            "dense_score": 0.4702,
+            "bm25_rank": 11,
+            "bm25_score": 15.5437
+          },
+          {
+            "rank": 12,
+            "chunk_id": "qd580_v2_c001_dec_d00_p01_667aec0f",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.388,
+            "rrf_score": 0.02904,
+            "dense_rank": 12,
+            "dense_score": 0.388,
+            "bm25_rank": 6,
+            "bm25_score": 20.036
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c082_reg_d23_p20_1210eee6",
+            "doc_part": "regulation",
+            "article": "Điều 23. Thực tập cuối khóa, làm đồ án hoặc khoá luận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.4867,
+            "rrf_score": 0.02886,
+            "dense_rank": 3,
+            "dense_score": 0.4867,
+            "bm25_rank": 17,
+            "bm25_score": 13.3938
+          },
+          {
+            "rank": 17,
+            "chunk_id": "qd580_v2_c002_dec_d00_p01_82c0fc7d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.3626,
+            "rrf_score": 0.02886,
+            "dense_rank": 17,
+            "dense_score": 0.3626,
+            "bm25_rank": 3,
+            "bm25_score": 21.3986
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c088_reg_d26_p21_feeb49db",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.4758,
+            "rrf_score": 0.028783,
+            "dense_rank": 4,
+            "dense_score": 0.4758,
+            "bm25_rank": 16,
+            "bm25_score": 13.6768
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_07",
+        "question": "Kỳ rồi em thi môn Cơ sở dữ liệu bị 4.5 điểm, trên bảng điểm để chữ D. Cho em hỏi điểm này có được tính qua môn không hay em bắt buộc phải học lại?",
+        "category": "DOI_THUONG",
+        "latency_ms": 84.98,
+        "expected_ev_count": 4,
+        "first_hit_rank": 2,
+        "mrr_10": 0.5,
+        "hit_1": 0,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 0,
+        "mean_cov_3": 0.25,
+        "mean_cov_5": 0.25,
+        "mean_cov_10": 0.75,
+        "ev_cov_at_10": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.2676,
+            "rrf_score": 0.032018,
+            "dense_rank": 1,
+            "dense_score": 0.2676,
+            "bm25_rank": 4,
+            "bm25_score": 22.2454
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2433,
+            "rrf_score": 0.031281,
+            "dense_rank": 2,
+            "dense_score": 0.2433,
+            "bm25_rank": 6,
+            "bm25_score": 22.1223
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c079_reg_d22_p19_21fd4d5e",
+            "doc_part": "regulation",
+            "article": "Điều 22. Thông báo điểm và xác nhận kết quả học tập",
+            "pdf_page": 19,
+            "similarity": 0.2237,
+            "rrf_score": 0.031258,
+            "dense_rank": 5,
+            "dense_score": 0.2237,
+            "bm25_rank": 3,
+            "bm25_score": 22.7432
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c065_reg_d17_p15_11eac111",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2241,
+            "rrf_score": 0.03055,
+            "dense_rank": 4,
+            "dense_score": 0.2241,
+            "bm25_rank": 7,
+            "bm25_score": 21.1813
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+            "doc_part": "regulation",
+            "article": "Điều 17. Đánh giá và tính điểm học phần",
+            "pdf_page": 15,
+            "similarity": 0.2263,
+            "rrf_score": 0.029762,
+            "dense_rank": 3,
+            "dense_score": 0.2263,
+            "bm25_rank": 12,
+            "bm25_score": 19.6603
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c078_reg_d21_p18_b95bd65a",
+            "doc_part": "regulation",
+            "article": "Điều 21. Phúc khảo và khiếu nại điểm",
+            "pdf_page": 18,
+            "similarity": 0.2156,
+            "rrf_score": 0.029644,
+            "dense_rank": 6,
+            "dense_score": 0.2156,
+            "bm25_rank": 9,
+            "bm25_score": 21.0954
+          },
+          {
+            "rank": 14,
+            "chunk_id": "qd580_v2_c069_reg_d18_p16_86011ae0",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.1803,
+            "rrf_score": 0.029643,
+            "dense_rank": 14,
+            "dense_score": 0.1803,
+            "bm25_rank": 2,
+            "bm25_score": 23.8223
+          },
+          {
+            "rank": 16,
+            "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+            "doc_part": "regulation",
+            "article": "Điều 18. Tổ chức kỳ thi kết thúc học phần.",
+            "pdf_page": 16,
+            "similarity": 0.1742,
+            "rrf_score": 0.029551,
+            "dense_rank": 16,
+            "dense_score": 0.1742,
+            "bm25_rank": 1,
+            "bm25_score": 25.7252
+          },
+          {
+            "rank": 18,
+            "chunk_id": "qd580_v2_c075_reg_d20_p18_21f21039",
+            "doc_part": "regulation",
+            "article": "Điều 20. Điểm trung bình chung học kỳ, điểm trung bình chung năm học và điểm trung bình chung tích lũy",
+            "pdf_page": 18,
+            "similarity": 0.1689,
+            "rrf_score": 0.028205,
+            "dense_rank": 18,
+            "dense_score": 0.1689,
+            "bm25_rank": 5,
+            "bm25_score": 22.1544
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c037_reg_d08_p09_5f316438",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.2077,
+            "rrf_score": 0.028039,
+            "dense_rank": 8,
+            "dense_score": 0.2077,
+            "bm25_rank": 15,
+            "bm25_score": 17.7753
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_08",
+        "question": "Mình đang học ngành Công nghệ thông tin hệ 4 năm, kỳ tới mình tính học vượt để ra trường sớm thì được đăng ký tối đa bao nhiêu chỉ một kỳ vậy?",
+        "category": "DOI_THUONG",
+        "latency_ms": 86.76,
+        "expected_ev_count": 2,
+        "first_hit_rank": 3,
+        "mrr_10": 0.3333,
+        "hit_1": 0,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 0,
+        "mean_cov_3": 0.5,
+        "mean_cov_5": 0.5,
+        "mean_cov_10": 0.5,
+        "ev_cov_at_10": [
+          1.0,
+          0.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 9,
+            "similarity": 0.2883,
+            "rrf_score": 0.032258,
+            "dense_rank": 2,
+            "dense_score": 0.2883,
+            "bm25_rank": 2,
+            "bm25_score": 21.5345
+          },
+          {
+            "rank": 6,
+            "chunk_id": "qd580_v2_c087_reg_d26_p21_6790bf08",
+            "doc_part": "regulation",
+            "article": "Điều 26. Cấp bằng tốt nghiệp, xử lý sinh viên quá hạn thời gian học tập",
+            "pdf_page": 21,
+            "similarity": 0.2554,
+            "rrf_score": 0.031025,
+            "dense_rank": 6,
+            "dense_score": 0.2554,
+            "bm25_rank": 3,
+            "bm25_score": 20.8642
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 8,
+            "similarity": 0.2483,
+            "rrf_score": 0.030331,
+            "dense_rank": 8,
+            "dense_score": 0.2483,
+            "bm25_rank": 4,
+            "bm25_score": 20.4754
+          },
+          {
+            "rank": 14,
+            "chunk_id": "qd580_v2_c082_reg_d23_p20_1210eee6",
+            "doc_part": "regulation",
+            "article": "Điều 23. Thực tập cuối khóa, làm đồ án hoặc khoá luận tốt nghiệp",
+            "pdf_page": 20,
+            "similarity": 0.1922,
+            "rrf_score": 0.028219,
+            "dense_rank": 14,
+            "dense_score": 0.1922,
+            "bm25_rank": 8,
+            "bm25_score": 16.5608
+          },
+          {
+            "rank": 9,
+            "chunk_id": "qd580_v2_c049_reg_d12_p12_af7f8353",
+            "doc_part": "regulation",
+            "article": "Điều 12. Chuyển ngành học",
+            "pdf_page": 12,
+            "similarity": 0.2442,
+            "rrf_score": 0.028006,
+            "dense_rank": 9,
+            "dense_score": 0.2442,
+            "bm25_rank": 14,
+            "bm25_score": 13.7304
+          },
+          {
+            "rank": 7,
+            "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.2514,
+            "rrf_score": 0.027912,
+            "dense_rank": 7,
+            "dense_score": 0.2514,
+            "bm25_rank": 17,
+            "bm25_score": 12.9949
+          },
+          {
+            "rank": 19,
+            "chunk_id": "qd580_v2_c042_reg_d10_p10_1d52fb8c",
+            "doc_part": "regulation",
+            "article": "Điều 10. Cảnh báo học tập - Bị buộc thôi học.",
+            "pdf_page": 10,
+            "similarity": 0.1505,
+            "rrf_score": 0.027151,
+            "dense_rank": 19,
+            "dense_score": 0.1505,
+            "bm25_rank": 9,
+            "bm25_score": 16.3557
+          },
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c029_reg_d05_p07_a951b236",
+            "doc_part": "regulation",
+            "article": "Điều 5. Thời gian và kế hoạch đào tạo",
+            "pdf_page": 7,
+            "similarity": 0.3258,
+            "rrf_score": 0.016393,
+            "dense_rank": 1,
+            "dense_score": 0.3258,
+            "bm25_rank": null,
+            "bm25_score": null
+          },
+          {
+            "rank": null,
+            "chunk_id": "qd580_v2_c026_reg_d04_p06_208c19ec",
+            "doc_part": "regulation",
+            "article": "Điều 4. Sinh viên",
+            "pdf_page": 6,
+            "similarity": 0.0,
+            "rrf_score": 0.016393,
+            "dense_rank": null,
+            "dense_score": null,
+            "bm25_rank": 1,
+            "bm25_score": 25.1756
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.2804,
+            "rrf_score": 0.015873,
+            "dense_rank": 3,
+            "dense_score": 0.2804,
+            "bm25_rank": null,
+            "bm25_score": null
+          }
+        ]
+      },
+      {
+        "case_id": "DEV_09",
+        "question": "Vậy nếu sau khi đăng ký muộn xong mà mình thấy quá tải muốn rút bớt học phần thì trong QĐ 580 có quy định điều kiện rút và việc hoàn tiền học phí thế nào?",
+        "category": "NOI_TIEP_CO_LICH_SU",
+        "latency_ms": 71.42,
+        "expected_ev_count": 2,
+        "first_hit_rank": 1,
+        "mrr_10": 1.0,
+        "hit_1": 1,
+        "hit_3": 1,
+        "hit_5": 1,
+        "hit_10": 1,
+        "partial_hit_10": 1,
+        "all_cov_10": 1,
+        "mean_cov_3": 0.5,
+        "mean_cov_5": 0.5,
+        "mean_cov_10": 0.9975,
+        "ev_cov_at_10": [
+          0.9951,
+          1.0
+        ],
+        "retrieved_chunks": [
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c016_reg_d03_p04_5877e426",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.5292,
+            "rrf_score": 0.032787,
+            "dense_rank": 1,
+            "dense_score": 0.5292,
+            "bm25_rank": 1,
+            "bm25_score": 14.9665
+          },
+          {
+            "rank": 2,
+            "chunk_id": "qd580_v2_c015_reg_d03_p03_c07b9acf",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 3,
+            "similarity": 0.5276,
+            "rrf_score": 0.031054,
+            "dense_rank": 2,
+            "dense_score": 0.5276,
+            "bm25_rank": 7,
+            "bm25_score": 7.8689
+          },
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c020_reg_d03_p05_ee454089",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 5,
+            "similarity": 0.4899,
+            "rrf_score": 0.03101,
+            "dense_rank": 4,
+            "dense_score": 0.4899,
+            "bm25_rank": 5,
+            "bm25_score": 9.6314
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c018_reg_d03_p04_62400dd1",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.4089,
+            "rrf_score": 0.029857,
+            "dense_rank": 8,
+            "dense_score": 0.4089,
+            "bm25_rank": 6,
+            "bm25_score": 9.0977
+          },
+          {
+            "rank": 3,
+            "chunk_id": "qd580_v2_c073_reg_d19_p17_45c0de48",
+            "doc_part": "regulation",
+            "article": "Điều 19. Công nhận kết quả học tập và chuyển đổi tín chỉ",
+            "pdf_page": 17,
+            "similarity": 0.4944,
+            "rrf_score": 0.029031,
+            "dense_rank": 3,
+            "dense_score": 0.4944,
+            "bm25_rank": 16,
+            "bm25_score": 6.7673
+          },
+          {
+            "rank": 19,
+            "chunk_id": "qd580_v2_c037_reg_d08_p09_5f316438",
+            "doc_part": "regulation",
+            "article": "Điều 8. Đăng ký học lại và học cải thiện điểm",
+            "pdf_page": 9,
+            "similarity": 0.3487,
+            "rrf_score": 0.028787,
+            "dense_rank": 19,
+            "dense_score": 0.3487,
+            "bm25_rank": 2,
+            "bm25_score": 10.464
+          },
+          {
+            "rank": 11,
+            "chunk_id": "qd580_v2_c046_reg_d11_p11_31183ef9",
+            "doc_part": "regulation",
+            "article": "Điều 11. Học cùng lúc hai chương trình",
+            "pdf_page": 11,
+            "similarity": 0.3813,
+            "rrf_score": 0.028577,
+            "dense_rank": 11,
+            "dense_score": 0.3813,
+            "bm25_rank": 9,
+            "bm25_score": 7.5399
+          },
+          {
+            "rank": 16,
+            "chunk_id": "qd580_v2_c024_reg_d03_p05_d47e795c",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 5,
+            "similarity": 0.3603,
+            "rrf_score": 0.026671,
+            "dense_rank": 16,
+            "dense_score": 0.3603,
+            "bm25_rank": 14,
+            "bm25_score": 6.9989
+          },
+          {
+            "rank": 17,
+            "chunk_id": "qd580_v2_c041_reg_d09_p10_7423e676",
+            "doc_part": "regulation",
+            "article": "Điều 9. Nghỉ học tạm thời, xin thôi học",
+            "pdf_page": 10,
+            "similarity": 0.3575,
+            "rrf_score": 0.02632,
+            "dense_rank": 17,
+            "dense_score": 0.3575,
+            "bm25_rank": 15,
+            "bm25_score": 6.769
+          },
+          {
+            "rank": null,
+            "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+            "doc_part": "regulation",
+            "article": "Điều 7. Đăng ký khối lượng học tập.",
+            "pdf_page": 9,
+            "similarity": 0.0,
+            "rrf_score": 0.015873,
+            "dense_rank": null,
+            "dense_score": null,
+            "bm25_rank": 3,
+            "bm25_score": 10.3726
+          }
+        ]
+      }
+    ],
+    "out_of_scope_cases": [
+      {
+        "case_id": "DEV_10",
+        "question": "Theo Quyết định 580/QĐ-ĐHNCT, mức học phí cụ thể cho một tín chỉ của sinh viên ngành CNTT năm học 2026-2027 là bao nhiêu tiền và cách tính điểm rèn luyện của sinh viên như thế nào?",
+        "latency_ms": 100.97,
+        "top_1_chunk": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+        "top_1_score": 0.031754,
+        "chunks": [
+          {
+            "rank": 4,
+            "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.3843,
+            "rrf_score": 0.031754,
+            "dense_rank": 4,
+            "dense_score": 0.3843,
+            "bm25_rank": 2,
+            "bm25_score": 20.5957
+          },
+          {
+            "rank": 1,
+            "chunk_id": "qd580_v2_c016_reg_d03_p04_5877e426",
+            "doc_part": "regulation",
+            "article": "Điều 3. Khái niệm và định nghĩa",
+            "pdf_page": 4,
+            "similarity": 0.4295,
+            "rrf_score": 0.031545,
+            "dense_rank": 1,
+            "dense_score": 0.4295,
+            "bm25_rank": 6,
+            "bm25_score": 17.1256
+          },
+          {
+            "rank": 5,
+            "chunk_id": "qd580_v2_c001_dec_d00_p01_667aec0f",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.381,
+            "rrf_score": 0.031258,
+            "dense_rank": 5,
+            "dense_score": 0.381,
+            "bm25_rank": 3,
+            "bm25_score": 20.5885
+          },
+          {
+            "rank": 8,
+            "chunk_id": "qd580_v2_c002_dec_d00_p01_82c0fc7d",
+            "doc_part": "decision",
+            "article": "Căn cứ pháp lý ban hành QĐ 580",
+            "pdf_page": 1,
+            "similarity": 0.36,
+            "rrf_score": 0.030331,
+            "dense_rank": 8,
+            "dense_score": 0.36,
+            "bm25_rank": 4,
+            "bm25_score": 19.0678
+          },
+          {
+            "rank": 11,
+            "chunk_id": "qd580_v2_c005_dec_d02_p01_7fa0d593",
+            "doc_part": "decision",
+            "article": "Điều 2. Quyết định này có hiệu lực kể từ ngày ký",
+            "pdf_page": 1,
+            "similarity": 0.3364,
+            "rrf_score": 0.02901,
+            "dense_rank": 11,
+            "dense_score": 0.3364,
+            "bm25_rank": 7,
+            "bm25_score": 16.5059
+          }
+        ]
+      }
+    ]
+  }
+}

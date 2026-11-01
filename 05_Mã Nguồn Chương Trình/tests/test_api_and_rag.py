@@ -506,6 +506,129 @@ class TestGeminiClientConfigurationAndErrors(unittest.TestCase):
         self.assertEqual(cat, "server")
         self.assertEqual(code, 503)
 
+        # 6. Kiểm tra trường hợp message chứa số hoặc từ khóa mâu thuẫn (Chặng A Task 05)
+        # 503 có request ID chứa 404: vẫn là server error và CÓ retry
+        retry, cat, code = classify_exception(MockHttpError(503, "upstream unavailable request id 404123"))
+        self.assertTrue(retry)
+        self.assertEqual(cat, "server")
+        self.assertEqual(code, 503)
+
+        # 401 có chứa từ 'quota': vẫn là client error và KHÔNG retry
+        retry, cat, code = classify_exception(MockHttpError(401, "unauthorized with quota exhausted"))
+        self.assertFalse(retry)
+        self.assertEqual(cat, "client_error")
+        self.assertEqual(code, 401)
+
+    @patch("time.sleep")
+    def test_generate_json_mixed_sequence_preserves_final_error(self, mock_sleep):
+        """Khi gặp chuỗi lỗi hỗn hợp (503 -> 504 Timeout), ném chính xác LLMTimeoutError từ lần thử cuối."""
+        class Mock503(Exception):
+            status_code = 503
+
+        class Mock504(Exception):
+            status_code = 504
+
+        client = GeminiClient(api_key="fake-key", allow_offline_mock=False, max_retries=2)
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = [
+            Mock503("First attempt 503"),
+            Mock503("Second attempt 503"),
+            Mock504("Final attempt 504 Timeout"),
+        ]
+        client._genai_client = mock_client
+
+        with self.assertRaises(LLMTimeoutError):
+            client.generate_json("Prompt")
+
+        self.assertEqual(mock_client.models.generate_content.call_count, 3)
+        self.assertEqual(mock_sleep.call_count, 2)
+
+    def test_sentinel_token_sanitization_in_errors(self):
+        """Các lỗi hạ tầng chứa token sentinel bí mật không được xuất hiện trong public_message và response API."""
+        # 1. Kiểm tra trực tiếp trên KnowledgeBaseNotReadyError
+        err = KnowledgeBaseNotReadyError("provider error token=FAKE_SECRET_SENTINEL")
+        self.assertNotIn("FAKE_SECRET_SENTINEL", err.public_message)
+        self.assertIn("FAKE_SECRET_SENTINEL", err.internal_detail)
+        self.assertEqual(err.public_message, KnowledgeBaseNotReadyError.default_message)
+
+        # 2. Kiểm tra trực tiếp trên ConfigurationError
+        cfg_err = ConfigurationError("bad config token=FAKE_SECRET_SENTINEL")
+        self.assertNotIn("FAKE_SECRET_SENTINEL", cfg_err.public_message)
+        self.assertIn("FAKE_SECRET_SENTINEL", cfg_err.internal_detail)
+        self.assertEqual(cfg_err.public_message, ConfigurationError.default_message)
+
+        # 3. Probe qua /health và /chat
+        import backend.main
+        orig_engine = backend.main.rag_engine_instance
+        try:
+            fake_engine = MagicMock()
+            fake_engine.retriever.check_readiness.side_effect = KnowledgeBaseNotReadyError(
+                "provider error token=FAKE_SECRET_SENTINEL"
+            )
+            fake_engine.answer_question.side_effect = KnowledgeBaseNotReadyError(
+                "provider error token=FAKE_SECRET_SENTINEL"
+            )
+            backend.main.rag_engine_instance = fake_engine
+
+            test_client = TestClient(app, raise_server_exceptions=False)
+            h_resp = test_client.get("/health")
+            self.assertEqual(h_resp.status_code, 503)
+            self.assertNotIn("FAKE_SECRET_SENTINEL", h_resp.text)
+
+            c_resp = test_client.post("/chat", json={"question": "Kiểm tra sentinel?"})
+            self.assertEqual(c_resp.status_code, 503)
+            self.assertNotIn("FAKE_SECRET_SENTINEL", c_resp.text)
+        finally:
+            backend.main.rag_engine_instance = orig_engine
+
+    def test_spy_single_retrieval_and_exact_prompt_trace(self):
+        """RAGEngine answer_question với return_trace=True chỉ retrieve đúng 1 lần và capture đúng prompt gửi cho LLM."""
+        mock_retriever = MagicMock()
+        mock_retriever.retrieve.return_value = [
+            {
+                "chunk_id": "c1",
+                "document_id": "QD580_DHNCT_2024",
+                "doc_part": "reg",
+                "chapter": "Chương I",
+                "article": "Điều 1",
+                "article_number": 1,
+                "start_page_pdf": 1,
+                "end_page_pdf": 1,
+                "start_page_printed": 1,
+                "end_page_printed": 1,
+                "is_table": False,
+                "context_prefix": "[C1]",
+                "content": "Nội dung điều 1.",
+                "embedding_text": "...",
+                "similarity": 0.9,
+                "source_spans": [],
+            }
+        ]
+        mock_llm = MagicMock()
+        mock_llm.is_live = False
+        mock_llm.model = "test-spy-model"
+        mock_llm.generate_json.return_value = {
+            "status": "answered",
+            "answer": "Trả lời câu hỏi",
+            "cited_source_ids": ["SRC-1"],
+        }
+
+        engine = RAGEngine(retriever=mock_retriever, llm_client=mock_llm)
+        resp = engine.answer_question("Câu hỏi kiểm tra spy trace?", return_trace=True)
+
+        # 1. Đảm bảo retriever.retrieve chỉ được gọi đúng 1 lần duy nhất trong chế độ dense
+        self.assertEqual(mock_retriever.retrieve.call_count, 1)
+
+        # 2. Đảm bảo trace được capture từ chính lần gọi LLM
+        self.assertIsNotNone(resp.trace)
+        trace = resp.trace
+        self.assertIn("user_prompt", trace)
+        self.assertIn("retrieved_contexts", trace)
+
+        # 3. So khớp chính xác: prompt lưu trong trace phải bằng chính prompt truyền vào generate_json
+        called_prompt = mock_llm.generate_json.call_args[1]["prompt"]
+        self.assertEqual(trace["user_prompt"], called_prompt)
+
     @patch("time.sleep")
     def test_generate_json_does_not_retry_on_programming_error(self, mock_sleep):
         """Khi SDK ném ValueError lập trình, generate_json chỉ gọi SDK 1 lần duy nhất và ném lỗi ValueError."""

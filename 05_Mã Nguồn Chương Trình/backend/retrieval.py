@@ -67,6 +67,7 @@ class VectorRetriever:
         self._collection: Optional[chromadb.Collection] = None
         self._model: Optional[SentenceTransformer] = None
         self._manifest_data: Optional[Dict[str, Any]] = None
+        self._bm25_index = None
 
     def check_readiness(self) -> Dict[str, Any]:
         """
@@ -333,6 +334,54 @@ class VectorRetriever:
 
         return output
 
+    @property
+    def bm25_index(self):
+        """Khởi tạo hoặc trả về chỉ mục BM25OkapiIndex được nạp và cache trong bộ nhớ."""
+        self.check_readiness()
+        if self._bm25_index is None:
+            from backend.bm25_retriever import BM25OkapiIndex
+            self._bm25_index = BM25OkapiIndex(
+                chunks_file_path=self.chunks_file_path,
+                manifest_file_path=self.manifest_path,
+            )
+        return self._bm25_index
+
+    def retrieve_hybrid(
+        self,
+        query: str,
+        top_k: int = 5,
+        dense_top_k: int = 20,
+        bm25_top_k: int = 20,
+        rrf_k: int = 60,
+    ) -> List[Dict[str, Any]]:
+        """
+        Truy xuất kết hợp Hybrid Search (Dense Bi-encoder + BM25 Sparse Search)
+        thông qua giải thuật Reciprocal Rank Fusion (RRF).
+        - Dense: Top-20 từ ChromaDB.
+        - BM25: Top-20 từ BM25OkapiIndex.
+        - RRF: k=60, rank bắt đầu 1, deduplicate chunk_id, tie-break ổn định.
+        """
+        self.check_readiness()
+        clean_q = query.strip() if query else ""
+        if not clean_q:
+            return []
+
+        # 1. Truy xuất Dense (Bi-encoder)
+        dense_hits = self.retrieve(clean_q, top_k=dense_top_k)
+
+        # 2. Truy xuất Sparse (BM25)
+        bm25_hits = self.bm25_index.search(clean_q, top_k=bm25_top_k)
+
+        # 3. Hợp nhất bằng RRF
+        from backend.bm25_retriever import reciprocal_rank_fusion
+        fused = reciprocal_rank_fusion(
+            dense_hits=dense_hits,
+            bm25_hits=bm25_hits,
+            rrf_k=rrf_k,
+            top_k=top_k,
+        )
+        return fused
+
 
 _GLOBAL_RETRIEVER: Optional[VectorRetriever] = None
 
@@ -350,16 +399,20 @@ def retrieve(query: str, top_k: int = 10) -> List[Dict[str, Any]]:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="CLI truy xuất vector ChromaDB cho QĐ 580 (v2.0)")
+    parser = argparse.ArgumentParser(description="CLI truy xuất thông tin quy chế QĐ 580 (Dense & Hybrid)")
     parser.add_argument("--query", "-q", type=str, required=True, help="Câu hỏi hoặc chuỗi truy vấn")
     parser.add_argument("--top_k", "-k", type=int, default=5, help="Số lượng kết quả lấy ra (mặc định 5)")
+    parser.add_argument("--mode", "-m", type=str, choices=["dense", "hybrid"], default="dense", help="Chế độ truy xuất: 'dense' hoặc 'hybrid'")
     parser.add_argument("--json", action="store_true", help="Xuất định dạng JSON thô")
     args = parser.parse_args()
 
     retriever = get_retriever()
 
     t0 = time.perf_counter()
-    results = retriever.retrieve(args.query, top_k=args.top_k)
+    if args.mode == "hybrid":
+        results = retriever.retrieve_hybrid(args.query, top_k=args.top_k)
+    else:
+        results = retriever.retrieve(args.query, top_k=args.top_k)
     elapsed_ms = (time.perf_counter() - t0) * 1000
 
     if args.json:
@@ -367,7 +420,7 @@ def main():
         return
 
     print("=" * 80)
-    print(f"KẾT QUẢ TRUY XUẤT VECTOR BASELINE (Collection: {retriever.collection_name} | Top {len(results)})")
+    print(f"KẾT QUẢ TRUY XUẤT ({args.mode.upper()} | Top {len(results)})")
     print(f"Câu hỏi: {args.query}")
     print(f"Thời gian truy xuất: {elapsed_ms:.2f} ms")
     print("=" * 80)

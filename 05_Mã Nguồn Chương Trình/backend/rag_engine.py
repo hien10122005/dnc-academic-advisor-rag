@@ -108,6 +108,7 @@ class RAGResponse:
     timings: Dict[str, float]
     is_live_llm: bool
     model_name: str
+    trace: Optional[Dict[str, Any]] = None
 
     def to_dict(self) -> Dict[str, Any]:
         data = asdict(self)
@@ -131,12 +132,14 @@ class RAGEngine:
         self,
         question: str,
         top_k: Optional[int] = None,
+        return_trace: bool = False,
+        mode: str = "dense",
     ) -> RAGResponse:
         """
         Thực thi quy trình RAG hoàn chỉnh cho một câu hỏi độc lập.
         """
         request_id = str(uuid.uuid4())
-        total_start = time.time()
+        total_start = time.perf_counter()
         timings: Dict[str, float] = {}
 
         # 1. Kiểm tra tính hợp lệ của câu hỏi đầu vào
@@ -146,13 +149,17 @@ class RAGEngine:
         if len(clean_question) > 1000:
             raise ValidationError(f"Câu hỏi quá dài ({len(clean_question)} ký tự). Giới hạn tối đa là 1000 ký tự.")
 
-        # 2. Tiền kiểm tra tính sẵn sàng của kho tri thức (Preflight) & Truy xuất Vector
+        # 2. Tiền kiểm tra tính sẵn sàng của kho tri thức (Preflight) & Truy xuất
         k = top_k if top_k is not None else self.top_k
-        retrieval_start = time.time()
+        retrieval_start = time.perf_counter()
 
-        # check_readiness được tự động gọi trong retrieve
-        retrieved_raw = self.retriever.retrieve(clean_question, top_k=k)
-        retrieval_time = time.time() - retrieval_start
+        # Hỗ trợ cả 2 chế độ: dense và hybrid
+        if mode == "hybrid" and hasattr(self.retriever, "retrieve_hybrid"):
+            retrieved_raw = self.retriever.retrieve_hybrid(clean_question, top_k=k)
+        else:
+            retrieved_raw = self.retriever.retrieve(clean_question, top_k=k)
+
+        retrieval_time = time.perf_counter() - retrieval_start
         timings["retrieval_ms"] = round(retrieval_time * 1000, 2)
 
         # 3. Chuẩn bị ngữ cảnh và gán Source ID định danh
@@ -215,13 +222,13 @@ class RAGEngine:
         )
 
         # 5. Gọi LLM sinh phản hồi
-        llm_start = time.time()
+        llm_start = time.perf_counter()
         raw_llm_output = self.llm_client.generate_json(
             prompt=user_prompt,
             system_instruction=SYSTEM_PROMPT_TEMPLATE,
             max_output_tokens=2048,
         )
-        llm_time = time.time() - llm_start
+        llm_time = time.perf_counter() - llm_start
         timings["llm_generation_ms"] = round(llm_time * 1000, 2)
 
         # 6. Kiểm định cấu trúc phản hồi và xác thực Citation từ Backend
@@ -343,7 +350,35 @@ class RAGEngine:
                 )
                 verified_citations.append(cit)
 
-        timings["total_ms"] = round((time.time() - total_start) * 1000, 2)
+        timings["total_ms"] = round((time.perf_counter() - total_start) * 1000, 2)
+
+        trace_data: Optional[Dict[str, Any]] = None
+        if return_trace:
+            trace_data = {
+                "user_prompt": user_prompt,
+                "system_instruction": SYSTEM_PROMPT_TEMPLATE,
+                "generation_config": {
+                    "max_output_tokens": 2048,
+                    "temperature": 0.0,
+                    "model": self.llm_client.model,
+                },
+                "retrieved_contexts": [
+                    {
+                        "source_id": s.source_id,
+                        "chunk_id": s.chunk_id,
+                        "article": s.article,
+                        "start_page_pdf": s.start_page_pdf,
+                        "end_page_pdf": s.end_page_pdf,
+                        "start_page_printed": s.start_page_printed,
+                        "end_page_printed": s.end_page_printed,
+                        "similarity": s.similarity,
+                        "content": s.content,
+                        "source_spans": s.source_spans,
+                    }
+                    for s in source_contexts
+                ],
+                "mode": mode,
+            }
 
         return RAGResponse(
             request_id=request_id,
@@ -356,4 +391,5 @@ class RAGEngine:
             timings=timings,
             is_live_llm=self.llm_client.is_using_live_api,
             model_name=self.llm_client.model,
+            trace=trace_data,
         )

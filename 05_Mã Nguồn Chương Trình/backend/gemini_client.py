@@ -46,59 +46,63 @@ def classify_exception(exc: Exception) -> Tuple[bool, str, Optional[int]]:
     - KHÔNG retry:
       1. Lỗi lập trình: ValueError, TypeError, KeyError, AttributeError, IndexError.
       2. Lỗi cấu trúc/schema: json.JSONDecodeError, RAGSchemaError, ConfigurationError.
-      3. Lỗi máy khách (HTTP 4xx ngoại trừ 408 và 429): 400, 401, 403, 404.
+      3. Lỗi máy khách (HTTP 4xx ngoại trừ 408 và 429): 400, 401, 403, 404...
     - CHỈ retry khi là lỗi tạm thời (transient):
       1. Timeout: httpx.TimeoutException, TimeoutError, mã 408, 504, DEADLINE_EXCEEDED.
       2. Hạn mức / Giới hạn tần suất: HTTP 429 (RESOURCE_EXHAUSTED).
       3. Lỗi máy chủ hoặc mạng tạm thời: HTTP 500, 502, 503, httpx.NetworkError, ConnectError.
     """
     # 1. Các lỗi lập trình hoặc schema: tuyệt đối không retry
-    if isinstance(exc, (ValueError, TypeError, KeyError, AttributeError, IndexError, json.JSONDecodeError, RAGSchemaError)):
+    if isinstance(exc, (ValueError, TypeError, KeyError, AttributeError, IndexError, json.JSONDecodeError, RAGSchemaError, ConfigurationError)):
         return False, "programming", None
 
-    # 2. Trích xuất mã HTTP trạng thái nếu có
+    # 2. Trích xuất mã HTTP trạng thái dạng số nguyên từ các thuộc tính cấu trúc
     code: Optional[int] = None
-    if hasattr(exc, "code") and isinstance(exc.code, int):
-        code = exc.code
-    elif hasattr(exc, "status_code") and isinstance(exc.status_code, int):
+    if hasattr(exc, "status_code") and isinstance(exc.status_code, int):
         code = exc.status_code
-    elif hasattr(exc, "response") and hasattr(exc.response, "status_code"):
+    elif hasattr(exc, "code") and isinstance(exc.code, int):
+        code = exc.code
+    elif hasattr(exc, "response") and hasattr(exc.response, "status_code") and isinstance(exc.response.status_code, int):
         code = exc.response.status_code
+    elif hasattr(exc, "http_status") and isinstance(exc.http_status, int):
+        code = exc.http_status
 
-    err_str = str(exc)
+    # 3. Khi đã có mã số HTTP có cấu trúc -> Phân loại HOÀN TOÀN dựa trên mã số, KHÔNG tìm số trong str(exc)
+    if code is not None:
+        if code in (400, 401, 403, 404):
+            return False, "client_error", code
+        if code == 429:
+            return True, "quota", 429
+        if code in (408, 504):
+            return True, "timeout", code
+        if 500 <= code <= 599:
+            return True, "server", code
+        if 400 <= code < 500:
+            return False, "client_error", code
+        if code >= 500:
+            return True, "server", code
+
+    # 4. Khi KHÔNG có mã số HTTP -> Phân loại dựa trên kiểu lớp ngoại lệ có cấu trúc
+    if isinstance(exc, (httpx.TimeoutException, TimeoutError)):
+        return True, "timeout", 504
+
+    if isinstance(exc, (httpx.NetworkError, httpx.ConnectError, ConnectionResetError, BrokenPipeError)):
+        return True, "server", 502
+
     exc_name = type(exc).__name__
 
-    # 3. Lỗi máy khách 4xx cố định (400, 401, 403, 404)
-    if code in (400, 401, 403, 404) or any(
-        s in err_str for s in ("400", "401", "403", "404", "INVALID_ARGUMENT", "PERMISSION_DENIED", "NOT_FOUND", "UNAUTHENTICATED")
-    ):
-        return False, "client_error", code
-
-    # 4. Lỗi Timeout
-    if (
-        isinstance(exc, (httpx.TimeoutException, TimeoutError))
-        or code in (408, 504)
-        or "DEADLINE_EXCEEDED" in err_str
-        or "timed out" in err_str.lower()
-        or "APITimeoutError" in exc_name
-    ):
-        return True, "timeout", code or 504
-
-    # 5. Lỗi Hạn mức / Tần suất (429)
-    if code == 429 or "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
+    # Kiểm tra các lớp lỗi cụ thể từ Google GenAI SDK (ClientError, APIError, v.v.)
+    if "Timeout" in exc_name or "DeadlineExceeded" in exc_name:
+        return True, "timeout", 504
+    if "ResourceExhausted" in exc_name or "QuotaExceeded" in exc_name:
         return True, "quota", 429
-
-    # 6. Lỗi máy chủ hoặc kết nối mạng tạm thời
-    if (
-        code in (500, 502, 503)
-        or isinstance(exc, (httpx.NetworkError, httpx.ConnectError, ConnectionResetError, BrokenPipeError))
-        or "UNAVAILABLE" in err_str
-        or "INTERNAL" in err_str
-    ):
-        return True, "server", code or 502
+    if "ClientError" in exc_name or "BadRequest" in exc_name or "NotFound" in exc_name:
+        return False, "client_error", 400
+    if "ServerError" in exc_name or "ServiceUnavailable" in exc_name or "InternalServerError" in exc_name:
+        return True, "server", 503
 
     # Các ngoại lệ không xác định khác: không retry để tránh vòng lặp vô hạn
-    return False, "unknown", code
+    return False, "unknown", None
 
 
 class GeminiClient:

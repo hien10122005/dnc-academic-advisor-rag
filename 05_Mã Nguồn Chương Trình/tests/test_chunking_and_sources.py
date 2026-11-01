@@ -171,22 +171,28 @@ def test_content_coverage():
     print("-> Test 4 ĐẠT: Toàn bộ điều kiện, chế tài và hàng bảng được bảo toàn trọn vẹn!")
 
 
+import tempfile
+
 def test_idempotency():
-    """Kiểm tra tính bất biến (Idempotent) khi chạy lại chunking."""
+    """Kiểm tra tính bất biến (Idempotent) khi chạy lại chunking trong môi trường tạm thời cô lập."""
     print("\n--- Test 5: Kiểm tra Tính Bất biến (Idempotency) ---")
     old_hash = compute_sha256(CHUNKS_FILE)
     old_manifest_hash = compute_sha256(MANIFEST_FILE)
 
-    # Chạy lại chunking
-    run_chunking()
+    # Chạy lại chunking ghi vào thư mục tạm phân lập, không ghi đè kho dùng chung
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_chunks = Path(tmp_dir) / "test_chunks.jsonl"
+        tmp_manifest = Path(tmp_dir) / "test_manifest.json"
 
-    new_hash = compute_sha256(CHUNKS_FILE)
-    new_manifest_hash = compute_sha256(MANIFEST_FILE)
+        run_chunking(output_chunks_file=tmp_chunks, output_manifest_file=tmp_manifest)
 
-    assert old_hash == new_hash, f"Lỗi Idempotent: Mã băm chunks thay đổi: {old_hash} != {new_hash}"
-    assert old_manifest_hash == new_manifest_hash, "Lỗi Idempotent: Mã băm manifest thay đổi!"
-    print(f"Mã băm Chunks bất biến: {new_hash}")
-    print("-> Test 5 ĐẠT: Chạy lại sinh đúng 100% mã băm và cấu trúc!")
+        new_hash = compute_sha256(tmp_chunks)
+        new_manifest_hash = compute_sha256(tmp_manifest)
+
+        assert old_hash == new_hash, f"Lỗi Idempotent: Mã băm chunks thay đổi: {old_hash} != {new_hash}"
+        assert old_manifest_hash == new_manifest_hash, "Lỗi Idempotent: Mã băm manifest thay đổi!"
+        print(f"Mã băm Chunks bất biến trong sandbox: {new_hash}")
+        print("-> Test 5 ĐẠT: Chạy lại sinh đúng 100% mã băm và cấu trúc mà không ghi đè kho dùng chung!")
 
 
 class TestChunkingAndSources(unittest.TestCase):

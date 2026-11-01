@@ -25,11 +25,11 @@ Thiết lập: **01/11/2026**. Đây là file riêng để **Antigravity ghi l�
 
 ## Báo cáo mới nhất
 
-- **Mã lượt:** `DNC-RAG-TASK-04-R04`
-- **Nhiệm vụ:** 04 — Chốt Baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực
+- **Mã lượt:** `DNC-RAG-TASK-05-R01`
+- **Nhiệm vụ:** 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và đánh giá thực nghiệm A/B
 - **Ngày hoàn tất:** 01/11/2026
 - **Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`
-- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-04-R04](#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc)
+- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-05-R01](#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf)
 
 ## Mẫu báo cáo sau mỗi lần làm
 
@@ -431,4 +431,118 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   1. Kiểm tra 7 ca test mới trong `tests/test_api_and_rag.py` (khử rò rỉ path, SDK retry=1, non-retry 401/404/ValueError, transient 503 retry, substantive quote snippet, mock live flag).
   2. Kiểm tra tính an toàn của `backend/errors.py` và `backend/gemini_client.py`.
   3. Đối chiếu rubric chấm trung thực 10 ca tại `BAO_CAO_CHOT_BASELINE_QD580_R04.md`.
+- **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.
+
+---
+
+### DNC-RAG-TASK-05-R01 — Đo đúng baseline và tích hợp Hybrid BM25 + RRF
+
+**Thời điểm bàn giao:** 19:00 ngày 01/11/2026, giờ Việt Nam.  
+**Định danh:** `dnc-academic-advisor-rag`; Git root và remote đã xác nhận: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).  
+**File giao nhiệm vụ:** `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_HYBRID_BM25_RRF.md`.  
+**Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`.  
+
+#### 1. Kết quả chính
+
+1. **Hoàn tất toàn bộ 7 yêu cầu Chặng A bắt buộc:**
+   - Phân loại retry theo HTTP status code số nguyên có cấu trúc (bảo vệ 503 có request id "404123" vẫn retry, 401 chứa "quota" không retry, xử lý timeout thực tế và chuỗi lỗi hỗn hợp).
+   - Thiết lập `is_infrastructure_error = True` trong `DNCError`, sử dụng public message cố định, triệt tiêu nguy cơ rò rỉ sentinel tokens hay internal SDK payload.
+   - Cô lập tính bất biến (Idempotency) trong `TemporaryDirectory()`, không ghi đè artifact dùng chung.
+   - Trích xuất `trace` trực tiếp từ runtime của engine qua `return_trace=True`, không truy xuất lần hai; có unit test spy xác nhận prompt và single retrieval call.
+   - Đo lường thời gian bằng `time.perf_counter()`, tách biệt cold/warm, retrieval/generation.
+   - Xây dựng rubric từng ý bắt buộc (Đạt / Một phần / Thiếu / Sai), DEV_06 theo 5 ý gold, DEV_09 N/A multi-turn; tách biệt citation membership, evidence correctness, và answer faithfulness.
+   - Bổ sung Errata minh bạch cho báo cáo R04.
+
+2. **Triển khai hoàn chỉnh Chặng B (Hybrid BM25 + RRF):**
+   - Xây dựng `backend/bm25_retriever.py`: Tokenizer tiếng Việt Unicode NFC bảo toàn dấu và số hiệu điều khoản, BM25Okapi Index tính Lucene non-negative IDF, Reciprocal Rank Fusion ($k=60$) hòa trộn Top-20 Dense và Top-20 Sparse.
+   - Tích hợp vào `backend/retrieval.py` (`retrieve_hybrid`), `backend/rag_engine.py` (`mode="dense"|"hybrid"`), `backend/main.py` (`POST /chat` nhận `mode`), `backend/cli.py` (`--mode`).
+   - Bộ kiểm thử tự động tăng từ 50 lên **63 bài test** (thêm 10 bài test hybrid và 3 bài test chặng A), **đạt 100% offline**.
+
+3. **Thực nghiệm A/B trên 10 ca phát triển (DEV_01 -> DEV_10):**
+   - **Retrieval A/B:** Hit@5 tăng từ 77.8% (Dense) lên **100% (Hybrid)** (+22.2%). Mean Evidence Coverage@5 tăng từ 63.7% lên **80.3%** (+16.7%).
+   - **Giải cứu 2 ca khó:** Ca `DEV_02` (Điều 3 từ Rank 6 -> Rank 4) và `DEV_08` (Điều 7 từ Rank 8 -> Rank 3) chuyển từ thất bại (`insufficient_evidence`) sang trả lời chính xác có trích dẫn.
+   - **Độ trễ:** Chi phí Hybrid retrieval chỉ tốn thêm ~5.7ms so với Dense warm (68.0ms vs 62.3ms).
+
+#### 2. Đối chiếu từng yêu cầu và nhận xét cần sửa
+
+| Yêu cầu hoặc mã nhận xét | Đã làm gì | Kết quả | Minh chứng | Phần còn thiếu |
+| :--- | :--- | :---: | :--- | :--- |
+| 1. Chặng A: Retry theo structured code | Phân loại dựa trên số nguyên `exc.status_code`, `exc.code`; kiểm tra chuỗi lỗi hỗn hợp | Đạt | `backend/gemini_client.py`, tests trong `test_api_and_rag.py` | Không |
+| 2. Chặng A: Sanitization sentinel tokens | Cấu hình `is_infrastructure_error = True` dùng message an toàn, chặn token rò rỉ | Đạt | `backend/errors.py`, tests trong `test_api_and_rag.py` | Không |
+| 3. Chặng A: Cô lập Idempotency | Dùng `tempfile.TemporaryDirectory()` trong test chunking | Đạt | `tests/test_chunking_and_sources.py` | Không |
+| 4. Chặng A: Trace từ chính engine | Thêm `trace` vào `RAGResponse`, tham số `return_trace=True`, test spy single retrieval | Đạt | `backend/rag_engine.py`, test spy trong `test_api_and_rag.py` | Không |
+| 5. Chặng A: Telemetry & Provenance | Đo bằng `time.perf_counter()`, tách cold/warm, lưu git commit, dirty flag, file hashes | Đạt | `evaluation/run_eval_live_task05.py`, `calc_stats_task05.py` | Không |
+| 6. Chặng A: Rubric từng ý | Chấm chi tiết 10 ca theo gold points, tách biệt membership vs correctness vs faithfulness | Đạt | `BAO_CAO_HYBRID_BM25_RRF_QD580.md` | Không |
+| 7. Chặng A: Errata R04 | Ghi rõ đính chính trace tái dựng và phân biệt cold/warm trong báo cáo kỹ thuật | Đạt | Mục I.7 trong `BAO_CAO_HYBRID_BM25_RRF_QD580.md` | Không |
+| 8. Chặng B: BM25 Okapi Index | Tokenizer tiếng Việt, Lucene non-negative IDF, dùng 104 chunks `embedding_text` | Đạt | `backend/bm25_retriever.py`, tests trong `test_hybrid_bm25_rrf.py` | Không |
+| 9. Chặng B: Reciprocal Rank Fusion | RRF $k=60$, Top-20 Dense + Top-20 Sparse $\rightarrow$ Top-5, tie-break ổn định, tách riêng scores | Đạt | `backend/bm25_retriever.py`, tests tính tay trong `test_hybrid_bm25_rrf.py` | Không |
+| 10. Chặng B: Preflight fail-closed | Đồng bộ kiểm tra cả ChromaDB và BM25 theo hash và số lượng chunk khi khởi động | Đạt | `backend/retrieval.py` | Không |
+| 11. Chặng B: API & CLI Mode | Cho phép chọn `mode="dense"|"hybrid"`, validate enum HTTP 422, giữ dense mặc định | Đạt | `backend/main.py`, `backend/cli.py`, `test_hybrid_bm25_rrf.py` | Không |
+| 12. Thực nghiệm: Retrieval A/B | Chạy đánh giá Source Span Intersection so sánh song song Dense vs Hybrid trên 10 ca | Đạt | `evaluation/evaluate_retrieval_ab.py`, `RETRIEVAL_AB_COMPARISON_TASK05.json` | Không |
+| 13. Thực nghiệm: Live A/B Gemini | Chạy Live Gemini 3.5 Flash-lite 10 ca cho cả 2 mode, thu thập trace và telemetry | Đạt | `evaluation/run_eval_live_task05.py`, `DNC_RAG_AB_DEV10_TASK05.jsonl`, `.csv` | Không |
+
+#### 3. File và cấu hình thay đổi
+
+- **File tạo mới:**
+  - `backend/bm25_retriever.py`: Module BM25Okapi và thuật toán RRF.
+  - `tests/test_hybrid_bm25_rrf.py`: 10 bài unit test kiểm định BM25, RRF và tham số API.
+  - `evaluation/evaluate_retrieval_ab.py`: Script đánh giá so sánh truy xuất Dense vs Hybrid.
+  - `evaluation/run_eval_live_task05.py`: Script đánh giá thực nghiệm A/B Live với Gemini.
+  - `evaluation/results/RETRIEVAL_AB_COMPARISON_TASK05.json`: Dữ liệu đo lường truy xuất chi tiết.
+  - `evaluation/results/DNC_RAG_AB_DEV10_TASK05.jsonl`: Artifact trace và phản hồi Live đầy đủ 20 lượt.
+  - `evaluation/results/DNC_RAG_AB_DEV10_TASK05.csv`: Bảng tóm tắt kết quả thực nghiệm Live.
+  - `evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md`: Báo cáo kỹ thuật phân tích chuyên sâu.
+- **File chỉnh sửa:**
+  - `backend/errors.py`: Bổ sung cờ `is_infrastructure_error = True` trên `DNCError`.
+  - `backend/gemini_client.py`: Phân loại lỗi theo HTTP status code số nguyên, xử lý timeout chuỗi hỗn hợp.
+  - `backend/chunking.py`: Tham số hóa đường dẫn xuất chunk/manifest để cô lập test.
+  - `backend/rag_engine.py`: Bổ sung `trace`, tham số `return_trace`, tham số `mode="dense"|"hybrid"`.
+  - `backend/retrieval.py`: Tích hợp BM25 index và phương thức `retrieve_hybrid()`.
+  - `backend/main.py`: Nhận tham số `mode` trong `ChatRequest`, validation enum HTTP 422.
+  - `backend/cli.py`: Hỗ trợ flag `--mode dense|hybrid`.
+  - `tests/test_chunking_and_sources.py`: Dùng `TemporaryDirectory()` cho test tính bất biến.
+  - `tests/test_api_and_rag.py`: Bổ sung 3 test cases cho structured code, chuỗi lỗi hỗn hợp, sentinel token sanitization, và test spy single retrieval.
+  - `05_Mã Nguồn Chương Trình/README.md`, `ROADMAP.md`.
+- **Dữ liệu/Corpus:** 104 chunks QĐ 580 giữ nguyên bất biến, collection `qd580_baseline_v2`.
+
+#### 4. Kiểm thử và chạy thực tế
+
+| Tên test / Lệnh chạy | Môi trường | Kiểu thực thi | Số ca qua / lỗi | File minh chứng |
+| :--- | :--- | :--- | :---: | :--- |
+| `python -m unittest discover -s tests -p "test_*.py"` | Local CPU (`.venv`) | Toàn bộ 63 bài test offline | 63/63 OK | Log unittest (30.358s) |
+| `python evaluation/evaluate_retrieval_ab.py` | Local CPU (`.venv`) | So sánh Retrieval Dense vs Hybrid | 10/10 ca hoàn thành | `RETRIEVAL_AB_COMPARISON_TASK05.json` |
+| `python evaluation/run_eval_live_task05.py` | Local Internet | Gemini Live (`gemini-3.5-flash-lite`) | 20/20 lượt hoàn thành | `DNC_RAG_AB_DEV10_TASK05.jsonl` và `.csv` |
+
+- **Bảng so sánh tổng hợp chỉ số Retrieval A/B:**
+  - Hit@1: Dense 0.5556 $\rightarrow$ Hybrid 0.4444 (-0.1112)
+  - Hit@3: Dense 0.7778 $\rightarrow$ Hybrid **0.8889** (+0.1111)
+  - Hit@5: Dense 0.7778 $\rightarrow$ Hybrid **1.0000** (+0.2222)
+  - Mean Coverage@5: Dense 0.6368 $\rightarrow$ Hybrid **0.8034** (+0.1666)
+  - Full Case Coverage@10: Dense 0.6667 $\rightarrow$ Hybrid **0.7778** (+0.1111)
+  - Retrieval Latency (Warm): Dense 62.34ms $\rightarrow$ Hybrid 68.01ms (+5.67ms)
+
+#### 5. Lỗi, giới hạn và việc còn lại
+
+- **Lỗi phần mềm nội bộ:** 0 lỗi. Toàn bộ 63 unit tests đều qua.
+- **Giới hạn đã nhận diện:**
+  - Ở ca `DEV_07`, cả Dense và Hybrid đều chưa đưa được Điều 18 (thi phụ) vào Top-5 cạnh tranh với Điều 17 (thang điểm) và Điều 8 (học lại). Cần nghiên cứu mở rộng Top-K hoặc Query Expansion ở giai đoạn sau.
+  - Chưa hỗ trợ Reranker mô hình Cross-Encoder (được để dành cho chặng sau theo phạm vi giao).
+  - Chưa hỗ trợ giao diện Web UI và quản lý hội thoại đa lượt (DEV_09 tiếp tục đánh giá dưới dạng Single-turn).
+- **Cấu hình đề xuất:** Mặc định giữ `mode="dense"` để bảo đảm tương thích ngược, cho phép kích hoạt `mode="hybrid"` qua API/CLI.
+
+#### 6. GitHub
+
+- **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- **Commit triển khai:** Cập nhật ngay sau lệnh push.
+- **Bảo mật:** Không commit `.env` hay API key lên Git.
+
+#### 7. Bàn giao cho Codex
+
+- **Báo cáo chuyên môn chính:** `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md`.
+- **Dữ liệu đánh giá đính kèm:** `05_Mã Nguồn Chương Trình/evaluation/results/DNC_RAG_AB_DEV10_TASK05.jsonl` và `DNC_RAG_AB_DEV10_TASK05.csv`.
+- **Điểm cần Codex tập trung kiểm tra:**
+  1. Kiểm tra mã nguồn BM25 và giải thuật RRF tại `backend/bm25_retriever.py` cùng 10 unit tests trong `tests/test_hybrid_bm25_rrf.py`.
+  2. Kiểm tra tính an toàn của `backend/errors.py` và phân loại structured exception trong `backend/gemini_client.py`.
+  3. Kiểm tra tính trung thực của trace trong `DNC_RAG_AB_DEV10_TASK05.jsonl` (thu thập từ chính engine, không gọi duplicate retrieval).
+  4. Đối chiếu kết quả A/B giữa Dense và Hybrid trong việc giải quyết DEV_02 và DEV_08.
 - **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.

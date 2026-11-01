@@ -19,6 +19,7 @@ class DNCError(Exception):
     code: str = "INTERNAL_ERROR"
     status_code: int = 500
     default_message: str = "Đã xảy ra lỗi nội bộ trong hệ thống trợ lý học vụ."
+    is_infrastructure_error: bool = True
 
     def __init__(
         self,
@@ -27,21 +28,17 @@ class DNCError(Exception):
         details: Optional[Dict[str, Any]] = None,
     ):
         raw_msg = str(message) if message else self.default_message
+        self.internal_detail = str(internal_detail if internal_detail is not None else raw_msg)
 
-        # Chốt chặn an toàn: Nếu thông báo chứa đường dẫn ổ đĩa hoặc tệp nội bộ,
-        # tự động chuyển nội dung nhạy cảm vào internal_detail và giữ public_message sạch.
-        has_internal_path = any(token in raw_msg for token in ("\\", "/", ".json", ".py", ".md", ":\\"))
-
-        if internal_detail is not None:
-            self.internal_detail = str(internal_detail)
-            self.public_message = self.default_message if has_internal_path else raw_msg
+        if self.is_infrastructure_error:
+            # Lỗi hệ thống / hạ tầng luôn trả về thông điệp chuẩn hóa cố định (default_message)
+            # bảo vệ tuyệt đối không bao giờ rò rỉ token bí mật, sentinel hoặc payload upstream
+            self.public_message = self.default_message
         else:
-            if has_internal_path:
-                self.internal_detail = raw_msg
-                self.public_message = self.default_message
-            else:
-                self.internal_detail = raw_msg
-                self.public_message = raw_msg
+            # Lỗi nghiệp vụ (ví dụ ValidationError) cho phép dùng thông báo cụ thể cho người dùng
+            # nhưng vẫn lọc bỏ các chuỗi đường dẫn tệp hoặc token nếu có
+            has_path = any(token in raw_msg for token in ("\\", "/", ".json", ".py", ".md", ":\\"))
+            self.public_message = self.default_message if has_path else raw_msg
 
         self.message = self.public_message
         self.details = details or {}
@@ -99,3 +96,4 @@ class ValidationError(DNCError):
     code: str = "VALIDATION_ERROR"
     status_code: int = 422
     default_message: str = "Dữ liệu đầu vào không hợp lệ hoặc vượt giới hạn cho phép."
+    is_infrastructure_error: bool = False

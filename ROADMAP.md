@@ -90,14 +90,15 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 
 ## 6. Tuần 4 — Giao diện, hybrid, reranking và hội thoại
 
-- [ ] Tạo `retrieval.py`: BM25 trên cùng tập đoạn với vector; hợp nhất thứ hạng và loại trùng.
-- [ ] Tạo ba chế độ A — vector; B — hybrid; C — hybrid + reranking, cấu hình được khi chạy đánh giá.
-- [ ] Thử reranker trên tập phát triển; ghi chất lượng, thời gian và lựa chọn mô hình.
-- [ ] Tạo `frontend/app.py`, `api_client.py`; giao diện chỉ gọi FastAPI, không import backend AI trực tiếp.
-- [ ] Hiển thị câu trả lời, đoạn nguồn, thông tin đã xác minh và liên kết PDF/trang khi có.
-- [ ] Giữ lịch sử trong phiên; chỉ gửi tối đa 3 lượt hỏi–đáp gần nhất, có giới hạn độ dài.
-- [ ] Viết lại có điều kiện với câu nối tiếp; câu độc lập không cần gọi LLM viết lại.
-- [ ] Thử đổi chủ đề, thiếu ngữ cảnh, viết tắt, câu phủ định và con số; không được sửa sai ý hỏi.
+- [x] Tạo `retrieval.py` và `bm25_retriever.py`: BM25 trên cùng tập 104 đoạn với vector; tokenizer tiếng Việt bảo tồn dấu và số hiệu điều khoản, hợp nhất thứ hạng Reciprocal Rank Fusion ($k=60$) và loại trùng (minh chứng: `backend/bm25_retriever.py`, `backend/retrieval.py`, 10 bài test `tests/test_hybrid_bm25_rrf.py` ngày 01/11/2026).
+- [x] Hỗ trợ cấu hình chế độ truy xuất linh hoạt: A — dense vector; B — hybrid (dense + BM25 + RRF); cấu hình qua CLI `--mode` và tham số `POST /chat` API `mode="dense"|"hybrid"` (minh chứng: `backend/main.py`, `backend/rag_engine.py`, `backend/cli.py` ngày 01/11/2026).
+- [x] Đánh giá so sánh thực nghiệm A/B Retrieval và Live LLM trên tập 10 ca phát triển (minh chứng: Báo cáo `evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md`, `RETRIEVAL_AB_COMPARISON_TASK05.json`, `DNC_RAG_AB_DEV10_TASK05.jsonl` và `.csv` ngày 01/11/2026; Hit@5 đạt 100%, giải quyết thành công DEV_02 và DEV_08).
+- [ ] Thử reranker trên tập phát triển; ghi chất lượng, thời gian và lựa chọn mô hình (Chưa triển khai trong Nhiệm vụ 05).
+- [ ] Tạo `frontend/app.py`, `api_client.py`; giao diện chỉ gọi FastAPI, không import backend AI trực tiếp (Chưa triển khai trong Nhiệm vụ 05).
+- [ ] Hiển thị câu trả lời, đoạn nguồn, thông tin đã xác minh và liên kết PDF/trang khi có (Chưa triển khai trong Nhiệm vụ 05).
+- [ ] Giữ lịch sử trong phiên; chỉ gửi tối đa 3 lượt hỏi–đáp gần nhất, có giới hạn độ dài (Chưa triển khai trong Nhiệm vụ 05).
+- [ ] Viết lại có điều kiện với câu nối tiếp; câu độc lập không cần gọi LLM viết lại (Chưa triển khai trong Nhiệm vụ 05).
+- [ ] Thử đổi chủ đề, thiếu ngữ cảnh, viết tắt, câu phủ định và con số; không được sửa sai ý hỏi (Chưa triển khai trong Nhiệm vụ 05).
 - [ ] Có nút xóa chat; kiểm tra hai phiên độc lập và xóa cả ngữ cảnh.
 - [ ] Hiển thị tiến trình/trạng thái; triển khai streaming thực nếu API/SDK hỗ trợ, không thay bằng hiệu ứng gõ giả.
 

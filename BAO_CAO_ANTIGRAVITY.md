@@ -680,6 +680,7 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   1. `evaluation/results/EVIDENCE_DEV10_TASK05_R05.jsonl`: Sidecar máy đọc được gồm 72 hàng chuẩn hóa, đầy đủ gold index, grade, answer excerpt, source ID thực tế, chunk ID, PDF page, exact offset và text quote.
   2. `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R05.md`: Bảng rubric dẫn chiếu trực tiếp tới sidecar JSONL; 72/72 hàng vượt qua bài kiểm tra tự động độc lập với 0 source mismatches, 0 range failures, 0 invalid chunk IDs.
   3. `evaluation/results/BAO_CAO_CHOT_EVIDENCE_TASK05_R05.md`: Báo cáo kỹ thuật chi tiết đối chiếu và phân tích liêm chính học thuật.
+- **Commit triển khai:** `c90a5ce2fc22fac0f4cd51ed6641cc3355466c19` (đã push thành công lên origin/main).
 - **Trạng thái:** `HOÀN THÀNH — CHỜ KIỂM TRA` (Chờ Codex rà soát nghiệm thu).
 
 ---

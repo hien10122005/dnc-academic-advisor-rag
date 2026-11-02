@@ -429,6 +429,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Project ID: `dnc-academic-advisor-rag`; Git root: `G:\Other computers\My computer\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
 - File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R05_CHOT_EVIDENCE_TU_TRACE.md`.
 - Tài liệu nhận xét Codex R04: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R04.md` và `DOI_SOAT_EVIDENCE_TASK05_R04.json`.
+- Commit triển khai: `c90a5ce2fc22fac0f4cd51ed6641cc3355466c19` (đã push thành công lên origin/main).
 - Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
 - Tóm tắt kết quả:
   1. **Tạo Sidecar Bằng chứng Chuẩn hóa (`EVIDENCE_DEV10_TASK05_R05.jsonl`):** Đầy đủ 72 hàng (36 ý x 2 mode), tự động trích xuất từ dữ liệu trace thực tế và nguyên văn text spans từ `QD580_PAGES.jsonl`.

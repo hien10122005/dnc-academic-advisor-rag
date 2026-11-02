@@ -225,6 +225,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Project ID: `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.
 - File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R03_CITATION_GEMINI_LIVE.md`.
 - Tài liệu nhận xét phản biện từ Codex: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R02.md`.
+- Commit triển khai: `523c5126d65749574fc21f79978b58932ff80e1a` (đã push thành công lên origin/main).
 - Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
 - Tóm tắt kết quả:
   1. **Khắc phục 100% lỗi Citation & Schema:** Bỏ hoàn toàn top-1 auto-attach; tự động hạ cấp an toàn sang `insufficient_evidence` khi phát hiện citation hallucination hoặc thiếu trích dẫn khi `answered`; kiểm định chặt enum status, chuỗi answer và danh sách ID; tách `context_prefix` để trích xuất `quote_snippet` sạch; chuyển trang in sang `nullable` (`None`).
@@ -256,6 +257,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Project ID: `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git`.
 - File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_04_R04_CHOT_BASELINE.md`.
 - Tài liệu nhận xét Codex R03: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R03.md`.
+- Commit triển khai: `523c5126d65749574fc21f79978b58932ff80e1a` (đã push thành công lên origin/main).
 - Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
 - Tóm tắt kết quả:
   1. **Khử rò rỉ đường dẫn nội bộ:** Phân tách `public_message` an toàn trong `DNCError`, làm sạch path (`E:\`, `C:\`, `/`) và token nhạy cảm; cập nhật exception handlers `/health` và `/chat` trả về HTTP 503 sạch sẽ; đồng bộ `LLMQuotaExceededError.status_code = 429`.
@@ -287,6 +289,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Project ID: `dnc-academic-advisor-rag`; Git root: `E:\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
 - File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_HYBRID_BM25_RRF.md`.
 - Tài liệu nhận xét Codex R04: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_04_R04.md`.
+- Commit triển khai: `523c5126d65749574fc21f79978b58932ff80e1a` (đã push thành công lên origin/main).
 - Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
 - Tóm tắt kết quả:
   1. **Hoàn tất 7 yêu cầu Chặng A bắt buộc:**
@@ -349,6 +352,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Project ID: `dnc-academic-advisor-rag`; Git root: `G:\Other computers\My computer\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
 - File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R03_DOI_SOAT_VECTOR_VA_RUBRIC.md`.
 - Tài liệu nhận xét Codex R02: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R02.md` và `KIEM_TRA_DOC_LAP_TASK05_R02.json`.
+- Commit triển khai: `523c5126d65749574fc21f79978b58932ff80e1a` (đã push thành công lên origin/main).
 - Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
 - Tóm tắt kết quả:
   1. **Khắc phục triệt để Vector Integrity [P1]:**

@@ -628,7 +628,7 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
 #### 6. GitHub
 
 - **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
-- **Commit triển khai:** `523c5126d65749574fc21f79978b58932ff80e1a` (đã push thành công lên origin/main).
+- **Commit triển khai:** `3c5a93d249300619791d4ba804165d97f6550193` (đã push thành công lên origin/main, cùng `9b008ecb25d19e917d057778b665fa1a4e21a201` cập nhật rà soát R02).
 - **Bảo mật:** Không commit `.env` hay API key lên kho lưu trữ.
 
 #### 7. Bàn giao cho Codex
@@ -636,3 +636,31 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
 - **Báo cáo chuyên môn chính:** `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md`.
 - **Rubric đánh giá chi tiết:** `05_Mã Nguồn Chương Trình/evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05.md`.
 - **Trạng thái rà soát:** `CHƯA KIỂM TRA` — chờ Codex xác minh.
+
+---
+
+### DNC-RAG-TASK-05-R03 — Đối soát vector, hoàn thiện rubric và provenance bằng chứng
+
+- **Mục tiêu:** Khắc phục triệt để các nhận xét rà soát độc lập của Codex đối với Task 05 (Lượt R02): bổ sung đối soát thực tế vector collection trong ChromaDB, làm sạch 100% chunk ID ảo trong rubric, và lập báo cáo kỹ thuật có provenance minh bạch.
+- **Thời gian hoàn thành:** 02/11/2026.
+- **Minh chứng kỹ thuật:**
+  1. `backend/retrieval.py`: Nâng cấp `VectorRetriever.check_readiness()` đối soát thực tế `col.count()` và `col.get(include=[])`, chặn rỗng (0 ID), thiếu ID, thừa ID, hoặc cùng số lượng nhưng sai ID (`same-count-wrong-ID`).
+  2. `tests/test_vector_integrity.py`: 10 unit tests độc lập kiểm định toàn vẹn vector và endpoint `/health` trả về 503 khi lỗi vector.
+  3. `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R03.md`: Chuẩn hóa 100% chunk ID thực tế, phân loại DEV04 là Generation Omission, giữ 5 ý gold DEV06 và lỗi claim error DEV07.
+  4. `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md`: Báo cáo kỹ thuật chi tiết với provenance xác thực.
+- **Commit triển khai:** `523c5126d65749574fc21f79978b58932ff80e1a` (và commit ghi nhận `a372d5b9df3146c788533e11fe71095418dd8eb7`).
+
+
+---
+
+### DNC-RAG-TASK-05-R04 — Chốt regression tests và bằng chứng
+
+- **Mục tiêu:** Khắc phục toàn diện nhận xét rà soát R03 của Codex: sửa fixture regression tests, đảm bảo test isolation, sửa duplicate ID test, hoàn thiện tọa độ offsets trong rubric, và khôi phục lịch sử provenance.
+- **Thời gian hoàn thành:** 02/11/2026.
+- **Minh chứng kỹ thuật:**
+  1. `tests/test_lifecycle_and_regression.py`: Cập nhật fixture `setUp` của `TestRetrieverReadinessVerification` có `"chunks": [{"chunk_id": "c1"}]` và collection record `c1` với dummy embedding `[0.0]*768`. Đạt **12/12 tests PASS (100%)** trong 0.559s, bảo toàn logic guard fail-closed.
+  2. `tests/test_vector_integrity.py`: Gỡ bỏ việc gán `sys.modules` toàn cục, đảm bảo cô lập môi trường kiểm thử tuyệt đối. Sửa `dup_ids` giữ nguyên đúng 104 phần tử, bắt đúng guard duplicate ID.
+  3. `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R04.md`: Đính chính DEV08 Hybrid P1 thành `[SRC-3] qd580_v2_c035`; phân loại DEV05 P3 là Generation Omission (context có lệ phí ở p17 `[0, 282)` nhưng answer thiếu; giữ nhãn THIẾU); chuẩn hóa Điều 18 Khoản 5 & 6, Điều 25 Khoản 1 & 2; bổ sung 100% bảng tọa độ text offset `[start, end)`.
+  4. `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R04.md`: Báo cáo kỹ thuật đối chiếu chi tiết từng phát hiện và phương án khắc phục.
+  5. `BAO_CAO_BAN_GIAO.md`: Khôi phục chính xác các commit SHA lịch sử và bổ sung mục bàn giao R04.
+- **Trạng thái:** `HOÀN THÀNH — CHỜ KIỂM TRA` (Chờ Codex rà soát độc lập).

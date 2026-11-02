@@ -1,0 +1,185 @@
+{
+  "method": "Normally imported VectorRetriever with fail-on-use ML import sentinels; mocked vector client; temporary artifacts. Metric helpers extracted unchanged.",
+  "readiness_probes": [
+    {
+      "probe": "valid-vector",
+      "vector_count": 104,
+      "vector_reads": [
+        "count",
+        "get"
+      ],
+      "result": "READY"
+    },
+    {
+      "probe": "empty-vector-same-metadata",
+      "vector_count": 0,
+      "vector_reads": [
+        "count"
+      ],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Số lượng vector thực tế trong ChromaDB collection 'review' (0) không khớp với manifest (104)!"
+    },
+    {
+      "probe": "wrong-vector-id-set-same-count",
+      "vector_count": 104,
+      "vector_reads": [
+        "count",
+        "get"
+      ],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Tập vector ID trong ChromaDB collection 'review' không khớp với manifest/chunks! Thiếu: ['qd580_v2_c001_dec_d00_p01_667aec0f'], Dư: ['REPLACED_WRONG_ID']"
+    },
+    {
+      "probe": "building",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Corpus collection 'review' chưa sẵn sàng (Trạng thái: BUILDING, corpus_ready: False). Hãy hoàn tất ingestion thành công trước khi truy vấn."
+    },
+    {
+      "probe": "failed",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Corpus collection 'review' chưa sẵn sàng (Trạng thái: FAILED, corpus_ready: False). Hãy hoàn tất ingestion thành công trước khi truy vấn."
+    },
+    {
+      "probe": "missing-chunks",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Tệp chunks không tồn tại trên đĩa: C:\\Users\\phanh\\AppData\\Local\\Temp\\dnc-r02-review-s4_7s1cn\\chunks.jsonl."
+    }
+  ],
+  "recomputed_metrics_from_saved_rankings_and_original_spans": {
+    "dense": {
+      "case_ids": [
+        "DEV_01",
+        "DEV_02",
+        "DEV_03",
+        "DEV_04",
+        "DEV_05",
+        "DEV_06",
+        "DEV_07",
+        "DEV_08",
+        "DEV_09"
+      ],
+      "n": 9,
+      "hit5": 0.7777777777777778,
+      "mean_coverage5": 0.6367611111111111,
+      "full_case5": 0.5555555555555556,
+      "full_case10": 0.6666666666666666,
+      "mrr10": 0.6805555555555556
+    },
+    "hybrid": {
+      "case_ids": [
+        "DEV_01",
+        "DEV_02",
+        "DEV_03",
+        "DEV_04",
+        "DEV_05",
+        "DEV_06",
+        "DEV_07",
+        "DEV_08",
+        "DEV_09"
+      ],
+      "n": 9,
+      "hit5": 1.0,
+      "mean_coverage5": 0.8034277777777779,
+      "full_case5": 0.6666666666666666,
+      "full_case10": 0.7777777777777778,
+      "mrr10": 0.6574074074074074
+    }
+  },
+  "hashes": {
+    "data/QD580_CHUNKS.jsonl": "5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398",
+    "data/QD580_MANIFEST.json": "c0ceea3306e71506ceaeae17e8328423993e80967e855c6605d775a64b9c2e9b",
+    "evaluation/results/DNC_RAG_AB_DEV10_TASK05.jsonl": "c86b2310e989d3579925bda700dd26f5eadd45571f130493e25f8213d608077f",
+    "evaluation/results/DNC_RAG_AB_DEV10_TASK05.csv": "1b9733fdd681261335918aa705186fdaaed8ffd8d4f217a4a9c814b08bbf6be6"
+  },
+  "raw_records": 20,
+  "run_metadata": {
+    "timestamp_utc": "2026-11-01T11:49:39.259453+00:00",
+    "git_commit": "b68811f9aac8fd0aa479e8410cbaaafafcecc656",
+    "git_dirty": true,
+    "chunks_hash": "5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398",
+    "manifest_hash": "c0ceea3306e71506ceaeae17e8328423993e80967e855c6605d775a64b9c2e9b",
+    "collection_name": "qd580_baseline_v2"
+  },
+  "cache_two_real_temporary_generations": "PASS",
+  "engine_sparse_citation_trace_single_retrieval_mode_validation": "PASS",
+  "cli_sparse_only_both_entrypoints": "PASS",
+  "review_date_vietnam": "2026-11-02",
+  "reviewed_commit": "a372d5b9df3146c788533e11fe71095418dd8eb7",
+  "remote_main_at_review": "a372d5b9df3146c788533e11fe71095418dd8eb7",
+  "implementation_commit": "523c5126d65749574fc21f79978b58932ff80e1a",
+  "starting_dirty_files": [
+    "evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md",
+    "evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R03.md"
+  ],
+  "starting_dirty_change": "one extra trailing blank line per file; preserved",
+  "integrity_tests": {
+    "passed": 10,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 0.466,
+    "mode": "Original new test module uses process-wide mocked ML imports"
+  },
+  "focused_tests": {
+    "passed": 14,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 0.19,
+    "mode": "Original tests with fail-on-use ML import sentinels"
+  },
+  "legacy_readiness_regression": {
+    "method": "Legacy test class AST bodies unchanged; normally imported retriever; fake Chroma and embedding setup",
+    "tests": 12,
+    "failures": 3,
+    "errors": 2,
+    "failed_tests": [
+      "test_reject_chroma_metadata_mismatch (__main__.TestRetrieverReadinessVerification.test_reject_chroma_metadata_mismatch)",
+      "test_reject_disk_chunk_hash_mismatch (__main__.TestRetrieverReadinessVerification.test_reject_disk_chunk_hash_mismatch)",
+      "test_reject_mismatched_fingerprint (__main__.TestRetrieverReadinessVerification.test_reject_mismatched_fingerprint)"
+    ],
+    "errored_tests": [
+      "test_cache_invalidation_when_status_changes_to_building (__main__.TestRetrieverReadinessVerification.test_cache_invalidation_when_status_changes_to_building)",
+      "test_valid_preflight_passes (__main__.TestRetrieverReadinessVerification.test_valid_preflight_passes)"
+    ]
+  },
+  "full_suite_attempt": {
+    "completed": false,
+    "result": null,
+    "stopped_vietnam": "2026-11-02 16:05:20",
+    "reason": "Stopped during dependency imports on synced filesystem; no full-suite unittest result",
+    "log": "scratch/review_task05_r03_suite.log"
+  },
+  "rubric_r03_validation": {
+    "rows": 72,
+    "invalid_full_chunk_ids": [],
+    "full_refs_not_in_record_context": [],
+    "source_id_mismatches": [
+      {
+        "line": 173,
+        "mode": "hybrid",
+        "case": "DEV_08",
+        "point": "DEV08-P1",
+        "cited_source_id": "SRC-2",
+        "claimed_chunk": "qd580_v2_c035_reg_d07_p08_811c2b53",
+        "actual_chunk_for_source": "qd580_v2_c087_reg_d26_p21_6790bf08"
+      }
+    ],
+    "dev05_fee_context": "Both modes SRC-1 c070 contains fee clause, PDF page17 chars[0,282); missing answer is generation omission"
+  },
+  "source_sha256": {
+    "backend\\retrieval.py": "83467f7b1ce5c4c2c51fc223c0eec869056a62043f27f7cdddb08ce2f14ae806",
+    "tests\\test_vector_integrity.py": "a3da43a2356bc52eac4019114fa5994a74d81b0f6392ea348a5cdc2523d3484f",
+    "tests\\test_lifecycle_and_regression.py": "19851170f982b541dafe2697b2fae3a65094cc48b6562b3baec3f67000daca75"
+  },
+  "corpus_and_raw_hashes_unchanged": true
+}

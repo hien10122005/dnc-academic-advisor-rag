@@ -218,3 +218,4 @@ Mỗi ý bắt buộc (Mandatory Point) trong tiêu chuẩn vàng (Gold Standard
    - **DEV_07 (Claim Error ở Hybrid):** Tại DEV_07 (Hybrid), mô hình Gemini đã tự ý thêm một nhận định sai thực tế: *"từ điểm D+ trở xuống là dưới 5.0"*.
    - **Nguyên nhân gốc rễ:** Trong ngữ cảnh cấp cho LLM, bảng quy đổi thể hiện D+ ứng với $5.0 - 5.4$ và D ứng với $4.0 - 4.9$. Khi diễn giải văn xuôi tự nhiên, mô hình bị lúng túng giữa ngưỡng chặn dưới ($5.0$) của D+ và ngưỡng chặn trên ($4.9$) của D, dẫn tới việc phát biểu sai quy tắc logic.
    - **Hành động kiểm định liêm chính học thuật:** Rubric này ghi nhận rõ ràng mức **SAI (Claim Error)** cho ý DEV07-P1 của Hybrid. Điều này chứng minh rằng việc có đầy đủ mã nguồn [SRC-x] hợp lệ trong ngữ cảnh chưa đảm bảo 100% mọi câu khẳng định của LLM đều chuẩn xác, đòi hỏi các vòng kiểm tra groundedness chặt chẽ hơn trong tương lai.
+

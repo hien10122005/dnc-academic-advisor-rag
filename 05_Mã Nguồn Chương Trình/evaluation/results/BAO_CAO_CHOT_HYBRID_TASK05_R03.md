@@ -114,3 +114,4 @@ Theo bảng rubric chi tiết tại `RUBRIC_CHAM_DIEM_DEV10_TASK05_R03.md`:
 2. **Phân loại lỗi khách quan:**
    - **DEV_04 (Lỗi Generation Omission ở Dense):** Cả hai mode đều trích xuất được `qd580_v2_c045` vào ngữ cảnh context (`SRC-2`), nhưng mô hình LLM ở chế độ Dense đã bỏ sót quy trình Khoản 3 khi tổng hợp đáp án. Đây là sự thiếu sót của khâu sinh câu trả lời (LLM), không phải lỗi của khâu Retrieval.
    - **DEV_07 (Lỗi Claim Error ở Hybrid):** Mô hình Gemini tự ý nhận định: *"từ điểm D+ trở xuống là dưới 5.0"*, trong khi văn bản quy định D+ là $5.0 - 5.4$. Lỗi này được chấm thẳng thắn là **SAI**, nhấn mạnh tầm quan trọng của cơ chế đối soát trích dẫn ở các chặng tiếp theo.
+

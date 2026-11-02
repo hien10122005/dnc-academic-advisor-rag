@@ -30,21 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-# Đảm bảo không nạp nặng các thư viện ML bên ngoài trong unit run cô lập
+# Đảm bảo môi trường offline an toàn cho unit tests
 os.environ.setdefault("GEMINI_API_KEY", "")
 os.environ.setdefault("GOOGLE_API_KEY", "")
 os.environ.setdefault("ALLOW_OFFLINE_MOCK", "true")
 os.environ.setdefault("PYDANTIC_DISABLE_PLUGINS", "__all__")
-
-if "chromadb" not in sys.modules:
-    chroma_mod = types.ModuleType("chromadb")
-    chroma_mod.PersistentClient = MagicMock
-    sys.modules["chromadb"] = chroma_mod
-
-if "sentence_transformers" not in sys.modules:
-    st_mod = types.ModuleType("sentence_transformers")
-    st_mod.SentenceTransformer = MagicMock
-    sys.modules["sentence_transformers"] = st_mod
 
 from fastapi.testclient import TestClient
 
@@ -181,12 +171,13 @@ class TestVectorIntegrity(unittest.TestCase):
         self.assertIn(self.expected_ids[0], str(ctx.exception))
 
     def test_vector_integrity_duplicate_id_in_chroma(self):
-        """Collection có ID trùng lặp trong Chroma -> từ chối với KnowledgeBaseNotReadyError."""
-        # Fake collection có 104 phần tử nhưng phần tử đầu bị lặp 2 lần
-        dup_ids = [self.expected_ids[0]] + self.expected_ids
+        """Collection có ID trùng lặp trong Chroma (cùng tổng số 104) -> từ chối với KnowledgeBaseNotReadyError."""
+        # Giữ nguyên tổng số 104 phần tử nhưng phần tử đầu bị lặp 2 lần để chạm guard duplicate
+        dup_ids = [self.expected_ids[0]] + self.expected_ids[:-1]
         retriever = self._create_retriever(dup_ids)
-        with self.assertRaises(KnowledgeBaseNotReadyError):
+        with self.assertRaises(KnowledgeBaseNotReadyError) as ctx:
             retriever.check_readiness()
+        self.assertIn("trùng lặp trong ChromaDB collection", str(ctx.exception))
 
     def test_manifest_invalid_total_chunks(self):
         """Manifest có total_chunks sai kiểu hoặc không khớp danh sách chunks -> từ chối."""

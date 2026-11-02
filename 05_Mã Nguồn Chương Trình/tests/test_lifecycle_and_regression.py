@@ -254,6 +254,7 @@ class TestRetrieverReadinessVerification(unittest.TestCase):
             "chunks_sha256": self.valid_chunks_hash,
             "model_revision": MODEL_REVISION,
             "total_chunks": 1,
+            "chunks": [{"chunk_id": "c1"}],
         }
         with open(self.manifest_file, "w", encoding="utf-8") as f:
             json.dump(self.valid_manifest, f)
@@ -271,6 +272,13 @@ class TestRetrieverReadinessVerification(unittest.TestCase):
                 "model_revision": MODEL_REVISION,
             }
         )
+        if hasattr(self.collection, "add"):
+            try:
+                self.collection.add(ids=["c1"], documents=["test"], embeddings=[[0.0] * 768])
+            except Exception:
+                pass
+        if hasattr(self.collection, "ids"):
+            self.collection.ids = ["c1"]
 
         # Tạo file trạng thái chuẩn
         self.valid_status = {
@@ -438,7 +446,7 @@ class TestRetrieverReadinessVerification(unittest.TestCase):
         # Tạo collection thứ 2 với metadata lệch
         from backend.ingestion import VietnameseEmbeddingFunction
         embed_fn = VietnameseEmbeddingFunction(EMBEDDING_MODEL_CANDIDATE, revision=MODEL_REVISION)
-        self.client.create_collection(
+        col2 = self.client.create_collection(
             name="test_col_mismatched_meta",
             embedding_function=embed_fn,
             metadata={
@@ -447,6 +455,13 @@ class TestRetrieverReadinessVerification(unittest.TestCase):
                 "model_revision": MODEL_REVISION,
             }
         )
+        if hasattr(col2, "add"):
+            try:
+                col2.add(ids=["c1"], documents=["test"], embeddings=[[0.0] * 768])
+            except Exception:
+                pass
+        if hasattr(col2, "ids"):
+            col2.ids = ["c1"]
         status_payload = dict(self.valid_status)
         status_payload["collection_name"] = "test_col_mismatched_meta"
         with open(self.status_file, "w", encoding="utf-8") as f:

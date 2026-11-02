@@ -25,11 +25,11 @@ Thiết lập: **01/11/2026**. Đây là file riêng để **Antigravity ghi l�
 
 ## Báo cáo mới nhất
 
-- **Mã lượt:** `DNC-RAG-TASK-05-R01`
-- **Nhiệm vụ:** 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và đánh giá thực nghiệm A/B
-- **Ngày hoàn tất:** 01/11/2026
+- **Mã lượt:** `DNC-RAG-TASK-05-R03`
+- **Nhiệm vụ:** 05 — Đối soát vector, hoàn thiện rubric và provenance bằng chứng
+- **Ngày hoàn tất:** 02/11/2026
 - **Trạng thái tự báo:** `HOÀN THÀNH — CHỜ KIỂM TRA`
-- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-05-R01](#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf)
+- **Vị trí báo cáo:** [Mục DNC-RAG-TASK-05-R03](#dnc-rag-task-05-r03--doi-soat-vector-va-hoan-thien-rubric-bang-chung)
 
 ## Mẫu báo cáo sau mỗi lần làm
 

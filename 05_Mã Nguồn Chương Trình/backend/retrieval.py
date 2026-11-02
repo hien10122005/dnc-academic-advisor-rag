@@ -15,6 +15,7 @@ import json
 import os
 import sys
 import time
+from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -147,6 +148,33 @@ class VectorRetriever:
             if not manifest_data.get(fld):
                 raise KnowledgeBaseNotReadyError(f"Tệp manifest thiếu trường bắt buộc: '{fld}'.")
 
+        expected_total = manifest_data["total_chunks"]
+        if not isinstance(expected_total, int) or expected_total <= 0:
+            raise KnowledgeBaseNotReadyError(
+                f"Trường 'total_chunks' trong manifest không hợp lệ ({expected_total}). Phải là số nguyên dương."
+            )
+
+        manifest_chunks = manifest_data.get("chunks")
+        if not isinstance(manifest_chunks, list) or len(manifest_chunks) != expected_total:
+            actual_mc_len = len(manifest_chunks) if isinstance(manifest_chunks, list) else 0
+            raise KnowledgeBaseNotReadyError(
+                f"Danh sách 'chunks' trong manifest không khớp với total_chunks ({actual_mc_len} vs {expected_total})!"
+            )
+
+        manifest_chunk_ids: List[str] = []
+        for idx, mc in enumerate(manifest_chunks):
+            if not isinstance(mc, dict) or not mc.get("chunk_id"):
+                raise KnowledgeBaseNotReadyError(
+                    f"Chunk thứ {idx} trong manifest thiếu trường 'chunk_id' hoặc không hợp lệ."
+                )
+            manifest_chunk_ids.append(str(mc["chunk_id"]))
+
+        if len(manifest_chunk_ids) != len(set(manifest_chunk_ids)):
+            dup_mc_ids = [cid for cid, count in Counter(manifest_chunk_ids).items() if count > 1]
+            raise KnowledgeBaseNotReadyError(
+                f"Phát hiện chunk_id bị trùng lặp trong manifest: {dup_mc_ids[:5]}"
+            )
+
         # 6. Đối soát Fingerprint & Chunks SHA-256 giữa Status và Manifest
         expected_fp = manifest_data["corpus_fingerprint"]
         actual_fp = col_status["corpus_fingerprint"]
@@ -178,7 +206,53 @@ class VectorRetriever:
                 f"Model revision trong manifest ({manifest_data['model_revision']}) không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
             )
 
-        # 8. Đối soát Metadata thực tế trong ChromaDB Collection
+        # 8. Đối soát tệp chunks thực tế trên đĩa (Fail-closed & Schema/ID Integrity)
+        if not self.chunks_file_path or not self.chunks_file_path.exists():
+            raise KnowledgeBaseNotReadyError(
+                f"Tệp chunks không tồn tại trên đĩa: {self.chunks_file_path}."
+            )
+        disk_chunks_hash = compute_sha256(self.chunks_file_path)
+        if disk_chunks_hash != expected_hash:
+            raise KnowledgeBaseNotReadyError(
+                f"Mã băm tệp chunks trên đĩa ({disk_chunks_hash}) không khớp với manifest ({expected_hash})!"
+            )
+
+        disk_chunk_ids: List[str] = []
+        try:
+            with open(self.chunks_file_path, "r", encoding="utf-8") as f:
+                for line_idx, line in enumerate(f, 1):
+                    line_str = line.strip()
+                    if not line_str:
+                        continue
+                    item = json.loads(line_str)
+                    if not isinstance(item, dict) or not item.get("chunk_id"):
+                        raise KnowledgeBaseNotReadyError(
+                            f"Dòng {line_idx} trong tệp chunks ({self.chunks_file_path}) thiếu 'chunk_id' hoặc không phải JSON object."
+                        )
+                    disk_chunk_ids.append(str(item["chunk_id"]))
+        except KnowledgeBaseNotReadyError:
+            raise
+        except Exception as exc:
+            raise KnowledgeBaseNotReadyError(f"Lỗi đọc tệp chunks ({self.chunks_file_path}): {exc}")
+
+        if len(disk_chunk_ids) != expected_total:
+            raise KnowledgeBaseNotReadyError(
+                f"Số lượng chunks trong tệp đĩa ({len(disk_chunk_ids)}) không khớp với manifest ({expected_total})!"
+            )
+        if len(disk_chunk_ids) != len(set(disk_chunk_ids)):
+            dup_disk = [cid for cid, count in Counter(disk_chunk_ids).items() if count > 1]
+            raise KnowledgeBaseNotReadyError(
+                f"Phát hiện chunk_id bị trùng lặp trong tệp chunks trên đĩa: {dup_disk[:5]}"
+            )
+        if set(disk_chunk_ids) != set(manifest_chunk_ids):
+            missing_in_file = set(manifest_chunk_ids) - set(disk_chunk_ids)
+            extra_in_file = set(disk_chunk_ids) - set(manifest_chunk_ids)
+            raise KnowledgeBaseNotReadyError(
+                f"Tập chunk IDs trong tệp chunks không khớp với manifest! "
+                f"Thiếu: {list(missing_in_file)[:5]}, Dư: {list(extra_in_file)[:5]}"
+            )
+
+        # 9. Đối soát Metadata và Vector Integrity thực tế trong ChromaDB Collection
         try:
             available_collections = [c.name for c in self.client.list_collections()]
             if self.collection_name not in available_collections:
@@ -207,21 +281,42 @@ class VectorRetriever:
                     f"Metadata collection ChromaDB có model_revision ({col_meta.get('model_revision')}) "
                     f"không khớp với cấu hình MODEL_REVISION ({MODEL_REVISION})!"
                 )
+
+            # Kiểm tra Vector Integrity thực tế: count và tập ID
+            actual_count = col.count()
+            if actual_count != expected_total:
+                raise KnowledgeBaseNotReadyError(
+                    f"Số lượng vector thực tế trong ChromaDB collection '{self.collection_name}' ({actual_count}) "
+                    f"không khớp với manifest ({expected_total})!"
+                )
+
+            col_records = col.get(include=[])
+            col_ids = col_records.get("ids", []) if isinstance(col_records, dict) else []
+            if len(col_ids) != expected_total:
+                raise KnowledgeBaseNotReadyError(
+                    f"Số lượng ID thực tế thu hồi từ ChromaDB collection '{self.collection_name}' ({len(col_ids)}) "
+                    f"không khớp với manifest ({expected_total})!"
+                )
+
+            if len(col_ids) != len(set(col_ids)):
+                dup_col_ids = [cid for cid, count in Counter(col_ids).items() if count > 1]
+                raise KnowledgeBaseNotReadyError(
+                    f"Phát hiện ID bị trùng lặp trong ChromaDB collection '{self.collection_name}': {dup_col_ids[:5]}"
+                )
+
+            actual_id_set = set(col_ids)
+            expected_id_set = set(manifest_chunk_ids)
+            if actual_id_set != expected_id_set:
+                missing_in_col = expected_id_set - actual_id_set
+                extra_in_col = actual_id_set - expected_id_set
+                raise KnowledgeBaseNotReadyError(
+                    f"Tập vector ID trong ChromaDB collection '{self.collection_name}' không khớp với manifest/chunks! "
+                    f"Thiếu: {list(missing_in_col)[:5]}, Dư: {list(extra_in_col)[:5]}"
+                )
         except KnowledgeBaseNotReadyError:
             raise
         except Exception as exc:
-            raise KnowledgeBaseNotReadyError(f"Lỗi kiểm tra metadata ChromaDB collection: {exc}")
-
-        # 9. Đối soát hash của tệp chunk thực tế trên đĩa (Fail-closed)
-        if not self.chunks_file_path or not self.chunks_file_path.exists():
-            raise KnowledgeBaseNotReadyError(
-                f"Tệp chunks không tồn tại trên đĩa: {self.chunks_file_path}."
-            )
-        disk_chunks_hash = compute_sha256(self.chunks_file_path)
-        if disk_chunks_hash != expected_hash:
-            raise KnowledgeBaseNotReadyError(
-                f"Mã băm tệp chunks trên đĩa ({disk_chunks_hash}) không khớp với manifest ({expected_hash})!"
-            )
+            raise KnowledgeBaseNotReadyError(f"Lỗi kiểm tra tính toàn vẹn ChromaDB collection: {exc}")
 
         return {
             "status": "READY",
@@ -230,7 +325,7 @@ class VectorRetriever:
             "chunks_sha256": expected_hash,
             "model_name": self.model_name,
             "model_revision": MODEL_REVISION,
-            "total_chunks": manifest_data["total_chunks"],
+            "total_chunks": expected_total,
         }
 
     @property

@@ -1,0 +1,192 @@
+{
+  "method": "Normally imported VectorRetriever with fail-on-use ML import sentinels; mocked vector client; temporary artifacts. Metric helpers extracted unchanged.",
+  "readiness_probes": [
+    {
+      "probe": "valid-vector",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "READY"
+    },
+    {
+      "probe": "empty-vector-same-metadata",
+      "vector_count": 0,
+      "vector_reads": [],
+      "result": "READY"
+    },
+    {
+      "probe": "wrong-vector-id-set-same-count",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "READY"
+    },
+    {
+      "probe": "building",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Corpus collection 'review' chưa sẵn sàng (Trạng thái: BUILDING, corpus_ready: False). Hãy hoàn tất ingestion thành công trước khi truy vấn."
+    },
+    {
+      "probe": "failed",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Corpus collection 'review' chưa sẵn sàng (Trạng thái: FAILED, corpus_ready: False). Hãy hoàn tất ingestion thành công trước khi truy vấn."
+    },
+    {
+      "probe": "missing-chunks",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Tệp chunks không tồn tại trên đĩa: C:\\Users\\phanh\\AppData\\Local\\Temp\\dnc-r02-review-xnrworee\\chunks.jsonl."
+    }
+  ],
+  "invalid_rubric_chunk_ids": [
+    "qd580_v2_c011_reg_d03_p03_1b03fc2e",
+    "qd580_v2_c012_reg_d03_p04_72b38f88",
+    "qd580_v2_c046_reg_d11_p11_40c06ba1",
+    "qd580_v2_c047_reg_d11_p11_545cf0fe",
+    "qd580_v2_c067_reg_d18_p16_3b65287f",
+    "qd580_v2_c068_reg_d18_p17_d63aa6e2",
+    "qd580_v2_c074_reg_d25_p20_c0fc3fe6",
+    "qd580_v2_c075_reg_d25_p21_7b66725c"
+  ],
+  "rubric_counts": {
+    "dense": {
+      "rows": 36,
+      "grades": {
+        "ĐẠT": 25,
+        "MỘT PHẦN": 1,
+        "THIẾU": 10,
+        "SAI": 0
+      }
+    },
+    "hybrid": {
+      "rows": 36,
+      "grades": {
+        "ĐẠT": 28,
+        "MỘT PHẦN": 1,
+        "THIẾU": 6,
+        "SAI": 1
+      }
+    }
+  },
+  "recomputed_metrics_from_saved_rankings_and_original_spans": {
+    "dense": {
+      "case_ids": [
+        "DEV_01",
+        "DEV_02",
+        "DEV_03",
+        "DEV_04",
+        "DEV_05",
+        "DEV_06",
+        "DEV_07",
+        "DEV_08",
+        "DEV_09"
+      ],
+      "n": 9,
+      "hit5": 0.7777777777777778,
+      "mean_coverage5": 0.6367611111111111,
+      "full_case5": 0.5555555555555556,
+      "full_case10": 0.6666666666666666,
+      "mrr10": 0.6805555555555556
+    },
+    "hybrid": {
+      "case_ids": [
+        "DEV_01",
+        "DEV_02",
+        "DEV_03",
+        "DEV_04",
+        "DEV_05",
+        "DEV_06",
+        "DEV_07",
+        "DEV_08",
+        "DEV_09"
+      ],
+      "n": 9,
+      "hit5": 1.0,
+      "mean_coverage5": 0.8034277777777779,
+      "full_case5": 0.6666666666666666,
+      "full_case10": 0.7777777777777778,
+      "mrr10": 0.6574074074074074
+    }
+  },
+  "hashes": {
+    "data/QD580_CHUNKS.jsonl": "5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398",
+    "data/QD580_MANIFEST.json": "c0ceea3306e71506ceaeae17e8328423993e80967e855c6605d775a64b9c2e9b",
+    "evaluation/results/DNC_RAG_AB_DEV10_TASK05.jsonl": "c86b2310e989d3579925bda700dd26f5eadd45571f130493e25f8213d608077f",
+    "evaluation/results/DNC_RAG_AB_DEV10_TASK05.csv": "1b9733fdd681261335918aa705186fdaaed8ffd8d4f217a4a9c814b08bbf6be6"
+  },
+  "raw_records": 20,
+  "run_metadata": {
+    "timestamp_utc": "2026-11-01T11:49:39.259453+00:00",
+    "git_commit": "b68811f9aac8fd0aa479e8410cbaaafafcecc656",
+    "git_dirty": true,
+    "chunks_hash": "5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398",
+    "manifest_hash": "c0ceea3306e71506ceaeae17e8328423993e80967e855c6605d775a64b9c2e9b",
+    "collection_name": "qd580_baseline_v2"
+  },
+  "cache_two_real_temporary_generations": "PASS",
+  "engine_sparse_citation_trace_single_retrieval_mode_validation": "PASS",
+  "cli_sparse_only_both_entrypoints": "PASS",
+  "review_date_vietnam": "2026-11-02",
+  "reviewed_commit": "9b008ecb252482c4e8ae064d3148cb5dedf0f47e",
+  "remote_main_at_review": "9b008ecb252482c4e8ae064d3148cb5dedf0f47e",
+  "focused_tests": {
+    "passed": 14,
+    "failed": 0,
+    "seconds": 7.961,
+    "ml_dependencies": "fail-on-use import sentinels; no ML integration"
+  },
+  "sqlite_read_only_check": {
+    "rows": 104,
+    "expected": 104,
+    "id_sets_equal": true,
+    "duplicates": 0,
+    "limitation": "metadata segment only; not an HNSW query"
+  },
+  "runtime_versions": {
+    "python": "3.14.6",
+    "sentence_transformers": "6.2.0",
+    "chromadb": "1.5.9",
+    "fastapi": "0.162.0",
+    "uvicorn": "0.54.0",
+    "torch": "2.15.0",
+    "transformers": "5.22.1",
+    "google_genai": "2.34.0",
+    "pydantic": "2.14.2",
+    "numpy": "2.5.4"
+  },
+  "source_sha256": {
+    "backend\\__init__.py": "9809c14ee7fb45ce138985b39c5124f0dcde9c7f7040cd3668e781ee28292442",
+    "backend\\bm25_retriever.py": "730a8021a89225f5f38ff7547a285f4ef0c9b6a22e9acd4b5b9b4d5a50300888",
+    "backend\\chunking.py": "e5ad98772075410d8fafa643be4f21c57ef23a708f3ad7f1f788b8df8a368efb",
+    "backend\\cli.py": "a22dcb02a9f37613afc7fd4ffabf564f5af0b9c109fd1a8f92b79d205ab8d878",
+    "backend\\config.py": "40a507c108aeac0602e86f6090bdb40555351228b7b99f03cb70a9a94944058a",
+    "backend\\errors.py": "b66e050e18dae87a3ec4a702a90111b0ac9cf55d94780925a698fae1bb74ef9f",
+    "backend\\gemini_client.py": "f9df3a1096ace49ae879cb27abf852e30eb5ecc6ce79e238f74c4e701b925b6e",
+    "backend\\ingestion.py": "8f3c6d6d9d052a032b8a5646dddfe4bf66c4d5b53b64b477092cbff6ae9b1043",
+    "backend\\main.py": "a0c64dbccf563b80ebff220bfa3f3a4ba75c53dbe250d8ba53d8f271a39e1650",
+    "backend\\rag_engine.py": "711a25acaec0995759f267dce58e27c3c05ba1b1f38dd193f5cd9c0e1d0be3cc",
+    "backend\\retrieval.py": "0587821b78341e6e7d5b2367b16ffea417e79e11d8b782280ad218909d2d140a",
+    "tests\\test_hybrid_bm25_rrf.py": "14585bdcecbbea3999d2e0b2c53e204ba30e686abdb39d44e680890f287e8a84"
+  },
+  "api_mode_test_alone": {
+    "passed": 1,
+    "failed": 0,
+    "seconds": 0.131,
+    "ml_dependencies": "same fail-on-use import sentinels as focused unit run"
+  },
+  "full_suite_attempt": {
+    "completed": false,
+    "passed": null,
+    "failed": null,
+    "started_vietnam": "2026-11-02 15:19:55",
+    "stopped_vietnam": "2026-11-02 15:28:12",
+    "reason": "Stopped during dependency import on cloud-backed filesystem; no unittest result obtained",
+    "log": "scratch/review_task05_r02_tests.log"
+  }
+}

@@ -3,6 +3,8 @@
 > Cập nhật: **31/10/2026**. Đọc `PROJECT.md` để biết phạm vi đã thống nhất; `LOGIC.md` để biết đặc tả xử lý và đánh giá.
 > Checklist đánh dấu hoàn thành chỉ khi có sản phẩm hoặc minh chứng. Lịch dưới đây là kế hoạch, không phải xác nhận tiến độ. Không suy ra phần trăm hoàn thành từ việc đã có thư mục.
 
+> **Rà soát mới nhất — 02/11/2026:** Codex kết luận `DNC-RAG-TASK-05-R02` **CẦN SỬA có giới hạn**. Cache/fusion/nullable/API mode đã có minh chứng kiểm tra tập trung; chưa nghiệm thu vector integrity và rubric/provenance. Đã tạo nhiệm vụ R03, chưa chuyển Task06. Các số 70/70 trong checklist bên dưới là kết quả Antigravity tự báo ngày 01/11; Codex hiện xác minh 14 focused unit tests với ML dependencies cô lập và các probe riêng, chưa tái lập toàn suite do import trên ổ đồng bộ quá chậm. Bảng tiến độ tổng quan mang mốc 31/10 là lịch sử; trạng thái nghiệm thu mới nhất xem `BAO_CAO_BAN_GIAO.md` và `evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R02.md` trong thư mục mã nguồn.
+
 ## 1. Trạng thái hiện tại và kế thừa lịch sử
 
 ### Đã quan sát trực tiếp trong thư mục
@@ -90,6 +92,7 @@ Bản Word `03_Đề Cương & Báo Cáo/01_Đề Cương Chi Tiết/TÀI LIỆU
 
 ## 6. Tuần 4 — Giao diện, hybrid, reranking và hội thoại
 
+- [x] Nghiệm thu Task05 qua lượt R03: đối soát ID/count vector thực tế với chunks/manifest, sửa rubric đúng raw/context/gold và provenance (minh chứng: `backend/retrieval.py` kiểm tra thực tế `col.count()` và `col.get()`, bộ kiểm thử `tests/test_vector_integrity.py` 10/10 tests PASS, rubric chuẩn hóa `RUBRIC_CHAM_DIEM_DEV10_TASK05_R03.md` sạch chunk ID ảo, báo cáo kỹ thuật `BAO_CAO_CHOT_HYBRID_TASK05_R03.md` ngày 02/11/2026, chờ Codex rà soát).
 - [x] Tạo `retrieval.py` và `bm25_retriever.py`: BM25 trên cùng tập 104 đoạn với vector; tokenizer tiếng Việt bảo tồn dấu và số hiệu điều khoản, hợp nhất thứ hạng Reciprocal Rank Fusion ($k=60$) và loại trùng, rank chuẩn $1..k$, điểm số nullable (`similarity=None`, `distance=None`) cho sparse-only hits, tự động đồng bộ cache BM25 với `corpus_fingerprint` và tiền kiểm tra fail-closed khi thiếu chunks file (minh chứng: `backend/bm25_retriever.py`, `backend/retrieval.py`, 17 bài test `tests/test_hybrid_bm25_rrf.py`, tổng 70/70 tests toàn dự án đạt 100% ngày 01/11/2026).
 - [x] Hỗ trợ cấu hình chế độ truy xuất linh hoạt: A — dense vector (mặc định); B — hybrid (dense + BM25 + RRF); cấu hình qua CLI `--mode` và tham số `POST /chat` API `mode="dense"|"hybrid"`, preload BM25 tại startup lifespan, lưu đầy đủ candidate scores và fusion config trong trace (minh chứng: `backend/main.py`, `backend/rag_engine.py`, `backend/cli.py` ngày 01/11/2026).
 - [x] Đánh giá so sánh thực nghiệm A/B Retrieval và Live LLM trên tập 10 ca phát triển, lập bảng rubric chấm điểm chi tiết 36 ý bắt buộc cho 20 lượt chạy, đính chính errata và ghi nhận trung thực lỗi phát ngôn DEV_07 của Hybrid (minh chứng: `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05.md`, `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md`, `DNC_RAG_AB_DEV10_TASK05.jsonl` ngày 01/11/2026; Hit@5 đạt 9/9 $\ge 90\%$, giải quyết thành công DEV_02 và DEV_08).
@@ -201,3 +204,5 @@ Nhật ký gặp giảng viên thêm: ngày gặp, nội dung trình bày, góp 
 ## 13. Nhật ký cập nhật tài liệu
 
 **31/10/2026:** Đồng bộ `PROJECT.md`, `LOGIC.md`, `ROADMAP.md` theo phương án giảm tải đã được người dùng đồng ý. Giữ lõi RAG, thu gọn quản trị/tài khoản, thay code mẫu cũ bằng đặc tả và tiêu chí nghiệm thu; bổ sung kế hoạch 75 ca A/B/C. Giữ bản gốc trong ZIP, không sửa các Markdown quy chế và chưa thay đổi báo cáo Word hay tạo mã nguồn ứng dụng.
+
+**02/11/2026 — Codex:** Rà soát Task05-R02 tại HEAD `9b008ec`. Xác minh focused unit tests/probes và metrics từ artifacts, phát hiện readiness chưa đối soát ID Chroma và rubric/provenance còn sai; cập nhật bàn giao CẦN SỬA và tạo nhiệm vụ R03. Chưa triển khai tính năng mới, chưa nghiệm thu Task05; không sửa corpus/raw/gold hay production code.

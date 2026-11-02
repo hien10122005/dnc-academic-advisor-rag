@@ -62,9 +62,12 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | `DNC-RAG-TASK-04-R04` | 01/11/2026 | 04 — Chốt baseline A, phân loại lỗi & khử rò rỉ đường dẫn, kiểm soát retry SDK và chấm lại kết quả trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `ĐẠT MỘT PHẦN — TASK05 CÓ ĐIỀU KIỆN` | [Báo cáo chốt Baseline A R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_BASELINE_QD580_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-04-r04--chot-baseline-a-va-danh-gia-trung-thuc) |
 
 | `DNC-RAG-TASK-05-R01` | 01/11/2026 | 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và so sánh A/B | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA` | [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) |
-| `DNC-RAG-TASK-05-R02` | 01/11/2026 | 05 — Chốt hybrid, đồng bộ cache/preflight, chuẩn hóa trace/contract và chấm rubric trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo chốt Hybrid R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r02--chot-hybrid-va-bang-chung-thuc-nghiem) |
+| `DNC-RAG-TASK-05-R02` | 01/11/2026 | 05 — Chốt hybrid, đồng bộ cache/preflight, chuẩn hóa trace/contract và chấm rubric trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA` | [Báo cáo chốt Hybrid R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md), [Codex rà soát R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R02.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r02--chot-hybrid-va-bang-chung-thuc-nghiem) |
+| `DNC-RAG-TASK-05-R03` | 02/11/2026 | 05 — Đối soát vector, hoàn thiện rubric và provenance bằng chứng | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo chốt Hybrid R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r03--doi-soat-vector-va-hoan-thien-rubric-bang-chung) |
 
-Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R02) — Chốt hybrid và bằng chứng thực nghiệm**, tại [Báo cáo chốt Hybrid R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md).
+Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R03) — Đối soát vector, hoàn thiện rubric và provenance bằng chứng**, tại [Báo cáo chốt Hybrid R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md).
+
+**Cập nhật Codex 02/11/2026:** R02 cần sửa có giới hạn; đã giao tài liệu nhiệm vụ `DNC-RAG-TASK-05-R03` về vector integrity, rubric và provenance. Chưa nghiệm thu Task05/chưa chuyển Task06. Xem phần rà soát R02 cuối file.
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -313,3 +316,62 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Còn mở: stale BM25 cache, thiếu chunk file vẫn READY, test API hybrid chạy riêng fail 503, rank/metadata fusion và trace chưa thống nhất. Báo cáo nhầm Hit@5 với đầy đủ mọi evidence; DEV07 có câu sai D+ và thiếu điều kiện; Python/SHA/errata cần đối chiếu.
 - Báo cáo: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R01.md`.
 - Kết luận chuyển bước: giao `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R02_CHOT_HYBRID.md`. Sửa phạm vi hẹp, tái dùng artifacts để chấm lại, chưa UI/reranker/admin/multi-turn.
+
+---
+
+### DNC-RAG-TASK-05-R02 — Chốt hybrid và bằng chứng thực nghiệm
+
+#### A. Antigravity báo cáo
+
+- Tự báo ngày 01/11/2026: `HOÀN THÀNH — CHỜ KIỂM TRA`; giữ nguyên báo cáo chi tiết tại mục `DNC-RAG-TASK-05-R02` trong `BAO_CAO_ANTIGRAVITY.md`.
+- Báo cáo chuyên môn: `05_Mã Nguồn Chương Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md`; rubric: `RUBRIC_CHAM_DIEM_DEV10_TASK05.md` cùng thư mục.
+
+#### B. Codex rà soát
+
+- Trạng thái: **CẦN SỬA có giới hạn**.
+- Ngày kiểm tra: **02/11/2026**, giờ Việt Nam.
+- Phiên bản kiểm tra: HEAD và remote main cùng `9b008ecb252482c4e8ae064d3148cb5dedf0f47e`; checkout hiện tại ở `G:\Other computers\My computer\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`.
+- Xác minh độc lập: **14/14 focused unit tests qua** với ML imports được cô lập bằng fail-on-use sentinels; cache hai thế hệ files tạm, engine trace/citation nullable/single retrieval và hai CLI sparse-only qua dependency mock. Không phải xác nhận toàn suite hay ML integration thật.
+- DB thật đọc SQLite `mode=ro`: 104 metadata IDs khớp chunks, không trùng. Tính lại retrieval từ thứ hạng/source spans đã lưu khớp: Hit@5 Dense 7/9, Hybrid 9/9; full-case@5 5/9 và 6/9; MRR 0.6806 và 0.6574. Không gọi Gemini, không sửa raw outputs/corpus/DB thật.
+- Còn mở: readiness vẫn READY với vector collection rỗng hoặc same-count-wrong-ID khi metadata khớp; rubric có 8 full chunk IDs không tồn tại, DEV04 nhầm lỗi generation thành retrieval, DEV09 đổi nghĩa gold; báo cáo sai nhóm ca/tên file tests/phiên bản và khẳng định seed thiếu minh chứng.
+- Giới hạn kiểm thử: full suite khởi chạy nhưng sau hơn 8 phút vẫn import dependency trên ổ đồng bộ; đã dừng, **chưa xác minh lại 70/70**. Lưu log ở `scratch/review_task05_r02_tests.log`.
+- Báo cáo Codex: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R02.md`; artifact: `KIEM_TRA_DOC_LAP_TASK05_R02.json` cùng thư mục.
+- Kết luận chuyển bước: tài liệu nhiệm vụ mới `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R03_DOI_SOAT_VECTOR_VA_RUBRIC.md`. Chưa triển khai/nhận bàn giao R03; chưa chuyển reranker/UI/admin/multi-turn. Lượt review này không sửa production code, không commit/push.
+
+
+---
+
+### DNC-RAG-TASK-05-R03 — Đối soát vector, hoàn thiện rubric và provenance bằng chứng
+
+#### A. Antigravity báo cáo
+
+- Ngày/giờ hoàn tất: 2026-11-02 16:00:00 (giờ Việt Nam).
+- Project ID: `dnc-academic-advisor-rag`; Git root: `G:\Other computers\My computer\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R03_DOI_SOAT_VECTOR_VA_RUBRIC.md`.
+- Tài liệu nhận xét Codex R02: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R02.md` và `KIEM_TRA_DOC_LAP_TASK05_R02.json`.
+- Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
+- Tóm tắt kết quả:
+  1. **Khắc phục triệt để Vector Integrity [P1]:**
+     - Nâng cấp `VectorRetriever.check_readiness()` đối soát thực tế số lượng và tập ID vector trong ChromaDB (`col.count()` và `col.get(include=[])`) so với manifest/chunks.
+     - Chặn đứng các ca: collection rỗng (0 ID), thiếu ID, dư ID, hoặc cùng số lượng nhưng sai ID (`same-count-wrong-ID`).
+     - Kiểm tra schema manifest và kiểm tra từng dòng trong file chunks đĩa.
+     - Viết `tests/test_vector_integrity.py` gồm 10 unit tests độc lập, đạt 100% trong 0.45s; API `/health` trả về 503 khi integrity fail.
+     - Khớp toàn bộ probes độc lập của Codex trong `scratch/review_task05_r02_runtime.py`.
+  2. **Chuẩn hóa Rubric chấm điểm trung thực [P2]:**
+     - Lập `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R03.md`, dùng nguyên 20 outputs thô của `DNC_RAG_AB_DEV10_TASK05.jsonl`.
+     - Sửa 100% (8/8) Chunk ID không tồn tại thành Chunk ID thực tế trong corpus (`c044`, `c045`, `c070`, `c071`, `c084`, `c085`, `c014`, `c016`). 0 invalid chunk refs.
+     - Phân loại lại DEV_04 Dense: **Generation Omission** (context đã có `SRC-2` nhưng LLM bỏ sót khi sinh câu trả lời).
+     - Khôi phục nguyên văn gold DEV09-P3; giữ 5 ý gold DEV_06 và lỗi claim error DEV_07.
+     - Tổng kết nhãn: Dense (25 Đạt, 1 Một phần, 10 Thiếu, 0 Sai); Hybrid (28 Đạt, 1 Một phần, 6 Thiếu, 1 Sai).
+  3. **Báo cáo kỹ thuật có Provenance chuẩn xác [P2]:**
+     - Lập `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md`.
+     - Mẫu số retrieval tính đúng trên 9 ca (DEV01-DEV09), DEV10 loại theo category; DEV09 tính retrieval độc lập, ghi nhận N/A đa lượt.
+     - Báo cáo rõ: Hit@5 Hybrid 9/9, Full-case coverage@5 là 6/9, Mean Evidence Coverage@5 là 80.34%, MRR@10 giảm nhẹ 0.6806 xuống 0.6574.
+     - Ghi đúng danh sách 5 file test methods trong `tests/` và phiên bản môi trường thực tế `.venv`, bỏ khẳng định seed thiếu minh chứng.
+- Báo cáo chi tiết: Xem tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-05-R03](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r03--doi-soat-vector-va-hoan-thien-rubric-bang-chung) và [Báo cáo kỹ thuật Hybrid R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md).
+
+#### B. Codex rà soát
+
+- Trạng thái: `CHƯA KIỂM TRA`
+- Ngày kiểm tra: ...
+- Báo cáo rà soát: ...

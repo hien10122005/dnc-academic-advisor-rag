@@ -68,7 +68,7 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 
 Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R05) — Chốt evidence trực tiếp từ trace**, tại [Báo cáo chốt Evidence R05](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_EVIDENCE_TASK05_R05.md).
 
-**Cập nhật Codex 02/11/2026, sau R04:** Tests đã sửa và 12 readiness +10 integrity +14 focused unit tests qua trong phạm vi cô lập. Còn CẦN SỬA evidence rubric: 14 source mappings và24 ranges sai; đã tạo bảng đối soát từ trace và nhiệm vụ R05 chỉ chốt evidence/provenance. Chưa nghiệm thu Task05/chưa chuyển Task06.
+**Cập nhật Codex 02/11/2026, sau R05:** Task05 ĐẠT CÓ ĐIỀU KIỆN trong phạm vi baseline QĐ580. Codex xác minh72 hàng R05 khớp cấu trúc và đã bổ sung bản evidence đã đọc theo nội dung: EVIDENCE_DEV10_TASK05_CODEX_VERIFIED.jsonl là bản tham chiếu hiện hành. Giữ labels/outputs gốc và các giới hạn faithfulness/full-suite thật. Không giao thêm vòng sửa R05; có thể chuyển Task06 reranker nhẹ.
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -441,8 +441,14 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 
 #### B. Codex rà soát
 
-- Trạng thái: `CHƯA KIỂM TRA`
-- Ngày kiểm tra: ...
-- Báo cáo rà soát: ...
+- Trạng thái: **ĐẠT CÓ ĐIỀU KIỆN — chốt Task05 bằng bản evidence đã hiệu chỉnh của Codex**.
+- Ngày kiểm tra: **02/11/2026**, giờ Việt Nam.
+- HEAD/remote main `23f240f6a5d5d52ab8b67fa82e741d626f6b0bd9`; triển khai R05 `c90a5ce2fc22fac0f4cd51ed6641cc3355466c19`. Working tree sạch khi bắt đầu.
+- Xác minh độc lập: sidecar R05 đủ72 keys duy nhất/58 source spans; không có lỗi gold, source-ID mapping, page/context quotes hoặc bounds. SHA R02 đã sửa đúng. Production/tests/corpus/gold/raw outputs giữ nguyên.
+- Hiệu chỉnh trong lượt review: một số spans R05 chỉ lấy tiêu đề hoặc thiếu nhánh/tiếp trang. Codex đã sửa cách chọn/ghép nguồn hoặc bỏ nguồn trùng/không phù hợp trên21 hàng, sinh **EVIDENCE_DEV10_TASK05_CODEX_VERIFIED.jsonl** (72 hàng/62 source spans, audit0 lỗi). Không sửa lời tự báo/rubric/sidecar R05 gốc.
+- Bản evidence tham chiếu hiện hành: `05_Mã Nguồn Chương Trình/evaluation/results/EVIDENCE_DEV10_TASK05_CODEX_VERIFIED.jsonl`. Nhãn đủ ý gốc giữ nguyên; `claim_support` tách riêng hai claim học lại vô điều kiện chưa được context hỗ trợ và một claim D+ sai. Không xem số25/36 và28/36 là accuracy/faithfulness tuyệt đối.
+- Báo cáo: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R05.md`; audit/hashes `KIEM_TRA_DOC_LAP_TASK05_R05.json`; script chạy lại `evaluation/review_task05_r05.py` trong thư mục mã nguồn.
+- Giới hạn: kế thừa36 unit tests cô lập qua ở R04; không chạy lại ML cho thay đổi tài liệu. Chưa có full-suite80/ML integration thật. Nghiệm thu giới hạn QĐ580/104 chunks/10 dev cases, không phải toàn bộ sản phẩm cuối.
+- Chuyển bước: có thể xét Task06 reranker nhẹ trên cùng corpus với phép đo/provenance đúng; chưa triển khai reranker/UI/admin trong lượt review. Không giao thêm nhiệm vụ sửa R05. Reviewer artifacts chưa commit/push.
 
 ---

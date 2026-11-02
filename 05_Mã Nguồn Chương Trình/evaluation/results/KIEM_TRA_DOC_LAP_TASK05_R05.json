@@ -1,0 +1,663 @@
+{
+  "review_date_vietnam": "2026-11-02",
+  "reviewed_commit": "23f240f6a5d5d52ab8b67fa82e741d626f6b0bd9",
+  "original_sidecar_structural_audit": {
+    "rows": 72,
+    "unique_keys": 72,
+    "source_spans": 58,
+    "errors": []
+  },
+  "codex_sidecar_structural_audit": {
+    "rows": 72,
+    "unique_keys": 72,
+    "source_spans": 62,
+    "errors": []
+  },
+  "amended_source_rows": 21,
+  "changes": [
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P1",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          8,
+          2274,
+          2309
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          9,
+          0,
+          90
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P2",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          9,
+          91,
+          181
+        ],
+        [
+          "SRC-3",
+          "qd580_v2_c036_reg_d07_p09_9bac302f",
+          9,
+          91,
+          181
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-3",
+          "qd580_v2_c036_reg_d07_p09_9bac302f",
+          9,
+          91,
+          181
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P1",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          8,
+          2274,
+          2309
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          9,
+          0,
+          90
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P2",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          9,
+          91,
+          181
+        ],
+        [
+          "SRC-2",
+          "qd580_v2_c036_reg_d07_p09_9bac302f",
+          9,
+          91,
+          181
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c036_reg_d07_p09_9bac302f",
+          9,
+          91,
+          181
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P2",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          465,
+          618
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          465,
+          618
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          619,
+          753
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          754,
+          884
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P4",
+      "old_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c045_reg_d11_p11_546fe1b1",
+          11,
+          885,
+          960
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c045_reg_d11_p11_546fe1b1",
+          11,
+          961,
+          1192
+        ]
+      ],
+      "claim_support": "generation_omission_with_retrieved_evidence"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P2",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          465,
+          618
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          465,
+          618
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          619,
+          753
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          11,
+          754,
+          884
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P4",
+      "old_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c045_reg_d11_p11_546fe1b1",
+          11,
+          885,
+          960
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c045_reg_d11_p11_546fe1b1",
+          11,
+          961,
+          1192
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P2",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          16,
+          2248,
+          2483
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          16,
+          2248,
+          2483
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          17,
+          0,
+          282
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P2",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          16,
+          2248,
+          2483
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          16,
+          2248,
+          2483
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          17,
+          0,
+          282
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P4",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          0,
+          89
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          20,
+          1901,
+          2061
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          0,
+          89
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P5",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          90,
+          160
+        ],
+        [
+          "SRC-2",
+          "qd580_v2_c085_reg_d25_p21_3fc22772",
+          21,
+          90,
+          160
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          90,
+          160
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P4",
+      "old_spans": [
+        [
+          "SRC-3",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          0,
+          89
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-3",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          20,
+          1901,
+          2061
+        ],
+        [
+          "SRC-3",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          0,
+          89
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P5",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c085_reg_d25_p21_3fc22772",
+          21,
+          90,
+          160
+        ],
+        [
+          "SRC-3",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          90,
+          160
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-3",
+          "qd580_v2_c084_reg_d25_p20_0463c76d",
+          21,
+          90,
+          160
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "old_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          15,
+          436,
+          858
+        ],
+        [
+          "SRC-3",
+          "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          15,
+          37,
+          76
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          15,
+          436,
+          858
+        ],
+        [
+          "SRC-3",
+          "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          15,
+          77,
+          434
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P4",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c038_reg_d08_p09_a244c1fd",
+          9,
+          1307,
+          1682
+        ]
+      ],
+      "reviewed_spans": [],
+      "claim_support": "unsupported_unconditional_retake_claim"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "old_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          15,
+          436,
+          858
+        ],
+        [
+          "SRC-5",
+          "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          15,
+          37,
+          76
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          15,
+          436,
+          858
+        ],
+        [
+          "SRC-5",
+          "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          15,
+          77,
+          434
+        ]
+      ],
+      "claim_support": "contradicted_by_context"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P4",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c038_reg_d08_p09_a244c1fd",
+          9,
+          1307,
+          1682
+        ]
+      ],
+      "reviewed_spans": [],
+      "claim_support": "unsupported_unconditional_retake_claim"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P1",
+      "old_spans": [
+        [
+          "SRC-3",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          8,
+          2274,
+          2309
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-3",
+          "qd580_v2_c035_reg_d07_p08_811c2b53",
+          9,
+          0,
+          90
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P1",
+      "old_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c016_reg_d03_p04_5877e426",
+          4,
+          524,
+          809
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-1",
+          "qd580_v2_c016_reg_d03_p04_5877e426",
+          4,
+          376,
+          523
+        ],
+        [
+          "SRC-1",
+          "qd580_v2_c016_reg_d03_p04_5877e426",
+          4,
+          524,
+          809
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P1",
+      "old_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c016_reg_d03_p04_5877e426",
+          4,
+          524,
+          809
+        ]
+      ],
+      "reviewed_spans": [
+        [
+          "SRC-2",
+          "qd580_v2_c016_reg_d03_p04_5877e426",
+          4,
+          376,
+          523
+        ],
+        [
+          "SRC-2",
+          "qd580_v2_c016_reg_d03_p04_5877e426",
+          4,
+          524,
+          809
+        ]
+      ],
+      "claim_support": "supported_by_selected_context_spans"
+    }
+  ],
+  "claim_support_counts": {
+    "supported_by_selected_context_spans": 44,
+    "generation_omission_with_retrieved_evidence": 5,
+    "missing_retrieved_gold_evidence": 11,
+    "unsupported_unconditional_retake_claim": 2,
+    "contradicted_by_context": 1,
+    "safe_response_without_separate_positive_evidence": 9
+  },
+  "original_grades_preserved": true,
+  "label_counts": {
+    "('dense', '**ĐẠT**')": 25,
+    "('hybrid', '**ĐẠT**')": 28,
+    "('hybrid', '**THIẾU**')": 6,
+    "('dense', '**THIẾU**')": 10,
+    "('dense', '**MỘT PHẦN**')": 1,
+    "('hybrid', '**SAI (Claim Error)**')": 1,
+    "('hybrid', '**MỘT PHẦN**')": 1
+  },
+  "validation_scope": "Exact rows, gold, source mappings, page/context quotes and spans. Semantic anchors read by Codex; not a claim of perfect LLM output.",
+  "hashes": {
+    "05_Mã Nguồn Chương Trình\\data\\QD580_CHUNKS.jsonl": "5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398",
+    "05_Mã Nguồn Chương Trình\\data\\QD580_MANIFEST.json": "c0ceea3306e71506ceaeae17e8328423993e80967e855c6605d775a64b9c2e9b",
+    "02_Dữ Liệu Quy Chế\\04_Dữ Liệu Đã Kiểm Chứng\\QD580\\QD580_PAGES.jsonl": "8b92aae0ae1f9a2ba2c8267b3b40fa380cee7155c4e99502ea589b3b34125c14",
+    "05_Mã Nguồn Chương Trình\\evaluation\\DEV_10_CAU_QD580.jsonl": "b18c27a6f1b436ebff2cbae14f7c7fa25c143f951e80d83cbff186f5b09b3cc4",
+    "05_Mã Nguồn Chương Trình\\evaluation\\results\\DNC_RAG_AB_DEV10_TASK05.jsonl": "c86b2310e989d3579925bda700dd26f5eadd45571f130493e25f8213d608077f",
+    "05_Mã Nguồn Chương Trình\\evaluation\\results\\DNC_RAG_AB_DEV10_TASK05.csv": "1b9733fdd681261335918aa705186fdaaed8ffd8d4f217a4a9c814b08bbf6be6",
+    "05_Mã Nguồn Chương Trình\\evaluation\\results\\EVIDENCE_DEV10_TASK05_R05.jsonl": "9b2f137db870e4d96a6b48bb1fe31c792f4396985a30333a53d648c12b28e541"
+  },
+  "script_sha256": "c579a51c614bc769437653a03d7af459c69840bcd89a77082fc680cc41686f96",
+  "review_artifacts_uncommitted": true
+}

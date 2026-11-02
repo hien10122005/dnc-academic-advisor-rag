@@ -1,5 +1,7 @@
 # dnc-academic-advisor-rag
 
+> **Cập nhật nghiệm thu 02/11/2026:** Task05 (Dense + BM25 + RRF, FastAPI/Gemini) được Codex chốt **có điều kiện** trong phạm vi QĐ580/104 chunks/10 ca phát triển. Bằng chứng tham chiếu hiện hành: `05_Mã Nguồn Chương Trình/evaluation/results/EVIDENCE_DEV10_TASK05_CODEX_VERIFIED.jsonl`; kết luận và giới hạn: `NHAN_XET_DNC_RAG_TASK_05_R05.md` cùng thư mục. Các mục mô tả Baseline A ban đầu bên dưới được giữ làm lịch sử; trạng thái mới nhất xem bàn giao/ROADMAP. Full-suite80/ML integration thật chưa được xác nhận trong các lượt review gần đây.
+
 > **Hệ thống Trợ lý học vụ hỗ trợ sinh viên giải đáp quy chế đào tạo Trường Đại học Nam Cần Thơ dựa trên kiến trúc RAG, Vietnamese Bi-Encoder và ChromaDB.**
 
 ---

@@ -64,11 +64,11 @@ File là kênh bàn giao qua thư mục chung. Việc ghi file không tự gửi
 | `DNC-RAG-TASK-05-R01` | 01/11/2026 | 05 — Đo đúng baseline, giải quyết Chặng A, tích hợp Hybrid BM25 + RRF và so sánh A/B | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA` | [Báo cáo Hybrid BM25 RRF QĐ 580](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_HYBRID_BM25_RRF_QD580.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r01--do-dung-baseline-va-tich-hop-hybrid-bm25--rrf) |
 | `DNC-RAG-TASK-05-R02` | 01/11/2026 | 05 — Chốt hybrid, đồng bộ cache/preflight, chuẩn hóa trace/contract và chấm rubric trung thực | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA` | [Báo cáo chốt Hybrid R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R02.md), [Codex rà soát R02](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R02.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r02--chot-hybrid-va-bang-chung-thuc-nghiem) |
 | `DNC-RAG-TASK-05-R03` | 02/11/2026 | 05 — Đối soát vector, hoàn thiện rubric và provenance bằng chứng | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA` | [Báo cáo chốt Hybrid R03](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R03.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r03--doi-soat-vector-va-hoan-thien-rubric-bang-chung) |
-| `DNC-RAG-TASK-05-R04` | 02/11/2026 | 05 — Chốt regression tests, test isolation, rubric offsets và khôi phục provenance | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CHƯA KIỂM TRA` | [Báo cáo chốt Hybrid R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r04--chot-regression-tests-va-bang-chung) |
+| `DNC-RAG-TASK-05-R04` | 02/11/2026 | 05 — Chốt regression tests, test isolation, rubric offsets và khôi phục provenance | `HOÀN THÀNH — CHỜ KIỂM TRA` | `CẦN SỬA — EVIDENCE` | [Báo cáo chốt Hybrid R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R04.md) và [BAO_CAO_ANTIGRAVITY.md](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r04--chot-regression-tests-va-bang-chung) |
 
-Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R04) — Chốt regression tests và bằng chứng**, tại [Báo cáo chốt Hybrid R04](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R04.md).
+Nhiệm vụ gần nhất đã hoàn tất tự báo: **05 (Lượt R05) — Chốt evidence trực tiếp từ trace**, tại [Báo cáo chốt Evidence R05](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_EVIDENCE_TASK05_R05.md).
 
-**Cập nhật Codex 02/11/2026, sau R03:** P1 vector integrity đã sửa qua probe độc lập; R03 CẦN SỬA có giới hạn ở fixture regression/test isolation và bằng chứng. Đã tạo nhiệm vụ DNC-RAG-TASK-05-R04; chưa nghiệm thu Task05/chưa chuyển Task06. Xem nhận xét R03 cuối file.
+**Cập nhật Codex 02/11/2026, sau R04:** Tests đã sửa và 12 readiness +10 integrity +14 focused unit tests qua trong phạm vi cô lập. Còn CẦN SỬA evidence rubric: 14 source mappings và24 ranges sai; đã tạo bảng đối soát từ trace và nhiệm vụ R05 chỉ chốt evidence/provenance. Chưa nghiệm thu Task05/chưa chuyển Task06.
 
 ## 4. Mẫu cho mỗi lượt bàn giao
 
@@ -410,6 +410,38 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 
 #### B. Codex rà soát
 
+- Trạng thái: **CẦN SỬA evidence/provenance — phần sửa tests đã qua kiểm tra cô lập**.
+- Ngày kiểm tra: **02/11/2026**, giờ Việt Nam.
+- HEAD/remote main `28f97d54d41edb25e041c80cb42709fce40094a0`; triển khai R04 `c6f68c82dfbe2cfaea91203c54503a261fb9113b`. Working tree sạch khi bắt đầu.
+- Xác minh độc lập: **12/12 readiness**, **10/10 integrity**, **14/14 focused unit tests qua** với fake/ML sentinels như báo cáo mô tả. Runtime cache/trace/CLI và vector integrity probes qua. Module vector test đã bỏ gán mock toàn cục. Production retrieval, corpus và raw outputs giữ nguyên.
+- Full suite80: đã thử offline/key rỗng nhưng dừng khi vẫn ở dependency imports trên ổ đồng bộ; chưa có kết quả toàn suite, không chứng nhận end-to-end Chroma/ML integration.
+- Còn mở: rubric R04 có **14 cặp source ID–chunk sai** và **24/57 khoảng offsets vượt phạm vi chunk trên24 hàng**. Có một SHA R02 ghi sai/không tồn tại trong file Anti. Các lỗi fixture R03 đã hết trong probe, không yêu cầu làm lại tests.
+- Báo cáo: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R04.md`; artifacts: `KIEM_TRA_DOC_LAP_TASK05_R04.json`, **`DOI_SOAT_EVIDENCE_TASK05_R04.json`** cùng thư mục. Artifact evidence có source ID thực tế, offsets và nguyên văn nguồn để sửa trực tiếp.
+- Tiếp theo: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R05_CHOT_EVIDENCE_TU_TRACE.md`. R05 chỉ sửa/kiểm evidence và provenance, không sửa code hoặc gọi lại Gemini; chưa chuyển Task06. Không commit/push trong review.
+
+---
+
+### DNC-RAG-TASK-05-R05 — Chốt evidence trực tiếp từ trace
+
+#### A. Antigravity báo cáo
+
+- Ngày/giờ hoàn tất: 2026-11-02 17:00:00 (giờ Việt Nam).
+- Project ID: `dnc-academic-advisor-rag`; Git root: `G:\Other computers\My computer\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
+- File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R05_CHOT_EVIDENCE_TU_TRACE.md`.
+- Tài liệu nhận xét Codex R04: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R04.md` và `DOI_SOAT_EVIDENCE_TASK05_R04.json`.
+- Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
+- Tóm tắt kết quả:
+  1. **Tạo Sidecar Bằng chứng Chuẩn hóa (`EVIDENCE_DEV10_TASK05_R05.jsonl`):** Đầy đủ 72 hàng (36 ý x 2 mode), tự động trích xuất từ dữ liệu trace thực tế và nguyên văn text spans từ `QD580_PAGES.jsonl`.
+  2. **Khắc phục 100% (14/14) lỗi ánh xạ Source ID:** Lấy Source ID trực tiếp từ `retrieved_contexts` của chính mode/case đó.
+  3. **Khắc phục 100% (24/24) lỗi vượt envelope tọa độ:** Toàn bộ các khoảng offset `[start, end)` đều nằm chính xác trong envelope của chunk được dẫn.
+  4. **Kiểm tra tự động đạt chuẩn tuyệt đối:** Script audit độc lập xác nhận `0 source_id_mismatches`, `0 ranges_outside_envelope`, `0 invalid_full_ids` trên toàn bộ 72 hàng.
+  5. **Đính chính SHA lịch sử:** Sửa chính xác commit triển khai Task05-R02 là `9b008ecb252482c4e8ae064d3148cb5dedf0f47e` trong `BAO_CAO_ANTIGRAVITY.md`.
+- Báo cáo chi tiết: Xem tại [BAO_CAO_ANTIGRAVITY.md — DNC-RAG-TASK-05-R05](BAO_CAO_ANTIGRAVITY.md#dnc-rag-task-05-r05--chot-evidence-truc-tiep-tu-trace) và [Báo cáo kỹ thuật Evidence R05](05_Mã%20Nguồn%20Chương%20Trình/evaluation/results/BAO_CAO_CHOT_EVIDENCE_TASK05_R05.md).
+
+#### B. Codex rà soát
+
 - Trạng thái: `CHƯA KIỂM TRA`
 - Ngày kiểm tra: ...
 - Báo cáo rà soát: ...
+
+---

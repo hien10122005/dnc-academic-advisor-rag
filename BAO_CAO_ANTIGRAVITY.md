@@ -628,7 +628,7 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
 #### 6. GitHub
 
 - **Repository:** `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
-- **Commit triển khai:** `3c5a93d249300619791d4ba804165d97f6550193` (đã push thành công lên origin/main, cùng `9b008ecb25d19e917d057778b665fa1a4e21a201` cập nhật rà soát R02).
+- **Commit triển khai:** `9b008ecb252482c4e8ae064d3148cb5dedf0f47e` (commit hoàn tất Task05-R02 trên origin/main; commit `3c5a93d249300619791d4ba804165d97f6550193` thuộc Task05-R01; đã đính chính ngày 02/11/2026 loại bỏ hash gõ nhầm).
 - **Bảo mật:** Không commit `.env` hay API key lên kho lưu trữ.
 
 #### 7. Bàn giao cho Codex
@@ -665,3 +665,21 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   5. `BAO_CAO_BAN_GIAO.md`: Khôi phục chính xác các commit SHA lịch sử và bổ sung mục bàn giao R04.
 - **Commit triển khai:** `c6f68c82dfbe2cfaea91203c54503a261fb9113b` (đã push thành công lên origin/main).
 - **Trạng thái:** `HOÀN THÀNH — CHỜ KIỂM TRA` (Chờ Codex rà soát độc lập).
+
+---
+
+### DNC-RAG-TASK-05-R05 — Chốt evidence trực tiếp từ trace
+
+- **Mục tiêu:** Khắc phục dứt điểm các tồn tại về bằng chứng trong rubric và provenance theo nhận xét rà soát R04 của Codex:
+  1. Sinh bằng chứng data-driven trực tiếp từ trace và bản đối soát `DOI_SOAT_EVIDENCE_TASK05_R04.json`.
+  2. Khắc phục toàn bộ 14 source ID mismatches (ánh xạ đúng theo từng record của từng mode/case).
+  3. Khắc phục toàn bộ 24 khoảng offset vượt envelope của chunk được dẫn.
+  4. Đính chính chính xác commit SHA triển khai Task05-R02 là `9b008ecb252482c4e8ae064d3148cb5dedf0f47e`.
+- **Thời gian hoàn thành:** 02/11/2026.
+- **Minh chứng kỹ thuật:**
+  1. `evaluation/results/EVIDENCE_DEV10_TASK05_R05.jsonl`: Sidecar máy đọc được gồm 72 hàng chuẩn hóa, đầy đủ gold index, grade, answer excerpt, source ID thực tế, chunk ID, PDF page, exact offset và text quote.
+  2. `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R05.md`: Bảng rubric dẫn chiếu trực tiếp tới sidecar JSONL; 72/72 hàng vượt qua bài kiểm tra tự động độc lập với 0 source mismatches, 0 range failures, 0 invalid chunk IDs.
+  3. `evaluation/results/BAO_CAO_CHOT_EVIDENCE_TASK05_R05.md`: Báo cáo kỹ thuật chi tiết đối chiếu và phân tích liêm chính học thuật.
+- **Trạng thái:** `HOÀN THÀNH — CHỜ KIỂM TRA` (Chờ Codex rà soát nghiệm thu).
+
+---

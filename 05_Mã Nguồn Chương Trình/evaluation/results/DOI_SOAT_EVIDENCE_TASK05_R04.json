@@ -1,0 +1,4562 @@
+{
+  "method": "Exact immutable context/page spans. Envelope check is a structural check, not semantic evidence grading.",
+  "reviewed_commit": "28f97d54d41edb25e041c80cb42709fce40094a0",
+  "rubric_sha256": "d36a625fff4dd93c895a736162496455411b8c0732f602023f6074320847584c",
+  "summary": {
+    "rows": 72,
+    "claimed_ranges": 57,
+    "ranges_outside_cited_chunk_envelope": 24,
+    "rows_with_range_failures": 24,
+    "source_id_mismatches": 14,
+    "invalid_full_ids": 0
+  },
+  "source_id_mismatches": [
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P2",
+      "line": 57,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+        "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P3",
+      "line": 58,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+        "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P2",
+      "line": 61,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+        "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P3",
+      "line": 62,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+        "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P2",
+      "line": 91,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c036_reg_d07_p09_9bac302f",
+        "actual_chunk": "qd580_v2_c052_reg_d14_p13_e328cfb5"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P3",
+      "line": 92,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c036_reg_d07_p09_9bac302f",
+        "actual_chunk": "qd580_v2_c052_reg_d14_p13_e328cfb5"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P1",
+      "line": 142,
+      "mismatch": {
+        "source_id_written": "SRC-1",
+        "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+        "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P2",
+      "line": 143,
+      "mismatch": {
+        "source_id_written": "SRC-1",
+        "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+        "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P3",
+      "line": 144,
+      "mismatch": {
+        "source_id_written": "SRC-1",
+        "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+        "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P4",
+      "line": 145,
+      "mismatch": {
+        "source_id_written": "SRC-1",
+        "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+        "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P5",
+      "line": 146,
+      "mismatch": {
+        "source_id_written": "SRC-1",
+        "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+        "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P5",
+      "line": 146,
+      "mismatch": {
+        "source_id_written": "SRC-2",
+        "chunk_written": "qd580_v2_c085_reg_d25_p21_3fc22772",
+        "actual_chunk": "qd580_v2_c003_dec_d00_p01_67a9b94d"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "line": 156,
+      "mismatch": {
+        "source_id_written": "SRC-1",
+        "chunk_written": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+        "actual_chunk": "qd580_v2_c038_reg_d08_p09_a244c1fd"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P4",
+      "line": 159,
+      "mismatch": {
+        "source_id_written": "SRC-4",
+        "chunk_written": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+        "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+      }
+    }
+  ],
+  "offset_failures": [
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P1",
+      "line": 56,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 244,
+        "end": 461,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          37,
+          434
+        ],
+        "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Th"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P2",
+      "line": 57,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P3",
+      "line": 58,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P4",
+      "line": 59,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 244,
+        "end": 461,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          37,
+          434
+        ],
+        "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Th"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P1",
+      "line": 60,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 244,
+        "end": 461,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          37,
+          434
+        ],
+        "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Th"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P2",
+      "line": 61,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P3",
+      "line": 62,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P1",
+      "line": 77,
+      "claimed_range": {
+        "pdf_page": 3,
+        "start": 1143,
+        "end": 1421,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          1350,
+          1927
+        ],
+        "quote": " trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.\nb. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P2",
+      "line": 78,
+      "claimed_range": {
+        "pdf_page": 3,
+        "start": 1143,
+        "end": 1421,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          1350,
+          1927
+        ],
+        "quote": " trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.\nb. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P3",
+      "line": 79,
+      "claimed_range": {
+        "pdf_page": 3,
+        "start": 1143,
+        "end": 1421,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          1350,
+          1927
+        ],
+        "quote": " trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.\nb. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P3",
+      "line": 92,
+      "claimed_range": {
+        "pdf_page": 9,
+        "start": 0,
+        "end": 608,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          91,
+          685
+        ],
+        "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;\n- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm.\n3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn.\na. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần.\nb. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viê"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P3",
+      "line": 95,
+      "claimed_range": {
+        "pdf_page": 9,
+        "start": 0,
+        "end": 608,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          91,
+          685
+        ],
+        "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;\n- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm.\n3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn.\na. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần.\nb. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viê"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P2",
+      "line": 106,
+      "claimed_range": {
+        "pdf_page": 11,
+        "start": 726,
+        "end": 1260,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          276,
+          960
+        ],
+        "quote": "ứ hai trong năm tuyển sinh;\n- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh.\nb. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên.\n3. Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ. Phòng Quản lý Đào tạo tập hợp và lập danh sách trình Ban Giám hiệu xét duyệt danh sách sinh viên đủ điều kiện học song song hai bằng, thông báo đến các Khoa, Bộ môn.\n4. Sinh viên theo học chương trình thứ hai thực hiện đầy đủ các quy"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P3",
+      "line": 107,
+      "claimed_range": {
+        "pdf_page": 11,
+        "start": 1261,
+        "end": 1344,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          276,
+          960
+        ],
+        "quote": "định trong quy chế đào tạo theo học chế tín chỉ.\n5. Sinh viên đủ điều kiện học chươ"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P4",
+      "line": 108,
+      "claimed_range": {
+        "pdf_page": 11,
+        "start": 1345,
+        "end": 1686,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          885,
+          1605
+        ],
+        "quote": "g trình thứ hai sẽ được tham gia đăng ký các môn học trong chương trình đào tạo ngành thứ 2 theo kế hoạch mở lớp môn học của Nhà trường. Sinh viên chỉ được đăng ký các môn học ở ngành thứ 2 không trùng với thời khóa biểu đăng ký các môn học của ngành thứ nhất.\n6. Trong quá trình học cùng lúc hai chương trình, nếu điểm trung bình chung tích"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P2",
+      "line": 110,
+      "claimed_range": {
+        "pdf_page": 11,
+        "start": 726,
+        "end": 1260,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          276,
+          960
+        ],
+        "quote": "ứ hai trong năm tuyển sinh;\n- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh.\nb. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên.\n3. Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ. Phòng Quản lý Đào tạo tập hợp và lập danh sách trình Ban Giám hiệu xét duyệt danh sách sinh viên đủ điều kiện học song song hai bằng, thông báo đến các Khoa, Bộ môn.\n4. Sinh viên theo học chương trình thứ hai thực hiện đầy đủ các quy"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P3",
+      "line": 111,
+      "claimed_range": {
+        "pdf_page": 11,
+        "start": 1261,
+        "end": 1344,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          276,
+          960
+        ],
+        "quote": "định trong quy chế đào tạo theo học chế tín chỉ.\n5. Sinh viên đủ điều kiện học chươ"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P4",
+      "line": 112,
+      "claimed_range": {
+        "pdf_page": 11,
+        "start": 1345,
+        "end": 1686,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          885,
+          1605
+        ],
+        "quote": "g trình thứ hai sẽ được tham gia đăng ký các môn học trong chương trình đào tạo ngành thứ 2 theo kế hoạch mở lớp môn học của Nhà trường. Sinh viên chỉ được đăng ký các môn học ở ngành thứ 2 không trùng với thời khóa biểu đăng ký các môn học của ngành thứ nhất.\n6. Trong quá trình học cùng lúc hai chương trình, nếu điểm trung bình chung tích"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "line": 156,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 244,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          37,
+          858
+        ],
+        "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P2",
+      "line": 157,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P4",
+      "line": 159,
+      "claimed_range": {
+        "pdf_page": 9,
+        "start": 1148,
+        "end": 1485,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          1307,
+          1682
+        ],
+        "quote": "ng nhóm để đảm bảo tích lũy đủ số tín chỉ. Sinh viên không nhất thiết phải học lại học phần tự chọn chưa đạt nếu đã tích lũy đủ số tín chỉ của nhóm tương ứng.\n3. Đối với một học phần bất kỳ được đánh giá đạt và có điểm tổng kết học phần từ 5.0 đến dưới 6.5 (theo thang điểm 10), sinh viên được phép đăng ký học lại để cải thiện điểm. Kết"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "line": 160,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P2",
+      "line": 161,
+      "claimed_range": {
+        "pdf_page": 15,
+        "start": 462,
+        "end": 1149,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          436,
+          858
+        ],
+        "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+      }
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P1",
+      "line": 207,
+      "claimed_range": {
+        "pdf_page": 4,
+        "start": 0,
+        "end": 313,
+        "in_page_bounds": true,
+        "within_cited_chunk_envelope": false,
+        "cited_envelope": [
+          357,
+          821
+        ],
+        "quote": "b. Một tín chỉ được qui định bằng 15 tiết học lý thuyết; 30 - 45 tiết thực hành, thí nghiệm hoặc thảo luận; 45 - 90 giờ thực tập tại cơ sở; 45 - 60 giờ làm tiểu luận, bài tập lớn hoặc đồ án, khoá luận tốt nghiệp;\nc. Đối với những học phần lý thuyết hoặc thực hành, thí nghiệm, để tiếp thu được 1 tín chỉ sinh viên"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P1",
+      "rubric_line": 56,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Học phần có điểm đánh giá từ 5.0 trở lên (từ D+ trở lên) được tính là học phần tích lũy\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c061_reg_d17_p15_b88b92a3`<br>PDF p.15, Điều 17 Khoản 1<br>Offset: p.15 `[244, 461)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 37,
+              "end": 76,
+              "is_overlap": false,
+              "quote": "Điều 17. Đánh giá và tính điểm học phần"
+            },
+            {
+              "pdf_page": 15,
+              "start": 77,
+              "end": 434,
+              "is_overlap": false,
+              "quote": "1. Điểm đánh giá học phần là tổng của các điểm đánh giá thành phần nhân với trọng số tương ứng. Điểm đánh giá thành phần và điểm đánh giá học phần được chấm theo thang điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 244,
+          "end": 461,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            37,
+            434
+          ],
+          "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Th"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P2",
+      "rubric_line": 57,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Bảng quy đổi điểm chữ và điểm số thang điểm 4 tương ứng với thang điểm 10: Từ 9.0 – 10.0: Điểm số hệ số 4 là 4.0, Điểm chữ là A ... Dưới 4.0: 0.0, F\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c062_reg_d17_p15_b6de4df0`<br>PDF p.15, Điều 17 Bảng quy đổi<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-5",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P3",
+      "rubric_line": 58,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"... Điểm chữ là D (Không đạt) ... Điểm chữ là F (Không đạt)\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c062_reg_d17_p15_b6de4df0`<br>PDF p.15, Điều 17 Bảng quy đổi<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-5",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P4",
+      "rubric_line": 59,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Lưu ý: Điểm đánh giá học phần được chấm theo thang điểm 10 và làm tròn đến 1 chữ số thập phân\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c061_reg_d17_p15_b88b92a3`<br>PDF p.15, Điều 17 Khoản 1<br>Offset: p.15 `[244, 461)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 37,
+              "end": 76,
+              "is_overlap": false,
+              "quote": "Điều 17. Đánh giá và tính điểm học phần"
+            },
+            {
+              "pdf_page": 15,
+              "start": 77,
+              "end": 434,
+              "is_overlap": false,
+              "quote": "1. Điểm đánh giá học phần là tổng của các điểm đánh giá thành phần nhân với trọng số tương ứng. Điểm đánh giá thành phần và điểm đánh giá học phần được chấm theo thang điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 244,
+          "end": 461,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            37,
+            434
+          ],
+          "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Th"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P1",
+      "rubric_line": 60,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c061_reg_d17_p15_b88b92a3`<br>PDF p.15, Điều 17 Khoản 1<br>Offset: p.15 `[244, 461)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 37,
+              "end": 76,
+              "is_overlap": false,
+              "quote": "Điều 17. Đánh giá và tính điểm học phần"
+            },
+            {
+              "pdf_page": 15,
+              "start": 77,
+              "end": 434,
+              "is_overlap": false,
+              "quote": "1. Điểm đánh giá học phần là tổng của các điểm đánh giá thành phần nhân với trọng số tương ứng. Điểm đánh giá thành phần và điểm đánh giá học phần được chấm theo thang điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 244,
+          "end": 461,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            37,
+            434
+          ],
+          "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Th"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P2",
+      "rubric_line": 61,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Bảng quy đổi điểm chữ, điểm số thang 4 tương ứng với thang điểm hệ số 10 được quy định cụ thể như sau: - Từ 9.0 – 10.0: ... Dưới 4.0: 0.0, F\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c062_reg_d17_p15_b6de4df0`<br>PDF p.15, Điều 17 Bảng quy đổi<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P3",
+      "rubric_line": 62,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"... điểm chữ là D (Không đạt) ... điểm chữ là F (Không đạt)\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c062_reg_d17_p15_b6de4df0`<br>PDF p.15, Điều 17 Bảng quy đổi<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_01",
+      "point_id": "DEV01-P4",
+      "rubric_line": 63,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không đề cập đến quy tắc làm tròn số thập phân trong câu trả lời)*",
+      "rubric_evidence": "Không có trong câu trả lời Hybrid",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P1",
+      "rubric_line": 73,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*\"chưa có dữ liệu cụ thể về số lượng học kỳ trong một năm học\"*",
+      "rubric_evidence": "Retrieval dense miss Điều 3 (Top 5: `c001`, `c002`, `c003`, `c007`, `c056`)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c001_dec_d00_p01_667aec0f",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 1,
+              "start": 0,
+              "end": 49,
+              "is_overlap": false,
+              "quote": "BỘ GIÁO DỤC VÀ ĐÀO TẠO\nTRƯỜNG ĐẠI HỌC NAM CẦN THƠ"
+            },
+            {
+              "pdf_page": 1,
+              "start": 51,
+              "end": 113,
+              "is_overlap": false,
+              "quote": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc"
+            },
+            {
+              "pdf_page": 1,
+              "start": 115,
+              "end": 166,
+              "is_overlap": false,
+              "quote": "Số: 580 /QĐ-ĐHNCT\nCần Thơ, ngày 02 tháng 8 năm 2024"
+            },
+            {
+              "pdf_page": 1,
+              "start": 168,
+              "end": 232,
+              "is_overlap": false,
+              "quote": "QUYẾT ĐỊNH\nV/v ban hành quy chế tổ chức đào tạo trình độ đại học"
+            },
+            {
+              "pdf_page": 1,
+              "start": 234,
+              "end": 272,
+              "is_overlap": false,
+              "quote": "HIỆU TRƯỞNG TRƯỜNG ĐẠI HỌC NAM CẦN THƠ"
+            },
+            {
+              "pdf_page": 1,
+              "start": 274,
+              "end": 402,
+              "is_overlap": false,
+              "quote": "Căn cứ Quyết định số: 230/QĐ-TTg của Thủ tướng Chính phủ ngày 25 tháng 01 năm 2013 về việc thành lập Trường Đại học Nam Cần Thơ;"
+            },
+            {
+              "pdf_page": 1,
+              "start": 403,
+              "end": 602,
+              "is_overlap": false,
+              "quote": "Căn cứ Quyết định số: 1335/QĐ-BGDĐT của Bộ trưởng Bộ giáo dục và đào tạo ngày 12 tháng 04 năm 2013 về việc cho phép Trường Đại học Nam Cần Thơ tổ chức hoạt động đào tạo trình độ đại học hệ chính quy;"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c002_dec_d00_p01_82c0fc7d",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 1,
+              "start": 603,
+              "end": 748,
+              "is_overlap": false,
+              "quote": "Căn cứ Thông tư 08/2021/TT-BGDĐT của Bộ trưởng Bộ Giáo dục và Đào tạo ngày 18 tháng 3 năm 2021 về việc ban hành quy chế đào tạo trình độ đại học;"
+            },
+            {
+              "pdf_page": 1,
+              "start": 749,
+              "end": 974,
+              "is_overlap": false,
+              "quote": "Căn cứ Thông tư số 17/2021/TT-BGDĐT ngày 22 tháng 06 năm 2021 của Bộ Giáo dục và Đào tạo ban hành quy định về chuẩn chương trình đào tạo; xây dựng, thẩm định và ban hành chương trình đào tạo các trình độ của giáo dục đại học;"
+            },
+            {
+              "pdf_page": 1,
+              "start": 975,
+              "end": 1179,
+              "is_overlap": false,
+              "quote": "Căn cứ Quy chế Tổ chức và Hoạt động của Trường Đại học Nam Cần Thơ được ban hành kèm theo quyết định số 05/QĐ-CTHĐT-ĐHNCT ngày 09 tháng 03 năm 2020 của Chủ tịch Hội đồng trường Trường Đại học Nam Cần Thơ;"
+            },
+            {
+              "pdf_page": 1,
+              "start": 1180,
+              "end": 1355,
+              "is_overlap": false,
+              "quote": "Căn cứ Quyết định số 119/QĐ-CTHĐT-ĐHNCT ngày 01 tháng 12 năm 2020 của Hội đồng trường Trường Đại học Nam Cần Thơ về việc bổ nhiệm Quyền Hiệu trưởng Trường Đại học Nam Cần Thơ;"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c003_dec_d00_p01_67a9b94d",
+          "source_id_actual": "SRC-4",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 1,
+              "start": 1180,
+              "end": 1355,
+              "is_overlap": true,
+              "quote": "Căn cứ Quyết định số 119/QĐ-CTHĐT-ĐHNCT ngày 01 tháng 12 năm 2020 của Hội đồng trường Trường Đại học Nam Cần Thơ về việc bổ nhiệm Quyền Hiệu trưởng Trường Đại học Nam Cần Thơ;"
+            },
+            {
+              "pdf_page": 1,
+              "start": 1356,
+              "end": 1401,
+              "is_overlap": false,
+              "quote": "Xét đề nghị của Trưởng phòng Quản lý đào tạo,"
+            },
+            {
+              "pdf_page": 1,
+              "start": 1403,
+              "end": 1414,
+              "is_overlap": false,
+              "quote": "QUYẾT ĐỊNH:"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c007_reg_d01_p02_9f0d6ad2",
+          "source_id_actual": null,
+          "in_record_context": false,
+          "source_spans": [
+            {
+              "pdf_page": 2,
+              "start": 191,
+              "end": 239,
+              "is_overlap": false,
+              "quote": "Điều 1. Phạm vi điều chỉnh và đối tượng áp dụng."
+            },
+            {
+              "pdf_page": 2,
+              "start": 240,
+              "end": 534,
+              "is_overlap": false,
+              "quote": "1. Quy chế này quy định chung về tổ chức và quản lý đào tạo trình độ đại học, bao gồm: Chương trình đào tạo và thời gian học tập; hình thức và phương thức tổ chức đào tạo; lập kế hoạch và tổ chức giảng dạy; đánh giá kết quả học tập và cấp bằng tốt nghiệp; những quy định khác đối với sinh viên."
+            },
+            {
+              "pdf_page": 2,
+              "start": 535,
+              "end": 695,
+              "is_overlap": false,
+              "quote": "2. Các đơn vị liên quan thuộc Trường đại học Nam Cần Thơ, căn cứ chức năng, nhiệm vụ và quy định này để tham mưu ban hành các quy định cụ thể của từng lĩnh vực."
+            },
+            {
+              "pdf_page": 2,
+              "start": 696,
+              "end": 869,
+              "is_overlap": false,
+              "quote": "3. Quy định này áp dụng đối với cán bộ, giảng viên và sinh viên tham gia các khoá đào tạo trình độ đại học hệ chính quy theo hệ thống tín chỉ tại Trường Đại học Nam Cần Thơ."
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c056_reg_d14_p14_72fdb262",
+          "source_id_actual": null,
+          "in_record_context": false,
+          "source_spans": [
+            {
+              "pdf_page": 14,
+              "start": 289,
+              "end": 475,
+              "is_overlap": true,
+              "quote": "c. Cơ sở phối hợp đào tạo có trách nhiệm cùng trường Đại học Nam Cần Thơ bảo đảm đủ điều kiện cơ sở vật chất thực hiện đào tạo; tham gia quản lý, giảng dạy, theo thoả thuận giữa hai bên."
+            },
+            {
+              "pdf_page": 14,
+              "start": 476,
+              "end": 760,
+              "is_overlap": false,
+              "quote": "d. Trường Đại học Nam Cần Thơ và cơ sở phối hợp đào tạo chịu trách nhiệm trước pháp luật về việc thực hiện hợp đồng liên kết đào tạo; thực hiện các quy chế về tuyển sinh, đào tạo; bảo đảm quyền lợi chính đáng cho giảng viên, sinh viên trong suốt quá trình thực hiện hoạt động đào tạo."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P2",
+      "rubric_line": 74,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có)*",
+      "rubric_evidence": "Như trên",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P3",
+      "rubric_line": 75,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có)*",
+      "rubric_evidence": "Như trên",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P4",
+      "rubric_line": 76,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có)*",
+      "rubric_evidence": "Như trên",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P1",
+      "rubric_line": 77,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ\"*",
+      "rubric_evidence": "`[SRC-4] qd580_v2_c014_reg_d03_p03_ebccfc59`<br>PDF p.3, Điều 3 Khoản 1<br>Offset: p.3 `[1143, 1421)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c014_reg_d03_p03_ebccfc59",
+          "source_id_actual": "SRC-4",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 3,
+              "start": 1350,
+              "end": 1661,
+              "is_overlap": false,
+              "quote": "b. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ từ 10 đến 12 tuần dành cho hoạt động giảng dạy, học tập và 2 tuần dành cho việc đánh giá (kiểm tra, thi, bảo vệ đồ án hoặc khóa luận...). Ngoài ra là thời gian dành cho nghỉ hè, nghỉ tết, nghỉ lễ trong năm và dự trữ cho các ngày nghỉ khác."
+            },
+            {
+              "pdf_page": 3,
+              "start": 1662,
+              "end": 1908,
+              "is_overlap": false,
+              "quote": "c. Thời gian biểu tiến hành các hoạt động học tập, giảng dạy và lịch tổ chức đánh giá trong mỗi học kỳ (kể cả các ngày nghỉ lễ, nghỉ hè, nghỉ Tết...) được quy định trong biểu đồ kế hoạch học tập chung do Hiệu trưởng ban hành vào tháng 6 hàng năm."
+            },
+            {
+              "pdf_page": 3,
+              "start": 1909,
+              "end": 1927,
+              "is_overlap": false,
+              "quote": "3. Tín chỉ học tập"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 3,
+          "start": 1143,
+          "end": 1421,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            1350,
+            1927
+          ],
+          "quote": " trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.\nb. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P2",
+      "rubric_line": 78,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Mỗi học kỳ kéo dài từ 10 đến 12 tuần dành cho hoạt động giảng dạy và học tập\"*",
+      "rubric_evidence": "`[SRC-4] qd580_v2_c014_reg_d03_p03_ebccfc59`<br>PDF p.3, Điều 3 Khoản 1<br>Offset: p.3 `[1143, 1421)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c014_reg_d03_p03_ebccfc59",
+          "source_id_actual": "SRC-4",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 3,
+              "start": 1350,
+              "end": 1661,
+              "is_overlap": false,
+              "quote": "b. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ từ 10 đến 12 tuần dành cho hoạt động giảng dạy, học tập và 2 tuần dành cho việc đánh giá (kiểm tra, thi, bảo vệ đồ án hoặc khóa luận...). Ngoài ra là thời gian dành cho nghỉ hè, nghỉ tết, nghỉ lễ trong năm và dự trữ cho các ngày nghỉ khác."
+            },
+            {
+              "pdf_page": 3,
+              "start": 1662,
+              "end": 1908,
+              "is_overlap": false,
+              "quote": "c. Thời gian biểu tiến hành các hoạt động học tập, giảng dạy và lịch tổ chức đánh giá trong mỗi học kỳ (kể cả các ngày nghỉ lễ, nghỉ hè, nghỉ Tết...) được quy định trong biểu đồ kế hoạch học tập chung do Hiệu trưởng ban hành vào tháng 6 hàng năm."
+            },
+            {
+              "pdf_page": 3,
+              "start": 1909,
+              "end": 1927,
+              "is_overlap": false,
+              "quote": "3. Tín chỉ học tập"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 3,
+          "start": 1143,
+          "end": 1421,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            1350,
+            1927
+          ],
+          "quote": " trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.\nb. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P3",
+      "rubric_line": 79,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"cùng với 2 tuần dành cho việc đánh giá (kiểm tra, thi, bảo vệ đồ án hoặc khóa luận...)\"*",
+      "rubric_evidence": "`[SRC-4] qd580_v2_c014_reg_d03_p03_ebccfc59`<br>PDF p.3, Điều 3 Khoản 1<br>Offset: p.3 `[1143, 1421)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c014_reg_d03_p03_ebccfc59",
+          "source_id_actual": "SRC-4",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 3,
+              "start": 1350,
+              "end": 1661,
+              "is_overlap": false,
+              "quote": "b. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ từ 10 đến 12 tuần dành cho hoạt động giảng dạy, học tập và 2 tuần dành cho việc đánh giá (kiểm tra, thi, bảo vệ đồ án hoặc khóa luận...). Ngoài ra là thời gian dành cho nghỉ hè, nghỉ tết, nghỉ lễ trong năm và dự trữ cho các ngày nghỉ khác."
+            },
+            {
+              "pdf_page": 3,
+              "start": 1662,
+              "end": 1908,
+              "is_overlap": false,
+              "quote": "c. Thời gian biểu tiến hành các hoạt động học tập, giảng dạy và lịch tổ chức đánh giá trong mỗi học kỳ (kể cả các ngày nghỉ lễ, nghỉ hè, nghỉ Tết...) được quy định trong biểu đồ kế hoạch học tập chung do Hiệu trưởng ban hành vào tháng 6 hàng năm."
+            },
+            {
+              "pdf_page": 3,
+              "start": 1909,
+              "end": 1927,
+              "is_overlap": false,
+              "quote": "3. Tín chỉ học tập"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 3,
+          "start": 1143,
+          "end": 1421,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            1350,
+            1927
+          ],
+          "quote": " trình tổ chức đào tạo bao gồm: Thời gian dành cho các hoạt động giảng dạy, học tập các môn học; Thời gian dành cho việc đánh giá kiến thức (kiểm tra, thi, bảo vệ khóa luận hoặc đồ án...); Thời gian dự trữ.\nb. Trường Đại học Nam Cần Thơ tổ chức mỗi năm gồm 03 học kỳ. Mỗi học kỳ"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_02",
+      "point_id": "DEV02-P4",
+      "rubric_line": 80,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Câu trả lời chỉ nêu nghỉ hè, nghỉ lễ; không nhắc đến biểu đồ KHH do Hiệu trưởng ban hành vào tháng 6)*",
+      "rubric_evidence": "LLM tổng hợp bỏ sót đoạn cuối Khoản 1",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P1",
+      "rubric_line": 90,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 04 năm: Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ.\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c035_reg_d07_p08_811c2b53`<br>PDF p.8-9, Điều 7 Khoản 1<br>Offset: p.8 `[2274, 2775)` & p.9 `[0, 181)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 8,
+              "start": 2274,
+              "end": 2309,
+              "is_overlap": false,
+              "quote": "Điều 7. Đăng ký khối lượng học tập."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2310,
+              "end": 2623,
+              "is_overlap": false,
+              "quote": "1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2624,
+              "end": 2775,
+              "is_overlap": false,
+              "quote": "2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+            },
+            {
+              "pdf_page": 9,
+              "start": 0,
+              "end": 90,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 8,
+          "start": 2274,
+          "end": 2775,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2274,
+            2775
+          ],
+          "quote": "Điều 7. Đăng ký khối lượng học tập.\n1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi.\n2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+        },
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 181,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            181
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P2",
+      "rubric_line": 91,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 05 năm: Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ.\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c035` & `[SRC-2] qd580_v2_c036`<br>PDF p.8-9, Điều 7 Khoản 1<br>Offset: p.8 `[2274, 2775)` & p.9 `[0, 608)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "actual_chunk": "qd580_v2_c052_reg_d14_p13_e328cfb5"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 8,
+              "start": 2274,
+              "end": 2309,
+              "is_overlap": false,
+              "quote": "Điều 7. Đăng ký khối lượng học tập."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2310,
+              "end": 2623,
+              "is_overlap": false,
+              "quote": "1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2624,
+              "end": 2775,
+              "is_overlap": false,
+              "quote": "2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+            },
+            {
+              "pdf_page": 9,
+              "start": 0,
+              "end": 90,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": true,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 182,
+              "end": 272,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm."
+            },
+            {
+              "pdf_page": 9,
+              "start": 273,
+              "end": 389,
+              "is_overlap": false,
+              "quote": "3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn."
+            },
+            {
+              "pdf_page": 9,
+              "start": 390,
+              "end": 497,
+              "is_overlap": false,
+              "quote": "a. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần."
+            },
+            {
+              "pdf_page": 9,
+              "start": 498,
+              "end": 685,
+              "is_overlap": false,
+              "quote": "b. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viên muốn đăng ký học thêm hoặc đăng ký đổi sang học phần khác khi không có lớp."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 8,
+          "start": 2274,
+          "end": 2775,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2274,
+            2775
+          ],
+          "quote": "Điều 7. Đăng ký khối lượng học tập.\n1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi.\n2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+        },
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 608,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            685
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;\n- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm.\n3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn.\na. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần.\nb. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viê"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P3",
+      "rubric_line": 92,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 06 năm: Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ.\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c036_reg_d07_p09_9bac302f`<br>PDF p.9, Điều 7 Khoản 1<br>Offset: p.9 `[0, 608)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "actual_chunk": "qd580_v2_c052_reg_d14_p13_e328cfb5"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": true,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 182,
+              "end": 272,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm."
+            },
+            {
+              "pdf_page": 9,
+              "start": 273,
+              "end": 389,
+              "is_overlap": false,
+              "quote": "3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn."
+            },
+            {
+              "pdf_page": 9,
+              "start": 390,
+              "end": 497,
+              "is_overlap": false,
+              "quote": "a. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần."
+            },
+            {
+              "pdf_page": 9,
+              "start": 498,
+              "end": 685,
+              "is_overlap": false,
+              "quote": "b. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viên muốn đăng ký học thêm hoặc đăng ký đổi sang học phần khác khi không có lớp."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 608,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            91,
+            685
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;\n- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm.\n3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn.\na. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần.\nb. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viê"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P1",
+      "rubric_line": 93,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 04 năm: Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c035_reg_d07_p08_811c2b53`<br>PDF p.8-9, Điều 7 Khoản 1<br>Offset: p.8 `[2274, 2775)` & p.9 `[0, 181)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 8,
+              "start": 2274,
+              "end": 2309,
+              "is_overlap": false,
+              "quote": "Điều 7. Đăng ký khối lượng học tập."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2310,
+              "end": 2623,
+              "is_overlap": false,
+              "quote": "1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2624,
+              "end": 2775,
+              "is_overlap": false,
+              "quote": "2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+            },
+            {
+              "pdf_page": 9,
+              "start": 0,
+              "end": 90,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 8,
+          "start": 2274,
+          "end": 2775,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2274,
+            2775
+          ],
+          "quote": "Điều 7. Đăng ký khối lượng học tập.\n1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi.\n2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+        },
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 181,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            181
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P2",
+      "rubric_line": 94,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 05 năm: Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c035` & `[SRC-2] qd580_v2_c036`<br>PDF p.8-9, Điều 7 Khoản 1<br>Offset: p.8 `[2274, 2775)` & p.9 `[0, 608)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 8,
+              "start": 2274,
+              "end": 2309,
+              "is_overlap": false,
+              "quote": "Điều 7. Đăng ký khối lượng học tập."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2310,
+              "end": 2623,
+              "is_overlap": false,
+              "quote": "1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2624,
+              "end": 2775,
+              "is_overlap": false,
+              "quote": "2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+            },
+            {
+              "pdf_page": 9,
+              "start": 0,
+              "end": 90,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": true,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 182,
+              "end": 272,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm."
+            },
+            {
+              "pdf_page": 9,
+              "start": 273,
+              "end": 389,
+              "is_overlap": false,
+              "quote": "3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn."
+            },
+            {
+              "pdf_page": 9,
+              "start": 390,
+              "end": 497,
+              "is_overlap": false,
+              "quote": "a. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần."
+            },
+            {
+              "pdf_page": 9,
+              "start": 498,
+              "end": 685,
+              "is_overlap": false,
+              "quote": "b. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viên muốn đăng ký học thêm hoặc đăng ký đổi sang học phần khác khi không có lớp."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 8,
+          "start": 2274,
+          "end": 2775,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2274,
+            2775
+          ],
+          "quote": "Điều 7. Đăng ký khối lượng học tập.\n1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi.\n2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+        },
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 608,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            685
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;\n- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm.\n3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn.\na. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần.\nb. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viê"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_03",
+      "point_id": "DEV03-P3",
+      "rubric_line": 95,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 06 năm: Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c036_reg_d07_p09_9bac302f`<br>PDF p.9, Điều 7 Khoản 1<br>Offset: p.9 `[0, 608)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": true,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 182,
+              "end": 272,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm."
+            },
+            {
+              "pdf_page": 9,
+              "start": 273,
+              "end": 389,
+              "is_overlap": false,
+              "quote": "3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn."
+            },
+            {
+              "pdf_page": 9,
+              "start": 390,
+              "end": 497,
+              "is_overlap": false,
+              "quote": "a. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần."
+            },
+            {
+              "pdf_page": 9,
+              "start": 498,
+              "end": 685,
+              "is_overlap": false,
+              "quote": "b. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viên muốn đăng ký học thêm hoặc đăng ký đổi sang học phần khác khi không có lớp."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 608,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            91,
+            685
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;\n- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm.\n3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn.\na. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần.\nb. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viê"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P1",
+      "rubric_line": 105,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Sinh viên phải được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c044_reg_d11_p11_b8f7da1b`<br>PDF p.11, Điều 11 Khoản 2 Điểm a<br>Offset: p.11 `[367, 725)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 276,
+              "end": 314,
+              "is_overlap": false,
+              "quote": "Điều 11. Học cùng lúc hai chương trình"
+            },
+            {
+              "pdf_page": 11,
+              "start": 315,
+              "end": 417,
+              "is_overlap": false,
+              "quote": "1. Trong quá trình học tập, sinh viên có thể đăng ký học thêm một chương trình thứ hai nếu có nhu cầu."
+            },
+            {
+              "pdf_page": 11,
+              "start": 418,
+              "end": 464,
+              "is_overlap": false,
+              "quote": "2. Điều kiện để học cùng lúc hai chương trình:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 465,
+              "end": 618,
+              "is_overlap": false,
+              "quote": "a. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 619,
+              "end": 753,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình thứ hai trong năm tuyển sinh;"
+            },
+            {
+              "pdf_page": 11,
+              "start": 754,
+              "end": 884,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh."
+            },
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": false,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 367,
+          "end": 725,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            276,
+            960
+          ],
+          "quote": " học thêm một chương trình thứ hai nếu có nhu cầu.\n2. Điều kiện để học cùng lúc hai chương trình:\na. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:\n- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình t"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P2",
+      "rubric_line": 106,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"đáp ứng 01 trong 02 điều kiện: Có ĐTBTL từ 7.0 trở lên và đáp ứng ngưỡng ĐBCL... HOẶC Có ĐTBTL từ 5.5 trở lên và đáp ứng ĐK trúng tuyển...\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c044_reg_d11_p11_b8f7da1b`<br>PDF p.11, Điều 11 Khoản 2 Điểm b<br>Offset: p.11 `[726, 1260)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 276,
+              "end": 314,
+              "is_overlap": false,
+              "quote": "Điều 11. Học cùng lúc hai chương trình"
+            },
+            {
+              "pdf_page": 11,
+              "start": 315,
+              "end": 417,
+              "is_overlap": false,
+              "quote": "1. Trong quá trình học tập, sinh viên có thể đăng ký học thêm một chương trình thứ hai nếu có nhu cầu."
+            },
+            {
+              "pdf_page": 11,
+              "start": 418,
+              "end": 464,
+              "is_overlap": false,
+              "quote": "2. Điều kiện để học cùng lúc hai chương trình:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 465,
+              "end": 618,
+              "is_overlap": false,
+              "quote": "a. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 619,
+              "end": 753,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình thứ hai trong năm tuyển sinh;"
+            },
+            {
+              "pdf_page": 11,
+              "start": 754,
+              "end": 884,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh."
+            },
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": false,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 726,
+          "end": 1260,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            276,
+            960
+          ],
+          "quote": "ứ hai trong năm tuyển sinh;\n- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh.\nb. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên.\n3. Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ. Phòng Quản lý Đào tạo tập hợp và lập danh sách trình Ban Giám hiệu xét duyệt danh sách sinh viên đủ điều kiện học song song hai bằng, thông báo đến các Khoa, Bộ môn.\n4. Sinh viên theo học chương trình thứ hai thực hiện đầy đủ các quy"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P3",
+      "rubric_line": 107,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Khoa quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c044_reg_d11_p11_b8f7da1b`<br>PDF p.11, Điều 11 Khoản 2 Điểm c<br>Offset: p.11 `[1261, 1344)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 276,
+              "end": 314,
+              "is_overlap": false,
+              "quote": "Điều 11. Học cùng lúc hai chương trình"
+            },
+            {
+              "pdf_page": 11,
+              "start": 315,
+              "end": 417,
+              "is_overlap": false,
+              "quote": "1. Trong quá trình học tập, sinh viên có thể đăng ký học thêm một chương trình thứ hai nếu có nhu cầu."
+            },
+            {
+              "pdf_page": 11,
+              "start": 418,
+              "end": 464,
+              "is_overlap": false,
+              "quote": "2. Điều kiện để học cùng lúc hai chương trình:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 465,
+              "end": 618,
+              "is_overlap": false,
+              "quote": "a. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 619,
+              "end": 753,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình thứ hai trong năm tuyển sinh;"
+            },
+            {
+              "pdf_page": 11,
+              "start": 754,
+              "end": 884,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh."
+            },
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": false,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 1261,
+          "end": 1344,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            276,
+            960
+          ],
+          "quote": "định trong quy chế đào tạo theo học chế tín chỉ.\n5. Sinh viên đủ điều kiện học chươ"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P4",
+      "rubric_line": 108,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có trong câu trả lời Dense)*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c045_reg_d11_p11_546fe1b1`<br>PDF p.11, Điều 11 Khoản 3<br>Offset: p.11 `[1345, 1686)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": true,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            },
+            {
+              "pdf_page": 11,
+              "start": 961,
+              "end": 1192,
+              "is_overlap": false,
+              "quote": "3. Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ. Phòng Quản lý Đào tạo tập hợp và lập danh sách trình Ban Giám hiệu xét duyệt danh sách sinh viên đủ điều kiện học song song hai bằng, thông báo đến các Khoa, Bộ môn."
+            },
+            {
+              "pdf_page": 11,
+              "start": 1193,
+              "end": 1309,
+              "is_overlap": false,
+              "quote": "4. Sinh viên theo học chương trình thứ hai thực hiện đầy đủ các quy định trong quy chế đào tạo theo học chế tín chỉ."
+            },
+            {
+              "pdf_page": 11,
+              "start": 1310,
+              "end": 1605,
+              "is_overlap": false,
+              "quote": "5. Sinh viên đủ điều kiện học chương trình thứ hai sẽ được tham gia đăng ký các môn học trong chương trình đào tạo ngành thứ 2 theo kế hoạch mở lớp môn học của Nhà trường. Sinh viên chỉ được đăng ký các môn học ở ngành thứ 2 không trùng với thời khóa biểu đăng ký các môn học của ngành thứ nhất."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 1345,
+          "end": 1686,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            885,
+            1605
+          ],
+          "quote": "g trình thứ hai sẽ được tham gia đăng ký các môn học trong chương trình đào tạo ngành thứ 2 theo kế hoạch mở lớp môn học của Nhà trường. Sinh viên chỉ được đăng ký các môn học ở ngành thứ 2 không trùng với thời khóa biểu đăng ký các môn học của ngành thứ nhất.\n6. Trong quá trình học cùng lúc hai chương trình, nếu điểm trung bình chung tích"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P1",
+      "rubric_line": 109,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c044_reg_d11_p11_b8f7da1b`<br>PDF p.11, Điều 11 Khoản 2 Điểm a<br>Offset: p.11 `[367, 725)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 276,
+              "end": 314,
+              "is_overlap": false,
+              "quote": "Điều 11. Học cùng lúc hai chương trình"
+            },
+            {
+              "pdf_page": 11,
+              "start": 315,
+              "end": 417,
+              "is_overlap": false,
+              "quote": "1. Trong quá trình học tập, sinh viên có thể đăng ký học thêm một chương trình thứ hai nếu có nhu cầu."
+            },
+            {
+              "pdf_page": 11,
+              "start": 418,
+              "end": 464,
+              "is_overlap": false,
+              "quote": "2. Điều kiện để học cùng lúc hai chương trình:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 465,
+              "end": 618,
+              "is_overlap": false,
+              "quote": "a. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 619,
+              "end": 753,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình thứ hai trong năm tuyển sinh;"
+            },
+            {
+              "pdf_page": 11,
+              "start": 754,
+              "end": 884,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh."
+            },
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": false,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 367,
+          "end": 725,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            276,
+            960
+          ],
+          "quote": " học thêm một chương trình thứ hai nếu có nhu cầu.\n2. Điều kiện để học cùng lúc hai chương trình:\na. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:\n- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình t"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P2",
+      "rubric_line": 110,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"phải đáp ứng 01 trong 02 điều kiện sau: Có ĐTBTL từ 7.0... HOẶC Có ĐTBTL từ 5.5...\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c044_reg_d11_p11_b8f7da1b`<br>PDF p.11, Điều 11 Khoản 2 Điểm b<br>Offset: p.11 `[726, 1260)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 276,
+              "end": 314,
+              "is_overlap": false,
+              "quote": "Điều 11. Học cùng lúc hai chương trình"
+            },
+            {
+              "pdf_page": 11,
+              "start": 315,
+              "end": 417,
+              "is_overlap": false,
+              "quote": "1. Trong quá trình học tập, sinh viên có thể đăng ký học thêm một chương trình thứ hai nếu có nhu cầu."
+            },
+            {
+              "pdf_page": 11,
+              "start": 418,
+              "end": 464,
+              "is_overlap": false,
+              "quote": "2. Điều kiện để học cùng lúc hai chương trình:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 465,
+              "end": 618,
+              "is_overlap": false,
+              "quote": "a. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 619,
+              "end": 753,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình thứ hai trong năm tuyển sinh;"
+            },
+            {
+              "pdf_page": 11,
+              "start": 754,
+              "end": 884,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh."
+            },
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": false,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 726,
+          "end": 1260,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            276,
+            960
+          ],
+          "quote": "ứ hai trong năm tuyển sinh;\n- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh.\nb. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên.\n3. Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ. Phòng Quản lý Đào tạo tập hợp và lập danh sách trình Ban Giám hiệu xét duyệt danh sách sinh viên đủ điều kiện học song song hai bằng, thông báo đến các Khoa, Bộ môn.\n4. Sinh viên theo học chương trình thứ hai thực hiện đầy đủ các quy"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P3",
+      "rubric_line": 111,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Khoa quản lý chương trình thứ hai vẫn còn khả năng tiếp nhận thêm sinh viên\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c044_reg_d11_p11_b8f7da1b`<br>PDF p.11, Điều 11 Khoản 2 Điểm c<br>Offset: p.11 `[1261, 1344)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c044_reg_d11_p11_b8f7da1b",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 276,
+              "end": 314,
+              "is_overlap": false,
+              "quote": "Điều 11. Học cùng lúc hai chương trình"
+            },
+            {
+              "pdf_page": 11,
+              "start": 315,
+              "end": 417,
+              "is_overlap": false,
+              "quote": "1. Trong quá trình học tập, sinh viên có thể đăng ký học thêm một chương trình thứ hai nếu có nhu cầu."
+            },
+            {
+              "pdf_page": 11,
+              "start": 418,
+              "end": 464,
+              "is_overlap": false,
+              "quote": "2. Điều kiện để học cùng lúc hai chương trình:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 465,
+              "end": 618,
+              "is_overlap": false,
+              "quote": "a. Sinh viên được xếp trình độ năm thứ hai của chương trình thứ nhất theo quy định tại Điều 16 của Quy chế này và phải đáp ứng 01 trong 02 điều kiện sau:"
+            },
+            {
+              "pdf_page": 11,
+              "start": 619,
+              "end": 753,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 7.0 trở lên và đáp ứng ngưỡng bảo đảm chất lượng của chương trình thứ hai trong năm tuyển sinh;"
+            },
+            {
+              "pdf_page": 11,
+              "start": 754,
+              "end": 884,
+              "is_overlap": false,
+              "quote": "- Có điểm trung bình chung tích lũy từ 5.5 trở lên và đáp ứng điều kiện trúng tuyển của chương trình thứ hai trong năm tuyển sinh."
+            },
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": false,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 1261,
+          "end": 1344,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            276,
+            960
+          ],
+          "quote": "định trong quy chế đào tạo theo học chế tín chỉ.\n5. Sinh viên đủ điều kiện học chươ"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_04",
+      "point_id": "DEV04-P4",
+      "rubric_line": 112,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Thời điểm đăng ký: Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ, sau đó Phòng Quản lý Đào tạo sẽ tập hợp, lập danh sách trình Ban Giám hiệu xét duyệt...\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c045_reg_d11_p11_546fe1b1`<br>PDF p.11, Điều 11 Khoản 3<br>Offset: p.11 `[1345, 1686)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c045_reg_d11_p11_546fe1b1",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 11,
+              "start": 885,
+              "end": 960,
+              "is_overlap": true,
+              "quote": "b. Khoa Quản lý chương trình thứ hai còn khả năng tiếp nhận thêm sinh viên."
+            },
+            {
+              "pdf_page": 11,
+              "start": 961,
+              "end": 1192,
+              "is_overlap": false,
+              "quote": "3. Sinh viên đăng ký học chương trình thứ hai vào đầu mỗi học kỳ. Phòng Quản lý Đào tạo tập hợp và lập danh sách trình Ban Giám hiệu xét duyệt danh sách sinh viên đủ điều kiện học song song hai bằng, thông báo đến các Khoa, Bộ môn."
+            },
+            {
+              "pdf_page": 11,
+              "start": 1193,
+              "end": 1309,
+              "is_overlap": false,
+              "quote": "4. Sinh viên theo học chương trình thứ hai thực hiện đầy đủ các quy định trong quy chế đào tạo theo học chế tín chỉ."
+            },
+            {
+              "pdf_page": 11,
+              "start": 1310,
+              "end": 1605,
+              "is_overlap": false,
+              "quote": "5. Sinh viên đủ điều kiện học chương trình thứ hai sẽ được tham gia đăng ký các môn học trong chương trình đào tạo ngành thứ 2 theo kế hoạch mở lớp môn học của Nhà trường. Sinh viên chỉ được đăng ký các môn học ở ngành thứ 2 không trùng với thời khóa biểu đăng ký các môn học của ngành thứ nhất."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 11,
+          "start": 1345,
+          "end": 1686,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            885,
+            1605
+          ],
+          "quote": "g trình thứ hai sẽ được tham gia đăng ký các môn học trong chương trình đào tạo ngành thứ 2 theo kế hoạch mở lớp môn học của Nhà trường. Sinh viên chỉ được đăng ký các môn học ở ngành thứ 2 không trùng với thời khóa biểu đăng ký các môn học của ngành thứ nhất.\n6. Trong quá trình học cùng lúc hai chương trình, nếu điểm trung bình chung tích"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P1",
+      "rubric_line": 122,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Điểm học phần sau khi thi lại chỉ được giới hạn ở mức điểm D+ hoặc điểm C+.\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c071_reg_d18_p17_9798887b`<br>PDF p.17, Điều 18 Khoản 6<br>Offset: p.17 `[283, 361)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c071_reg_d18_p17_9798887b",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 17,
+              "start": 283,
+              "end": 361,
+              "is_overlap": false,
+              "quote": "6. Điểm học phần sau khi thi lại chỉ được giới hạn ở mức điểm D+ hoặc điểm C+."
+            },
+            {
+              "pdf_page": 17,
+              "start": 362,
+              "end": 484,
+              "is_overlap": false,
+              "quote": "7. Thời gian dành cho ôn thi mỗi học phần tỷ lệ thuận với số tín chỉ của học phần đó, ít nhất là 2/3 ngày cho một tín chỉ."
+            },
+            {
+              "pdf_page": 17,
+              "start": 485,
+              "end": 634,
+              "is_overlap": false,
+              "quote": "8. Đề thi kết thúc học phần phải phù hợp với nội dung học phần và hình thức đánh giá đã thông báo cho sinh viên trong đề cương học phần ở đầu học kỳ."
+            },
+            {
+              "pdf_page": 17,
+              "start": 635,
+              "end": 975,
+              "is_overlap": false,
+              "quote": "9. Các quy định về kỳ thi kết thúc học phần được Hiệu trưởng ban hành văn bản riêng. Trong đó quy định về trách nhiệm của chủ trì buổi thi, cán bộ coi thi, sinh viên dự thi, cán bộ giám sát và quy trình công tác ra đề thi, coi thi, giao nhận túi đựng bài thi, chấm thi (tự luận, trắc nghiệm, vấn đáp), công bố kết quả và khiếu nại điểm thi."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 17,
+          "start": 283,
+          "end": 361,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            283,
+            975
+          ],
+          "quote": "6. Điểm học phần sau khi thi lại chỉ được giới hạn ở mức điểm D+ hoặc điểm C+."
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P2",
+      "rubric_line": 123,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Không tổ chức thi lại đối với các học phần Thực hành, học phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập.\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c070_reg_d18_p16_a1e5934a`<br>PDF p.16-17, Điều 18 Khoản 5<br>Offset: p.16 `[2248, 2483)` & p.17 `[0, 282)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 16,
+              "start": 2060,
+              "end": 2247,
+              "is_overlap": true,
+              "quote": "4. Sinh viên vắng mặt trong kỳ thi kết thúc học phần mà không có lý do chính đáng phải nhận điểm 0 cho kỳ thi đó. Sinh viên vắng mặt có lý do chính đáng được thi lại và tính điểm lần đầu."
+            },
+            {
+              "pdf_page": 16,
+              "start": 2248,
+              "end": 2483,
+              "is_overlap": false,
+              "quote": "5. Kỳ thi phụ (kỳ thi lại) được tổ chức cho sinh viên có điểm đánh giá học phần thuộc “loại không đạt” (Điểm tích lũy học phần dưới 5.0 theo thang điểm 10) trong kỳ thi chính và không tổ chức thi lại đối với các học phần Thực hành, học"
+            },
+            {
+              "pdf_page": 17,
+              "start": 0,
+              "end": 282,
+              "is_overlap": false,
+              "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 16,
+          "start": 2248,
+          "end": 2483,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2060,
+            2483
+          ],
+          "quote": "5. Kỳ thi phụ (kỳ thi lại) được tổ chức cho sinh viên có điểm đánh giá học phần thuộc “loại không đạt” (Điểm tích lũy học phần dưới 5.0 theo thang điểm 10) trong kỳ thi chính và không tổ chức thi lại đối với các học phần Thực hành, học"
+        },
+        {
+          "pdf_page": 17,
+          "start": 0,
+          "end": 282,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            282
+          ],
+          "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P3",
+      "rubric_line": 124,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có trong câu trả lời)*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c070_reg_d18_p16_a1e5934a`<br>PDF p.17, Điều 18 Khoản 5<br>Offset: p.17 `[0, 282)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 16,
+              "start": 2060,
+              "end": 2247,
+              "is_overlap": true,
+              "quote": "4. Sinh viên vắng mặt trong kỳ thi kết thúc học phần mà không có lý do chính đáng phải nhận điểm 0 cho kỳ thi đó. Sinh viên vắng mặt có lý do chính đáng được thi lại và tính điểm lần đầu."
+            },
+            {
+              "pdf_page": 16,
+              "start": 2248,
+              "end": 2483,
+              "is_overlap": false,
+              "quote": "5. Kỳ thi phụ (kỳ thi lại) được tổ chức cho sinh viên có điểm đánh giá học phần thuộc “loại không đạt” (Điểm tích lũy học phần dưới 5.0 theo thang điểm 10) trong kỳ thi chính và không tổ chức thi lại đối với các học phần Thực hành, học"
+            },
+            {
+              "pdf_page": 17,
+              "start": 0,
+              "end": 282,
+              "is_overlap": false,
+              "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 17,
+          "start": 0,
+          "end": 282,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            282
+          ],
+          "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P1",
+      "rubric_line": 125,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Điểm học phần sau khi thi lại chỉ được giới hạn ở mức điểm D+ hoặc điểm C+\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c071_reg_d18_p17_9798887b`<br>PDF p.17, Điều 18 Khoản 6<br>Offset: p.17 `[283, 361)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c071_reg_d18_p17_9798887b",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 17,
+              "start": 283,
+              "end": 361,
+              "is_overlap": false,
+              "quote": "6. Điểm học phần sau khi thi lại chỉ được giới hạn ở mức điểm D+ hoặc điểm C+."
+            },
+            {
+              "pdf_page": 17,
+              "start": 362,
+              "end": 484,
+              "is_overlap": false,
+              "quote": "7. Thời gian dành cho ôn thi mỗi học phần tỷ lệ thuận với số tín chỉ của học phần đó, ít nhất là 2/3 ngày cho một tín chỉ."
+            },
+            {
+              "pdf_page": 17,
+              "start": 485,
+              "end": 634,
+              "is_overlap": false,
+              "quote": "8. Đề thi kết thúc học phần phải phù hợp với nội dung học phần và hình thức đánh giá đã thông báo cho sinh viên trong đề cương học phần ở đầu học kỳ."
+            },
+            {
+              "pdf_page": 17,
+              "start": 635,
+              "end": 975,
+              "is_overlap": false,
+              "quote": "9. Các quy định về kỳ thi kết thúc học phần được Hiệu trưởng ban hành văn bản riêng. Trong đó quy định về trách nhiệm của chủ trì buổi thi, cán bộ coi thi, sinh viên dự thi, cán bộ giám sát và quy trình công tác ra đề thi, coi thi, giao nhận túi đựng bài thi, chấm thi (tự luận, trắc nghiệm, vấn đáp), công bố kết quả và khiếu nại điểm thi."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 17,
+          "start": 283,
+          "end": 361,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            283,
+            975
+          ],
+          "quote": "6. Điểm học phần sau khi thi lại chỉ được giới hạn ở mức điểm D+ hoặc điểm C+."
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P2",
+      "rubric_line": 126,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Không tổ chức thi lại đối với các học phần Thực hành, học phần được tổ chức thi trên lớp, các học phần Đồ án, và học phần Thực tập\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c070_reg_d18_p16_a1e5934a`<br>PDF p.16-17, Điều 18 Khoản 5<br>Offset: p.16 `[2248, 2483)` & p.17 `[0, 282)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 16,
+              "start": 2060,
+              "end": 2247,
+              "is_overlap": true,
+              "quote": "4. Sinh viên vắng mặt trong kỳ thi kết thúc học phần mà không có lý do chính đáng phải nhận điểm 0 cho kỳ thi đó. Sinh viên vắng mặt có lý do chính đáng được thi lại và tính điểm lần đầu."
+            },
+            {
+              "pdf_page": 16,
+              "start": 2248,
+              "end": 2483,
+              "is_overlap": false,
+              "quote": "5. Kỳ thi phụ (kỳ thi lại) được tổ chức cho sinh viên có điểm đánh giá học phần thuộc “loại không đạt” (Điểm tích lũy học phần dưới 5.0 theo thang điểm 10) trong kỳ thi chính và không tổ chức thi lại đối với các học phần Thực hành, học"
+            },
+            {
+              "pdf_page": 17,
+              "start": 0,
+              "end": 282,
+              "is_overlap": false,
+              "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 16,
+          "start": 2248,
+          "end": 2483,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2060,
+            2483
+          ],
+          "quote": "5. Kỳ thi phụ (kỳ thi lại) được tổ chức cho sinh viên có điểm đánh giá học phần thuộc “loại không đạt” (Điểm tích lũy học phần dưới 5.0 theo thang điểm 10) trong kỳ thi chính và không tổ chức thi lại đối với các học phần Thực hành, học"
+        },
+        {
+          "pdf_page": 17,
+          "start": 0,
+          "end": 282,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            282
+          ],
+          "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_05",
+      "point_id": "DEV05-P3",
+      "rubric_line": 127,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có trong câu trả lời)*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c070_reg_d18_p16_a1e5934a`<br>PDF p.17, Điều 18 Khoản 5<br>Offset: p.17 `[0, 282)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c070_reg_d18_p16_a1e5934a",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 16,
+              "start": 2060,
+              "end": 2247,
+              "is_overlap": true,
+              "quote": "4. Sinh viên vắng mặt trong kỳ thi kết thúc học phần mà không có lý do chính đáng phải nhận điểm 0 cho kỳ thi đó. Sinh viên vắng mặt có lý do chính đáng được thi lại và tính điểm lần đầu."
+            },
+            {
+              "pdf_page": 16,
+              "start": 2248,
+              "end": 2483,
+              "is_overlap": false,
+              "quote": "5. Kỳ thi phụ (kỳ thi lại) được tổ chức cho sinh viên có điểm đánh giá học phần thuộc “loại không đạt” (Điểm tích lũy học phần dưới 5.0 theo thang điểm 10) trong kỳ thi chính và không tổ chức thi lại đối với các học phần Thực hành, học"
+            },
+            {
+              "pdf_page": 17,
+              "start": 0,
+              "end": 282,
+              "is_overlap": false,
+              "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 17,
+          "start": 0,
+          "end": 282,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            282
+          ],
+          "quote": "phần được tổ chức thi trên lớp, các học phần Đồ án, học phần Thực tập. Sinh viên thuộc diện thi lại phải đóng lệ phí trước theo thời hạn Phòng Quản lý đào tạo thông báo mới được lên lịch thi lại và được dự thi, trừ những trường hợp có làm đơn xin hoãn thi gửi phòng Quản lý đào tạo."
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P1",
+      "rubric_line": 137,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"1. Có đơn đề nghị công nhận tốt nghiệp.\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20, Điều 25 Khoản 1 Điểm a<br>Offset: p.20 `[1720, 1759)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1720,
+          "end": 1759,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P2",
+      "rubric_line": 138,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"2. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập.\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20, Điều 25 Khoản 1 Điểm b<br>Offset: p.20 `[1760, 1900)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1760,
+          "end": 1900,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P3",
+      "rubric_line": 139,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"3. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo...\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20, Điều 25 Khoản 1 Điểm c<br>Offset: p.20 `[1901, 2061)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1901,
+          "end": 2061,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P4",
+      "rubric_line": 140,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"... và hoàn thành các học phần điều kiện gồm: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin).\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20-21, Điều 25 Khoản 1 Điểm c<br>Offset: p.20 `[1901, 2061)` & p.21 `[0, 89)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1901,
+          "end": 2061,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+        },
+        {
+          "pdf_page": 21,
+          "start": 0,
+          "end": 89,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            160
+          ],
+          "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P5",
+      "rubric_line": 141,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"4. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên.\"*",
+      "rubric_evidence": "`[SRC-1] c084` & `[SRC-2] c085`<br>PDF p.21, Điều 25 Khoản 2<br>Offset: p.21 `[90, 160)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c085_reg_d25_p21_3fc22772",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": true,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            },
+            {
+              "pdf_page": 21,
+              "start": 161,
+              "end": 577,
+              "is_overlap": false,
+              "quote": "3. Căn cứ vào kế hoạch xét tốt nghiệp mỗi năm, Hội đồng xét tốt nghiệp căn cứ các điều kiện công nhận tốt nghiệp theo quy định tại Khoản 1 Điều này để lập danh sách những sinh viên đủ điều kiện tốt nghiệp và trình Hiệu trưởng ký quyết định công nhận cho những sinh viên đủ điều kiện tốt nghiệp trong thời hạn 03 tháng tính từ thời điểm sinh viên đáp ứng đủ điều kiện tốt nghiệp và hoàn thành nghĩa vụ với nhà trường."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 21,
+          "start": 90,
+          "end": 160,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            577
+          ],
+          "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P1",
+      "rubric_line": 142,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"1. Có đơn đề nghị công nhận tốt nghiệp\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20, Điều 25 Khoản 1 Điểm a<br>Offset: p.20 `[1720, 1759)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-1",
+          "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1720,
+          "end": 1759,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P2",
+      "rubric_line": 143,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"2. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20, Điều 25 Khoản 1 Điểm b<br>Offset: p.20 `[1760, 1900)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-1",
+          "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1760,
+          "end": 1900,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P3",
+      "rubric_line": 144,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"3. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo...\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20, Điều 25 Khoản 1 Điểm c<br>Offset: p.20 `[1901, 2061)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-1",
+          "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1901,
+          "end": 2061,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P4",
+      "rubric_line": 145,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"... và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin)\"*",
+      "rubric_evidence": "`[SRC-1] qd580_v2_c084_reg_d25_p20_0463c76d`<br>PDF p.20-21, Điều 25 Khoản 1 Điểm c<br>Offset: p.20 `[1901, 2061)` & p.21 `[0, 89)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-1",
+          "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 20,
+          "start": 1901,
+          "end": 2061,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            1584,
+            2061
+          ],
+          "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+        },
+        {
+          "pdf_page": 21,
+          "start": 0,
+          "end": 89,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            160
+          ],
+          "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_06",
+      "point_id": "DEV06-P5",
+      "rubric_line": 146,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"4. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên\"*",
+      "rubric_evidence": "`[SRC-1] c084` & `[SRC-2] c085`<br>PDF p.21, Điều 25 Khoản 2<br>Offset: p.21 `[90, 160)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-1",
+          "chunk_written": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "actual_chunk": "qd580_v2_c085_reg_d25_p21_3fc22772"
+        },
+        {
+          "source_id_written": "SRC-2",
+          "chunk_written": "qd580_v2_c085_reg_d25_p21_3fc22772",
+          "actual_chunk": "qd580_v2_c003_dec_d00_p01_67a9b94d"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c084_reg_d25_p20_0463c76d",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 20,
+              "start": 1584,
+              "end": 1637,
+              "is_overlap": false,
+              "quote": "Điều 25. Điều kiện tốt nghiệp và công nhận tốt nghiệp"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1638,
+              "end": 1719,
+              "is_overlap": false,
+              "quote": "1. Sinh viên có đủ các điều kiện sau thì được trường xét và công nhận tốt nghiệp:"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1720,
+              "end": 1759,
+              "is_overlap": false,
+              "quote": "a. Có đơn đề nghị công nhận tốt nghiệp."
+            },
+            {
+              "pdf_page": 20,
+              "start": 1760,
+              "end": 1900,
+              "is_overlap": false,
+              "quote": "b. Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập;"
+            },
+            {
+              "pdf_page": 20,
+              "start": 1901,
+              "end": 2061,
+              "is_overlap": false,
+              "quote": "c. Tích lũy đủ học phần, số tín chỉ của chương trình đào tạo và hoàn thành các học phần điều kiện: Giáo dục quốc phòng - An ninh và Giáo dục thể chất, đạt chuẩn"
+            },
+            {
+              "pdf_page": 21,
+              "start": 0,
+              "end": 89,
+              "is_overlap": false,
+              "quote": "đầu ra của chương trình đào tạo (kể cả chuẩn đầu ra về ngoại ngữ và công nghệ thông tin);"
+            },
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": false,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c085_reg_d25_p21_3fc22772",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 21,
+              "start": 90,
+              "end": 160,
+              "is_overlap": true,
+              "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+            },
+            {
+              "pdf_page": 21,
+              "start": 161,
+              "end": 577,
+              "is_overlap": false,
+              "quote": "3. Căn cứ vào kế hoạch xét tốt nghiệp mỗi năm, Hội đồng xét tốt nghiệp căn cứ các điều kiện công nhận tốt nghiệp theo quy định tại Khoản 1 Điều này để lập danh sách những sinh viên đủ điều kiện tốt nghiệp và trình Hiệu trưởng ký quyết định công nhận cho những sinh viên đủ điều kiện tốt nghiệp trong thời hạn 03 tháng tính từ thời điểm sinh viên đáp ứng đủ điều kiện tốt nghiệp và hoàn thành nghĩa vụ với nhà trường."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 21,
+          "start": 90,
+          "end": 160,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            577
+          ],
+          "quote": "2. Điểm trung bình chung tích lũy của toàn khóa học đạt từ 5.5 trở lên"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "rubric_line": 156,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"học phần có điểm đánh giá từ 5.0 trở lên (từ D+ trở lên) mới được tính là học phần tích lũy ... mức điểm 4.5 của bạn (thuộc khoảng từ 4.0 đến 4.9, điểm chữ D) được xếp loại là 'Không đạt'\"*",
+      "rubric_evidence": "`[SRC-1] c061` & `[SRC-2] c062`<br>PDF p.15, Điều 17 Khoản 1 & Bảng quy đổi<br>Offset: p.15 `[244, 1149)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-1",
+          "chunk_written": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          "actual_chunk": "qd580_v2_c038_reg_d08_p09_a244c1fd"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c061_reg_d17_p15_b88b92a3",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 37,
+              "end": 76,
+              "is_overlap": false,
+              "quote": "Điều 17. Đánh giá và tính điểm học phần"
+            },
+            {
+              "pdf_page": 15,
+              "start": 77,
+              "end": 434,
+              "is_overlap": false,
+              "quote": "1. Điểm đánh giá học phần là tổng của các điểm đánh giá thành phần nhân với trọng số tương ứng. Điểm đánh giá thành phần và điểm đánh giá học phần được chấm theo thang điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy."
+            }
+          ]
+        },
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 244,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            37,
+            858
+          ],
+          "quote": " điểm 10 (từ 0 đến 10), làm tròn đến 1 chữ số thập phân. Học phần có điểm đánh giá từ 5.0 trở lên (D+) được tính là học phần tích lũy, số tín chỉ của học phần này gọi là số tín chỉ tích lũy.\n\n| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P2",
+      "rubric_line": 157,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"... và không được tính là học phần tích lũy\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c062_reg_d17_p15_b6de4df0`<br>PDF p.15, Điều 17 Bảng quy đổi<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P3",
+      "rubric_line": 158,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không nhắc đến cơ hội thi phụ / thi lại kết thúc học phần)*",
+      "rubric_evidence": "Không retrieve được Điều 18",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P4",
+      "rubric_line": 159,
+      "grade": "**MỘT PHẦN**",
+      "answer_excerpt": "*\"Bạn bắt buộc phải đăng ký học lại học phần này theo quy định\"*",
+      "rubric_evidence": "`[SRC-4] qd580_v2_c038_reg_d08_p09_a244c1fd`<br>PDF p.9, Điều 8 Khoản 3<br>Offset: p.9 `[1148, 1485)`",
+      "source_id_mismatches": [
+        {
+          "source_id_written": "SRC-4",
+          "chunk_written": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+          "actual_chunk": "qd580_v2_c065_reg_d17_p15_11eac111"
+        }
+      ],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c038_reg_d08_p09_a244c1fd",
+          "source_id_actual": "SRC-1",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 9,
+              "start": 1307,
+              "end": 1682,
+              "is_overlap": false,
+              "quote": "3. Đối với một học phần bất kỳ được đánh giá đạt và có điểm tổng kết học phần từ 5.0 đến dưới 6.5 (theo thang điểm 10), sinh viên được phép đăng ký học lại để cải thiện điểm. Kết quả của lần thi sau cùng được chọn để tính vào điểm trung bình tích lũy, nếu kết quả của học phần cải thiện không đạt, sinh viên phải đăng ký học lại theo quy định tại khoản 1 và khoản 2 điều này."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 9,
+          "start": 1148,
+          "end": 1485,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            1307,
+            1682
+          ],
+          "quote": "ng nhóm để đảm bảo tích lũy đủ số tín chỉ. Sinh viên không nhất thiết phải học lại học phần tự chọn chưa đạt nếu đã tích lũy đủ số tín chỉ của nhóm tương ứng.\n3. Đối với một học phần bất kỳ được đánh giá đạt và có điểm tổng kết học phần từ 5.0 đến dưới 6.5 (theo thang điểm 10), sinh viên được phép đăng ký học lại để cải thiện điểm. Kết"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P1",
+      "rubric_line": 160,
+      "grade": "**SAI (Claim Error)**",
+      "answer_excerpt": "*\"học phần có điểm tổng kết đạt từ 5.0 trở lên (**từ điểm D+ trở xuống là dưới 5.0**) mới được tính là học phần tích lũy\"*",
+      "rubric_evidence": "Ngữ cảnh gốc `[SRC-2] c062` ghi D+ là 5.0 - 5.4<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P2",
+      "rubric_line": 161,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"bạn không được tính qua môn và chưa được tính là học phần tích lũy.\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c062_reg_d17_p15_b6de4df0`<br>PDF p.15, Điều 17 Bảng quy đổi<br>Offset: p.15 `[462, 1149)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c062_reg_d17_p15_b6de4df0",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 15,
+              "start": 436,
+              "end": 858,
+              "is_overlap": false,
+              "quote": "| Công nhận học phần | Thang điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 15,
+          "start": 462,
+          "end": 1149,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            436,
+            858
+          ],
+          "quote": "ng điểm hệ số 10 | Thang điểm hệ số 4 - Điểm số | Thang điểm hệ số 4 - Điểm chữ |\n| :---: | :---: | :---: | :---: |\n| Tích lũy | 9.0 – 10.0 | 4.0 | A |\n| Tích lũy | 8.0 – 8.9 | 3.5 | B+ |\n| Tích lũy | 7.0 – 7.9 | 3.0 | B |\n| Tích lũy | 6.5 – 6.9 | 2.5 | C+ |\n| Tích lũy | 5.5 – 6.4 | 2.0 | C |\n| Tích lũy | 5.0 – 5.4 | 1.5 | D+ |\n| Không đạt | 4.0 – 4.9 | 1.0 | D |\n| Không đạt | <4.0 | 0.0 | F |\n\na. Đối với học phần lý thuyết bao gồm nội dung: Điểm chuyên cần có trọng số 10% đánh giá nhận thức, thái độ và tính chuyên cần trong quá trình học của sinh viên; Điểm đánh giá quá trình (bài kiểm tra giữa kỳ, báo cáo nhóm…) có trọng số 30%; Điểm kỳ thi kết thúc học phần hoặc tổ hợp các đi"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P3",
+      "rubric_line": 162,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Hoàn toàn không có phương án thi phụ)*",
+      "rubric_evidence": "Không retrieve được Điều 18",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_07",
+      "point_id": "DEV07-P4",
+      "rubric_line": 163,
+      "grade": "**MỘT PHẦN**",
+      "answer_excerpt": "*\"sẽ phải đăng ký học lại theo quy định.\"*",
+      "rubric_evidence": "Ngữ cảnh trích xuất thiếu Điều 8 Khoản 3 đầy đủ",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P1",
+      "rubric_line": 173,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*\"Ngữ cảnh chưa có thông tin cụ thể về giới hạn số tín chỉ tối đa được đăng ký cho hệ 4 năm (Cử nhân, Kỹ sư).\"*",
+      "rubric_evidence": "Retrieval dense chỉ lấy được `qd580_v2_c036` (PDF p.9, đoạn CT 5 năm và 6 năm), miss đoạn đầu Điều 7 ở p.8",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c036_reg_d07_p09_9bac302f",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": true,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 182,
+              "end": 272,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 10 tín chỉ/học kỳ và tối đa 23 tín chỉ/học kỳ đối với chương trình học 06 năm."
+            },
+            {
+              "pdf_page": 9,
+              "start": 273,
+              "end": 389,
+              "is_overlap": false,
+              "quote": "3. Trường tổ chức cho sinh viên đăng ký học phần 2 lần cho mỗi học kỳ, bao gồm: đăng ký bình thường và đăng ký muộn."
+            },
+            {
+              "pdf_page": 9,
+              "start": 390,
+              "end": 497,
+              "is_overlap": false,
+              "quote": "a. Đăng ký bình thường là hình thức đăng ký được thực hiện trước thời điểm bắt đầu học kỳ tối thiểu 2 tuần."
+            },
+            {
+              "pdf_page": 9,
+              "start": 498,
+              "end": 685,
+              "is_overlap": false,
+              "quote": "b. Đăng ký muộn là hình thức đăng ký được thực hiện trong 2 tuần đầu của học kỳ chính, dành cho những sinh viên muốn đăng ký học thêm hoặc đăng ký đổi sang học phần khác khi không có lớp."
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P2",
+      "rubric_line": 174,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không có)*",
+      "rubric_evidence": "Retrieval miss Điều 3",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P3",
+      "rubric_line": 175,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Em vui lòng liên hệ trực tiếp với Phòng Quản lý Đào tạo hoặc Cố vấn học tập để được hướng dẫn chính xác nhất.\"*",
+      "rubric_evidence": "Cơ chế fallback an toàn của hệ thống",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P1",
+      "rubric_line": 176,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Đối với chương trình học 04 năm: Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ ... giới hạn số tín chỉ tối đa bạn được phép đăng ký trong một học kỳ là **15 tín chỉ/học kỳ**\"*",
+      "rubric_evidence": "`[SRC-3] qd580_v2_c035_reg_d07_p08_811c2b53`<br>PDF p.8-9, Điều 7 Khoản 1<br>Offset: p.8 `[2274, 2775)` & p.9 `[0, 181)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 8,
+              "start": 2274,
+              "end": 2309,
+              "is_overlap": false,
+              "quote": "Điều 7. Đăng ký khối lượng học tập."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2310,
+              "end": 2623,
+              "is_overlap": false,
+              "quote": "1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2624,
+              "end": 2775,
+              "is_overlap": false,
+              "quote": "2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+            },
+            {
+              "pdf_page": 9,
+              "start": 0,
+              "end": 90,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 8,
+          "start": 2274,
+          "end": 2775,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2274,
+            2775
+          ],
+          "quote": "Điều 7. Đăng ký khối lượng học tập.\n1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi.\n2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+        },
+        {
+          "pdf_page": 9,
+          "start": 0,
+          "end": 181,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            0,
+            181
+          ],
+          "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;\n- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P2",
+      "rubric_line": 177,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không đề cập đến việc trường tổ chức 3 học kỳ/năm để tận dụng học vượt)*",
+      "rubric_evidence": "Bỏ sót trong khâu tổng hợp của LLM",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_08",
+      "point_id": "DEV08-P3",
+      "rubric_line": 178,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập ... Bạn nên trao đổi thêm với cố vấn học tập để được hướng dẫn chi tiết nhé!\"*",
+      "rubric_evidence": "`[SRC-3] qd580_v2_c035_reg_d07_p08_811c2b53`<br>PDF p.8, Điều 7 Khoản 2<br>Offset: p.8 `[2274, 2775)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c035_reg_d07_p08_811c2b53",
+          "source_id_actual": "SRC-3",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 8,
+              "start": 2274,
+              "end": 2309,
+              "is_overlap": false,
+              "quote": "Điều 7. Đăng ký khối lượng học tập."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2310,
+              "end": 2623,
+              "is_overlap": false,
+              "quote": "1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi."
+            },
+            {
+              "pdf_page": 8,
+              "start": 2624,
+              "end": 2775,
+              "is_overlap": false,
+              "quote": "2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+            },
+            {
+              "pdf_page": 9,
+              "start": 0,
+              "end": 90,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 07 tín chỉ/học kỳ và tối đa 15 tín chỉ/học kỳ đối với chương trình học 04 năm;"
+            },
+            {
+              "pdf_page": 9,
+              "start": 91,
+              "end": 181,
+              "is_overlap": false,
+              "quote": "- Tối thiểu 09 tín chỉ/học kỳ và tối đa 20 tín chỉ/học kỳ đối với chương trình học 05 năm;"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 8,
+          "start": 2274,
+          "end": 2775,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": true,
+          "cited_envelope": [
+            2274,
+            2775
+          ],
+          "quote": "Điều 7. Đăng ký khối lượng học tập.\n1. Trước khi bắt đầu mỗi học kỳ khoảng 4 tuần, Phòng Quản lý đào tạo thông báo lịch trình học dự kiến cho từng chương trình trong học kỳ, danh sách các học phần bắt buộc và tự chọn dự kiến sẽ dạy, đề cương chi tiết, điều kiện để được đăng ký học cho từng học phần, lịch kiểm tra và thi, hình thức kiểm tra và thi.\n2. Tùy theo khả năng và điều kiện học tập, mỗi sinh viên phải đăng ký học các học phần dự định theo hướng dẫn của cố vấn học tập với điều kiện đăng ký:"
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_09",
+      "point_id": "DEV09-P1",
+      "rubric_line": 189,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không phân tích cụ thể Điều 7 và Điều 3.4)*",
+      "rubric_evidence": "Không có trong câu trả lời",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_09",
+      "point_id": "DEV09-P2",
+      "rubric_line": 190,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"tài liệu hiện tại chưa có đủ dữ liệu cụ thể về điều kiện rút bớt học phần sau khi đăng ký muộn và việc hoàn tiền học phí.\"*",
+      "rubric_evidence": "Căn cứ toàn văn QĐ 580 (N/A trích đoạn riêng)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_09",
+      "point_id": "DEV09-P3",
+      "rubric_line": 191,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Theo Quyết định số 580/QĐ-ĐHNCT, tài liệu hiện tại chưa có đủ dữ liệu cụ thể... Bạn vui lòng liên hệ trực tiếp với Phòng Quản lý Đào tạo hoặc Cố vấn học tập để được hướng dẫn chi tiết về vấn đề này.\"*",
+      "rubric_evidence": "Status: `insufficient_evidence` (N/A trích đoạn riêng)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_09",
+      "point_id": "DEV09-P1",
+      "rubric_line": 192,
+      "grade": "**THIẾU**",
+      "answer_excerpt": "*(Không phân tích cụ thể Điều 7 và Điều 3.4)*",
+      "rubric_evidence": "Không có trong câu trả lời",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_09",
+      "point_id": "DEV09-P2",
+      "rubric_line": 193,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Quyết định số 580/QĐ-ĐHNCT hiện tại chưa có đủ dữ liệu cụ thể về điều kiện rút bớt học phần sau khi đăng ký muộn cũng như quy định về việc hoàn tiền học phí trong trường hợp này.\"*",
+      "rubric_evidence": "Căn cứ toàn văn QĐ 580 (N/A trích đoạn riêng)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_09",
+      "point_id": "DEV09-P3",
+      "rubric_line": 194,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Quyết định số 580/QĐ-ĐHNCT hiện tại chưa có đủ dữ liệu cụ thể... Để biết thêm thông tin chi tiết và chính xác, sinh viên vui lòng liên hệ trực tiếp với Phòng Quản lý Đào tạo hoặc Cố vấn học tập để được hướng dẫn.\"*",
+      "rubric_evidence": "Status: `insufficient_evidence` (N/A trích đoạn riêng)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P1",
+      "rubric_line": 204,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"nằm ngoài phạm vi điều chỉnh của Quy chế đào tạo ... Đối với thông tin về mức học phí chi tiết từng ngành ... vui lòng liên hệ trực tiếp với Phòng Quản lý Đào tạo\"*",
+      "rubric_evidence": "Status: `out_of_scope` (N/A trích đoạn riêng)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P2",
+      "rubric_line": 205,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"câu hỏi của bạn về ... cách tính điểm rèn luyện nằm ngoài phạm vi điều chỉnh của Quy chế đào tạo\"*",
+      "rubric_evidence": "QĐ 580 Điều 1 (N/A trích đoạn riêng)",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "dense",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P3",
+      "rubric_line": 206,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Quy chế 580 chỉ quy định về các vấn đề học vụ chung như khái niệm tín chỉ (Điều 3) ... hay cảnh báo học tập (Điều 10).\"*",
+      "rubric_evidence": "Khái quát phạm vi văn bản",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P1",
+      "rubric_line": 207,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Quy chế 580 chỉ quy định về tín chỉ học phí là đơn vị lượng hóa chi phí và cách tính bằng tổng số tín chỉ đăng ký nhân với đơn giá do Chủ tịch Hội đồng trường quy định [SRC-2], nhưng không quy định mức phí cụ thể từng ngành\"*",
+      "rubric_evidence": "`[SRC-2] qd580_v2_c016_reg_d03_p04_5877e426`<br>PDF p.4, Điều 3 Khoản 4<br>Offset: p.4 `[0, 313)`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [
+        {
+          "chunk_id": "qd580_v2_c016_reg_d03_p04_5877e426",
+          "source_id_actual": "SRC-2",
+          "in_record_context": true,
+          "source_spans": [
+            {
+              "pdf_page": 4,
+              "start": 357,
+              "end": 375,
+              "is_overlap": true,
+              "quote": "4. Tín chỉ học phí"
+            },
+            {
+              "pdf_page": 4,
+              "start": 376,
+              "end": 523,
+              "is_overlap": false,
+              "quote": "a. Tín chỉ học phí là đơn vị dùng để lượng hoá chi phí của các hoạt động giảng dạy, học tập tính cho 1 tín chỉ học tập tương ứng với từng học phần;"
+            },
+            {
+              "pdf_page": 4,
+              "start": 524,
+              "end": 809,
+              "is_overlap": false,
+              "quote": "b. Học phí được tính bằng tổng số tín chỉ mà sinh viên đã đăng ký nhân với đơn giá cho 01 tín chỉ học phí. Đơn giá do Chủ tịch Hội đồng trường quy định, áp dụng cho từng bậc học, từng hệ đào tạo và từng nhóm học phần trên cơ sở điều kiện tổ chức giảng dạy, học tập và mục tiêu đào tạo."
+            },
+            {
+              "pdf_page": 4,
+              "start": 810,
+              "end": 821,
+              "is_overlap": false,
+              "quote": "5. Học phần"
+            }
+          ]
+        }
+      ],
+      "claimed_ranges": [
+        {
+          "pdf_page": 4,
+          "start": 0,
+          "end": 313,
+          "in_page_bounds": true,
+          "within_cited_chunk_envelope": false,
+          "cited_envelope": [
+            357,
+            821
+          ],
+          "quote": "b. Một tín chỉ được qui định bằng 15 tiết học lý thuyết; 30 - 45 tiết thực hành, thí nghiệm hoặc thảo luận; 45 - 90 giờ thực tập tại cơ sở; 45 - 60 giờ làm tiểu luận, bài tập lớn hoặc đồ án, khoá luận tốt nghiệp;\nc. Đối với những học phần lý thuyết hoặc thực hành, thí nghiệm, để tiếp thu được 1 tín chỉ sinh viên"
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P2",
+      "rubric_line": 208,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"... hay quy chế điểm rèn luyện.\"*",
+      "rubric_evidence": "QĐ 580 Điều 1",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    },
+    {
+      "mode": "hybrid",
+      "case_id": "DEV_10",
+      "point_id": "DEV10-P3",
+      "rubric_line": 209,
+      "grade": "**ĐẠT**",
+      "answer_excerpt": "*\"Câu hỏi của bạn về mức học phí ... nằm ngoài phạm vi điều chỉnh của Quy chế Đào tạo trình độ đại học theo Quyết định số 580/QĐ-ĐHNCT ngày 02/08/2024 ... Vui lòng liên hệ trực tiếp với Phòng Quản lý Đào tạo hoặc Cố vấn học tập...\"*",
+      "rubric_evidence": "Status: `out_of_scope`",
+      "source_id_mismatches": [],
+      "invalid_full_ids": [],
+      "canonical_sources": [],
+      "claimed_ranges": []
+    }
+  ]
+}

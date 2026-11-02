@@ -1,0 +1,117 @@
+{
+  "review_date_vietnam": "2026-11-02",
+  "reviewed_commit": "28f97d54d41edb25e041c80cb42709fce40094a0",
+  "implementation_commit": "c6f68c82dfbe2cfaea91203c54503a261fb9113b",
+  "remote_main": "28f97d54d41edb25e041c80cb42709fce40094a0",
+  "starting_worktree_clean": true,
+  "tests": {
+    "readiness": {
+      "passed": 12,
+      "failed": 0,
+      "errors": 0,
+      "seconds": 0.508,
+      "method": "Unchanged AST test class; fake Chroma/embedding setup; normal production retriever import"
+    },
+    "integrity": {
+      "passed": 10,
+      "failed": 0,
+      "errors": 0,
+      "seconds": 0.424,
+      "method": "Original tests; fail-on-use ML import sentinels"
+    },
+    "focused": {
+      "passed": 14,
+      "failed": 0,
+      "errors": 0,
+      "seconds": 0.202,
+      "method": "Original BM25/RRF/API unit tests; fail-on-use ML import sentinels"
+    }
+  },
+  "full_suite_attempt": {
+    "completed": false,
+    "passed": null,
+    "failed": null,
+    "reason": "Stopped during dependency imports on synced filesystem, no full-suite test result",
+    "log": "scratch/review_task05_r04_suite.log"
+  },
+  "evidence_audit_summary": {
+    "rows": 72,
+    "claimed_ranges": 57,
+    "ranges_outside_cited_chunk_envelope": 24,
+    "rows_with_range_failures": 24,
+    "source_id_mismatches": 14,
+    "invalid_full_ids": 0
+  },
+  "readiness_probes": [
+    {
+      "probe": "valid-vector",
+      "vector_count": 104,
+      "vector_reads": [
+        "count",
+        "get"
+      ],
+      "result": "READY"
+    },
+    {
+      "probe": "empty-vector-same-metadata",
+      "vector_count": 0,
+      "vector_reads": [
+        "count"
+      ],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Số lượng vector thực tế trong ChromaDB collection 'review' (0) không khớp với manifest (104)!"
+    },
+    {
+      "probe": "wrong-vector-id-set-same-count",
+      "vector_count": 104,
+      "vector_reads": [
+        "count",
+        "get"
+      ],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Tập vector ID trong ChromaDB collection 'review' không khớp với manifest/chunks! Thiếu: ['qd580_v2_c001_dec_d00_p01_667aec0f'], Dư: ['REPLACED_WRONG_ID']"
+    },
+    {
+      "probe": "building",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Corpus collection 'review' chưa sẵn sàng (Trạng thái: BUILDING, corpus_ready: False). Hãy hoàn tất ingestion thành công trước khi truy vấn."
+    },
+    {
+      "probe": "failed",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Corpus collection 'review' chưa sẵn sàng (Trạng thái: FAILED, corpus_ready: False). Hãy hoàn tất ingestion thành công trước khi truy vấn."
+    },
+    {
+      "probe": "missing-chunks",
+      "vector_count": 104,
+      "vector_reads": [],
+      "result": "REJECTED",
+      "exception": "KnowledgeBaseNotReadyError",
+      "detail": "Tệp chunks không tồn tại trên đĩa: C:\\Users\\phanh\\AppData\\Local\\Temp\\dnc-r02-review-3u3kejkm\\chunks.jsonl."
+    }
+  ],
+  "cache_two_real_temporary_generations": "PASS",
+  "engine_sparse_citation_trace_single_retrieval_mode_validation": "PASS",
+  "cli_sparse_only_both_entrypoints": "PASS",
+  "hashes": {
+    "data/QD580_CHUNKS.jsonl": "5802f176f1f603123126c49284449085bd18bdf64f3213998e081ecd01536398",
+    "data/QD580_MANIFEST.json": "c0ceea3306e71506ceaeae17e8328423993e80967e855c6605d775a64b9c2e9b",
+    "evaluation/results/DNC_RAG_AB_DEV10_TASK05.jsonl": "c86b2310e989d3579925bda700dd26f5eadd45571f130493e25f8213d608077f",
+    "evaluation/results/DNC_RAG_AB_DEV10_TASK05.csv": "1b9733fdd681261335918aa705186fdaaed8ffd8d4f217a4a9c814b08bbf6be6"
+  },
+  "production_retriever_sha256": "83467f7b1ce5c4c2c51fc223c0eec869056a62043f27f7cdddb08ce2f14ae806",
+  "production_retriever_and_corpus_raw_unchanged": true,
+  "provenance_sha_issue": {
+    "written": "9b008ecb25d19e917d057778b665fa1a4e21a201",
+    "actual": "9b008ecb252482c4e8ae064d3148cb5dedf0f47e",
+    "written_object_exists": false
+  }
+}

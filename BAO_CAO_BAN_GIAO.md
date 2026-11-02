@@ -394,6 +394,7 @@ Sao chép mẫu sau vào cuối phần Lịch sử bàn giao, thay các trườn
 - Project ID: `dnc-academic-advisor-rag`; Git root: `G:\Other computers\My computer\Đám Mây\Năm 4\Học kỳ 1 - Năm học 2026-2027\Đồ án 2 - chuyên ngành (CNTT)`; Remote: `https://github.com/hien10122005/dnc-academic-advisor-rag.git` (nhánh `main`).
 - File giao nhiệm vụ: `02_Dữ Liệu Quy Chế/03_Kiểm Tra Chất Lượng Dữ Liệu/NHIEM_VU_TIEP_THEO_05_R04_CHOT_TESTS_VA_BANG_CHUNG.md`.
 - Tài liệu nhận xét Codex R03: `05_Mã Nguồn Chương Trình/evaluation/results/NHAN_XET_DNC_RAG_TASK_05_R03.md` và `KIEM_TRA_DOC_LAP_TASK05_R03.json`.
+- Commit triển khai: `c6f68c82dfbe2cfaea91203c54503a261fb9113b` (đã push thành công lên origin/main).
 - Trạng thái tự báo: `HOÀN THÀNH — CHỜ KIỂM TRA`.
 - Tóm tắt kết quả:
   1. **Cập nhật Fixture và Vượt qua 100% Regression Tests:** Cập nhật fixture `setUp` của `TestRetrieverReadinessVerification` trong `tests/test_lifecycle_and_regression.py` có mảng `chunks: [{"chunk_id": "c1"}]` và collection record `c1` với dummy embedding `[0.0]*768`. Toàn bộ 12 test cases của class đều đạt PASS 100% (0.559s), giữ nguyên logic guard production.

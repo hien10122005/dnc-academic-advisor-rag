@@ -663,4 +663,5 @@ Hoàn thành độc lập toàn bộ các thành phần kỹ thuật cốt lõi 
   3. `evaluation/results/RUBRIC_CHAM_DIEM_DEV10_TASK05_R04.md`: Đính chính DEV08 Hybrid P1 thành `[SRC-3] qd580_v2_c035`; phân loại DEV05 P3 là Generation Omission (context có lệ phí ở p17 `[0, 282)` nhưng answer thiếu; giữ nhãn THIẾU); chuẩn hóa Điều 18 Khoản 5 & 6, Điều 25 Khoản 1 & 2; bổ sung 100% bảng tọa độ text offset `[start, end)`.
   4. `evaluation/results/BAO_CAO_CHOT_HYBRID_TASK05_R04.md`: Báo cáo kỹ thuật đối chiếu chi tiết từng phát hiện và phương án khắc phục.
   5. `BAO_CAO_BAN_GIAO.md`: Khôi phục chính xác các commit SHA lịch sử và bổ sung mục bàn giao R04.
+- **Commit triển khai:** `c6f68c82dfbe2cfaea91203c54503a261fb9113b` (đã push thành công lên origin/main).
 - **Trạng thái:** `HOÀN THÀNH — CHỜ KIỂM TRA` (Chờ Codex rà soát độc lập).
